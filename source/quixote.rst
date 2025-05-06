@@ -78,11 +78,11 @@ implementations. However most of them follow these basic usage pattern.
 Creating the model
 ~~~~~~~~~~~~~~~~~~
 
-quixote(\|us\|xen\|sgx\|mcu) (-P\|) -c {model_name} -o {model_file}
+quixote(\|us\|xen\|sgx\|mcu) (-P\|) -w {model_name} -o {model_file}
 
--P indicates process mode -- modeled namespace is created inside a child process
--c indicates container with name as argument, however when used with -P it sets
-the name of the process namespace
+-P indicates process mode --- modeled namespace is created inside a child process
+-w sets the name of the workload, which is by default runc process, when used
+with -P it sets the name of the process namespace
 -o specifies the file where the model is to be output
 
 Executing the model
@@ -91,8 +91,8 @@ Executing the model
 quixote(\|us\|xen\|sgx\|mcu) (-P\|) -c {model_name} -m {model_file} (-e\|)
 
 -P indicates process mode -- modeled namespace is created inside a child process
--c indicates container with name as argument, however when used with -P it sets
-the name of the process namespace
+-w sets the name of the workload, which is by default runc process, when used
+with -P it sets the name of the process namespace
 -m specifies the file from which the model is to be read
 -e if set, makes the model enforced -- in case of deviation from the model
 defined in the *model_file* all following operations in the namespace will get
