@@ -8,26 +8,27 @@ About
 
 This Guide came to light as supporting documentation to my bachelors thesis,
 documenting my exploration of at the time of writing newly proposed Linux
-Security Module called Trusted Security Event Modeling (or rather **TSEM**,
-yeah, the full name is quite mouthful :)). It's supposed to give the reader
-better understanding of what TSEM is and how to use it.
+Security Module (:term:`LSM`) called Trusted Security Event Modeling (or rather
+**TSEM**, yeah, the full name is quite mouthful :)). It's supposed to give the
+reader better understanding of what :term:`TSEM` is and how to use it.
 
-TSEM comes with documentation of its own, but it can be quite daunting for
-newcomers and people, who just want to get their hands dirty or try to quickly
-grasp the basic principles of the LSM. Here I'm providing a view of TSEM through
-eyes of a undergraduate student (me).
+:term:`TSEM` comes with documentation of its own, but it can be quite daunting
+for newcomers and people, who just want to get their hands dirty or try to
+quickly grasp the basic principles of the LSM. Here I'm providing a view of TSEM
+through eyes of a undergraduate student (me).
 
 
 Trusted Security Event Modeling -- TSEM
 ---------------------------------------
 
 TSEM is a newly proposed Linux Security Module. What makes it different when
-compared to other LSMs is that it uses models based on desired behaviour of the
-system rather than manually defined policies. TSEM isn't capable of access
-control on its own. It's meant to interact with a trust orchestrator (TO) that
-is implemented as a standalone program. TO handles the modeling part as well as
-enforcing of the model. Currently there is only one such program available made
-by the TSEM developers themselves -- **Quixote**.
+compared to other :term:`LSM`\s is that it uses models based on desired
+behaviour of the system rather than manually defined policies. :term:`TSEM`
+isn't capable of access control on its own. It's meant to interact with a Trust
+Orchestrator (:term:`TO`) that is implemented as a standalone program.
+:term:`TO` handles the modeling part as well as enforcing of the model.
+Currently there is only one such program available made by the :term:`TSEM`
+developers themselves --- **Quixote**.
 
 
 Quixote
@@ -45,8 +46,9 @@ Quixote comes in 6 different implementations:
     - quixote-mcu       (:term:`TMA` in Micro-controller)
 
     .. note::
-        There is also quixote-export implemantation wich comes with no
-        :term:`TMA` as it serves only for purpouses of security event exporting.
+        There are also quixote-export quixote-console wich come with no
+        :term:`TMA` as they serves only for purposes of security event exporting
+        and workload monitoring respectively.
 
-The - basic notion of these TSEM is also meant to support more
-complicated modeling approaches such as machine learning models. 
+The notion of TSEM is also meant to support more complicated modeling approaches
+such as machine learning models. 

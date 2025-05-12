@@ -7,8 +7,8 @@ Quixote
 Quixote -- the trust orchestrator
 ---------------------------------
 
-TSEM Linux security module itself serves more as a "security module
-infrastructure" rather than a standalone LSM.
+:term:`TSEM` Linux security module itself serves more as a "security module
+infrastructure" rather than a standalone :term:`LSM`.
 
 For purposes of modeling :term:`TO` and :term:`TMA` are needed.
 
@@ -31,11 +31,13 @@ quixote-sgx -- SGX enclave (unified binary)
 
 quixote-mcu -- micro-controller
 
-* quixote-export -- no :term:`TMA`, event export only
+.. note::
+    * quixote-export --- no :term:`TMA`, event export only
+    * quixote-export --- no :term:`TMA`, workload monitoring only
 
 These :term:`TO` utilities represent reference implementation for deterministic
-modeling, however TSEM is designed to be used with other implementations of
-modeling algorithms and supervisory utilities. These implementations could be
+modeling, however :term:`TSEM` is designed to be used with other implementations
+of modeling algorithms and supervisory utilities. These implementations could be
 oriented around e.g. machine learning algorithm.
 
 Process/Container
@@ -65,18 +67,18 @@ start up.
 **rootfs** -- subdirectory which contains the whole file tree the container is
 based on 
 
-**config.json** -- configuration files that specifies properties of the
-container such as capabilities (C-list capabilities), mountpoints, enviroment
+**config.json** -- configuration file that specifies properties of the
+container such as capabilities (C-list capabilities), mountpoints, environment
 variables...
 
 Usage principles
--------------------
+----------------
 
-As perviously mentioned, there are several "quixotes" -- quixote
-implementations. However most of them follow these basic usage pattern.
+As previously mentioned, there are several "quixotes" --- quixote
+implementations. However most of them follow these basic usage patterns.
 
-Creating the model
-~~~~~~~~~~~~~~~~~~
+Creating model
+~~~~~~~~~~~~~~
 
 quixote(\|us\|xen\|sgx\|mcu) (-P\|) -w {model_name} -o {model_file}
 
@@ -88,12 +90,12 @@ with -P it sets the name of the process namespace
 Executing the model
 ~~~~~~~~~~~~~~~~~~~
 
-quixote(\|us\|xen\|sgx\|mcu) (-P\|) -c {model_name} -m {model_file} (-e\|)
+quixote(\|us\|xen\|sgx\|mcu) (-P\|) -w {model_name} (-m\|) {model_file} (-e\|)
 
--P indicates process mode -- modeled namespace is created inside a child process
+-P indicates process mode --- modeled namespace is created inside a child process
 -w sets the name of the workload, which is by default runc process, when used
 with -P it sets the name of the process namespace
 -m specifies the file from which the model is to be read
--e if set, makes the model enforced -- in case of deviation from the model
+-e if set, makes the model enforced --- in case of deviation from the model
 defined in the *model_file* all following operations in the namespace will get
-denied (EPERM signal)
+denied (-EPERM signal)

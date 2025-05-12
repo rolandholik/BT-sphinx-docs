@@ -6,16 +6,16 @@ Installation
 Building TSEM kernel
 --------------------
 
-Installation of TSEM infrastructure, like it or not, involves compilation of the
-Linux kernel. For this reference, I'm using Ubuntu 22.04 as it seems to be, what
-the developers do some of their testing on (as mentioned in parts of Quixote
-documentation https://github.com/Quixote-Project/Quixote).
+Installation of :term:`TSEM` infrastructure, like it or not, involves
+compilation of the Linux kernel. For this reference, I'm using Ubuntu 22.04 as
+it seems to be, what the developers do some of their testing on (as mentioned in
+parts of Quixote documentation https://github.com/Quixote-Project/Quixote).
 
 Getting the kernel code
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-You have to firstly acquire the kernel source code with the TSEM patches.
-This can be done in following ways:
+You have to firstly acquire the kernel source code with the :term:`TSEM`
+patches. This can be done in following ways:
 
     - You can download the source code from the official linux kernel git
       repository and apply the TSEM patches manually from linux kernel mailing
@@ -26,7 +26,7 @@ This can be done in following ways:
       Like so: :code:`git clone --depth 1 --all <most recent kernel version> https://github.com/Quixote-Project/TSEM`
    
 <most recent kernel version> being the most recent kernel version available
-in the TSEM repository.
+in the :term:`TSEM` repository.
 For example at the time of writing it would be:
 
 .. code-block:: console
@@ -69,7 +69,7 @@ in your kernel compilation directory. I would personaly suggest this approch as
 compiling kernel with all the drivers/modules built into the kernel can take a vary long
 time -- depending on your computer's processing power.
 
-Next you need to enable TSEM in the *.config*, there are many ways to do this.
+Next you need to enable :term:`TSEM` in the *.config*, there are many ways to do this.
 
 .. image:: images/installation/menconf-1.png
    :align: center
@@ -133,7 +133,7 @@ And finally install the kernel:
 
 Now you should be ready to reboot your system. After the reboot make sure to
 check if the TSEM kernel is installed and that the "tsem" is in the list of
-enabled LSMs:
+enabled :term:`LSM`\s:
 
 .. code-block:: console
 
@@ -143,7 +143,7 @@ enabled LSMs:
 .. image:: images/installation/cat-lsm.png
    :align: center
 
-If there is "tsem" in the list of enabled LSMs you can move on to the *Quixote*
+If there is "tsem" in the list of enabled :term:`LSM`\s you can move on to the *Quixote*
 setup.
 
 Don't worry about the trailing hostname at the end --- some Linux distributions
@@ -198,9 +198,9 @@ For compilation of Quixote, you will need at minimum these packages:
 
    $ sudo apt-get git gcc make flex libssl-dev libcap-dev libxen-dev pkg-config elfutils
 
-You should already heave some of them from TSEM kernel compilation. Complete
-list of packages is mentioned in case of compilation on systems with pre-compiled
-kernel installed.
+You should already heave some of them from :term:`TSEM` kernel compilation.
+Complete list of packages is mentioned in case of compilation on systems with
+pre-compiled kernel installed.
 
 The compilation is quite straight forward:
 
