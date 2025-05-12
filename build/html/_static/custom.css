@@ -1,0 +1,19 @@
+/* For the Furo theme, target the content area */
+.furo-content {
+    max-width: none !important;    /* Remove the max-width limit */
+    width: 90% !important;         /* Set the content width to 90% of the available space */
+    margin-left: auto;             /* Center the content horizontally */
+    margin-right: auto;
+}
+
+/* For the Furo theme, adjust the sidebar width, if necessary */
+.furo-sidebar {
+    width: 20% !important;         /* Adjust the sidebar width */
+}
+
+
+.highlight .gp {
+    color: #FF5733; /* Change color of shell prompts */
+    font-weight: bold;
+    user-select: none; /* Prevent selection */
+}
