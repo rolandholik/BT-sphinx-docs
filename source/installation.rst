@@ -137,7 +137,7 @@ enabled :term:`LSM`\s:
 
 .. code-block:: console
 
-   uname -r
+   $ uname -r
    $ cat /sys/kernel/security/lsm
 
 .. image:: images/installation/cat-lsm.png

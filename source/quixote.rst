@@ -14,26 +14,35 @@ For purposes of modeling :term:`TO` and :term:`TMA` are needed.
 
 :term:`TO` and :term:`TMA` work together such that :term:`TMA` represents a
 modeling algorithm which :term:`TO` models in a independent security modeling
-namespace. The namespace is determined by location of :term:`TMA`.
+namespace --- **internal** or **external**. When modeling in **internal**
+namespace, the security events get processed inside the kernel, when modeling in
+**external** namespace, security events get sent to orchestrator in userspace.
+The namespace is determined by location of :term:`TMA`.
 
 As of writing of this document there are following :term:`TO` utilities --
 :term:`TMA` implementations:
 
-quixote -- kernel space
+.. list-table::
+   :widths: 15 20
+   :header-rows: 1
 
-quixote-us -- user space
+   - * Name
+     * TMA location
+   - * ``quixote``
+     * kernel space
+   - * ``quixote-us``
+     * user space 
+   - * ``quixote-xen``
+     * Xen based stub domain 
+   - * ``quixote-sgx``
+     * Intel :term:`SGX` enclave 
+   - * ``quixote-mcu``
+     * micro-controller
 
-quixote-xen -- Xen based stub domain
-
-quixote-sgx -- SGX enclave
-
-quixote-sgx -- SGX enclave (unified binary)
-
-quixote-mcu -- micro-controller
 
 .. note::
     * quixote-export --- no :term:`TMA`, event export only
-    * quixote-export --- no :term:`TMA`, workload monitoring only
+    * quixote-console --- no :term:`TMA`, workload monitoring only
 
 These :term:`TO` utilities represent reference implementation for deterministic
 modeling, however :term:`TSEM` is designed to be used with other implementations
@@ -48,9 +57,13 @@ Process
 
 When run in process mode a new shell is spawned in child process. The process
 and all subordinate processes will be modeled by :term:`TO` and :term:`TMA`.
-Which :term:`TO`/:term:`TMA` is used depends on which quixote implementation
-(from list mentioned above) gets
-used.
+Which :term:`TO`/:term:`TMA` is used depends on which Quixote implementation
+(from list mentioned above) gets used.
+
+.. note::
+   Subordinate security namespaces (all namespaces except root) are
+   non-hierarchical. Which means it isn't possible to run Quixote
+   implementation inside another.
 
 Container
 ~~~~~~~~~
@@ -59,10 +72,10 @@ When run in container mode the modeling is being done for OCI runc process --
 once again :term:`TO`/:term:`TMA` is used based on which quixote implementation
 is used for the modeling.
 
-The runc container(s) used with quixote are specified in
-/var/lib/Quixote/Magazine directory. Each folder in this directory represents a
-so called bundle that contains configuration files necessary for runc container
-start up.
+The *runc* container(s) used with *quixote* are specified in
+``/var/lib/Quixote/Magazine`` directory. Each folder in this directory
+represents a so called bundle that contains configuration files necessary for
+runc container start up.
 
 **rootfs** -- subdirectory which contains the whole file tree the container is
 based on 
