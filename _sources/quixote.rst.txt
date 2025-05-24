@@ -41,13 +41,25 @@ As of writing of this document there are following :term:`TO` utilities --
 
 
 .. note::
-    * quixote-export --- no :term:`TMA`, event export only
-    * quixote-console --- no :term:`TMA`, workload monitoring only
+   There are also two "quixote" utilities that aren't be used for modeling, but
+   rather for **event exporting** and **interrogation of modeling **.
+ 
+    .. list-table::
+       :widths: 15 20
+       :header-rows: 1
+
+       - * Name
+         * Purpouse
+       - * ``quixote-export``
+         * Exporting of security events from :term:`TMA`.
+       - * ``quixote-console``
+         * Interrogating :term:`TO`/:term:`TMA`.
+
 
 These :term:`TO` utilities represent reference implementation for deterministic
 modeling, however :term:`TSEM` is designed to be used with other implementations
 of modeling algorithms and supervisory utilities. These implementations could be
-oriented around e.g. machine learning algorithm.
+oriented around e.g. machine learning algorithms.
 
 Process/Container
 -----------------
@@ -58,21 +70,21 @@ Process
 When run in process mode a new shell is spawned in child process. The process
 and all subordinate processes will be modeled by :term:`TO` and :term:`TMA`.
 Which :term:`TO`/:term:`TMA` is used depends on which Quixote implementation
-(from list mentioned above) gets used.
+(from table shown above) gets used.
 
 .. note::
    Subordinate security namespaces (all namespaces except root) are
-   non-hierarchical. Which means it isn't possible to run Quixote
+   non-hierarchical. Which means it isn't possible to one run Quixote
    implementation inside another.
 
 Container
 ~~~~~~~~~
 
-When run in container mode the modeling is being done for OCI runc process --
-once again :term:`TO`/:term:`TMA` is used based on which quixote implementation
-is used for the modeling.
+When run in container mode the modeling is being done for :term:`OCI` runc
+process -- once again :term:`TO`/:term:`TMA` is used based on which quixote
+implementation is used for the modeling.
 
-The *runc* container(s) used with *quixote* are specified in
+The runc container(s) used with *quixote* are specified in
 ``/var/lib/Quixote/Magazine`` directory. Each folder in this directory
 represents a so called bundle that contains configuration files necessary for
 runc container start up.
@@ -103,7 +115,7 @@ process, when used with ``-P`` the ``-w`` sets the name of the process namespace
 Executing the model
 ~~~~~~~~~~~~~~~~~~~
 
-``quixote`` (\| ``us`` \| ``xen`` \| ``sgx`` \| ``mcu``) ( ``-P``\|) ``-w`` {model_name} ``-m`` {model_file} (``-e``\|)
+``quixote`` (\| ``us`` \| ``xen`` \| ``sgx`` \| ``mcu``) (``-P``\|) ``-w`` {model_name} ``-m`` {model_file} (``-e``\|)
 
 ``-P`` indicates process mode --- modeled namespace is created inside a child
 process ``-w`` sets the name of the workload, which is by default ``runc``
@@ -120,9 +132,8 @@ makes the model enforced --- in case of deviation from the model defined in the
 Detailed description
 --------------------
 There are more Quixote implementations, or perhaps more accurately said more
-:term:`TMA` implementations, however I didn't get to test all of them. Because
-of their, at the time of writing non-functional state and because I don't even
-have compatible hardware for ``quixote-sgx`` and ``quixote-mcu``. Basically the
+:term:`TMA` implementations, however Not all of them can be tested currently.
+Because of their, at the time of writing non-functional state. Basically the
 only ones that worked were the implementations that get compiled in the default
 ``make`` configuration. For demonstration purposes, it should not make much of a
 difference as they follow the same usage principles as the functioning ones and
@@ -171,7 +182,7 @@ Command line flags
    - * ``-S``
      * Show mode
      * Shows contents of Magazine directory, so it basically shows available
-       ``runc`` bundles. 
+       runc bundles. 
    - * ``-e``
      * Enforce
      * Sets the security coefficient map to be enforced (must be used with
@@ -232,7 +243,7 @@ Example 0: Show runc bundles
 
 As mentioned in the above table, when used with ``-S``, ``quixote`` lists
 available runc bundle directories that hold all the necessary stuff for
-launching a ``runc`` container.
+launching a runc container.
 
 .. code-block:: console
 
@@ -385,7 +396,7 @@ Command line flags
    - * ``-S``
      * Show mode
      * Shows contents of Magazine directory, so it basically shows available
-       ``runc`` bundles. 
+       runc bundles. 
    - * ``-e``
      * Enforce
      * Sets the security coefficient map to be enforced (must be used with
@@ -466,7 +477,7 @@ Example 1: Container workload
 The following is the "most basic way" to create a workload. It creates a
 workload in free modeling mode. Which means it does not get evaluated against
 any predefined model (set of security state coefficients). This Model can be
-inspected using quixote-console (described in section below).
+inspected using ``quixote-console`` (described in section below).
 
 When ``-P`` isn't specified, ``quixote-us`` defaults to container mode, which means the
 process is executed inside :term:`OCI` runc container. This requires runc bundle
@@ -607,7 +618,7 @@ Command line flags
    - * ``-S``
      * Show mode
      * Shows contents of Magazine directory, so it basically shows available
-       ``runc`` bundles. 
+       runc bundles. 
    - * ``-X``
      * Execute mode
      * In execute mode there isn't namespace setup in container or process
@@ -711,7 +722,8 @@ workload and outputs all of its events to the file specified by the ``-o`` flag.
 
 When ``-P`` isn't specified, ``quixote-export`` defaults to container mode,
 which means the process is executed inside :term:`OCI` runc container. This
-requires runc bundle directory with name corresponding to the workload name to
+requires runc bundle directory with name corresponding to the workload name.
+
 .. code-block:: console
 
    # quixote-export -w test_container_workload -o test.exp
@@ -733,8 +745,8 @@ Here we are exporting security events from our container workload to
 topic.
 
 .. note::
-   ``broker.dm`` is :term:`FQDN` for out local :term:`MQTT` broker. One can use
-   IP directly, if their broker does not have a :term:`FQDN`.
+   ``broker.dm`` is :term:`FQDN` for :term:`MQTT` broker. IP can be used
+   directly, if the broker does not have a :term:`FQDN`.
 
 Example 3: Exporting from a root modeling namespace
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -916,14 +928,6 @@ coefficient.
 
 *quixote-sgx* 
 ~~~~~~~~~~~~~
-
-I do actually have a PC with Intel CPU, that has SGX (as most Intel CPUs from
-less then 10 years ago). However upon asking the author --- Dr. Greg Wettstein
-in email conversation I found out, that this is still not sufficient because
-``quixote-sgx`` also requires presence of Flexible Launch Control and SGX2
-instructions. This requirement is met mostly by high-end Intel CPUs and only in
-some rare occasions is it met by a consumer grade CPU. I am not lucky enough to
-have on of the rare ones :-(
 
 *Doesn't compile at the time of writing.* 
 

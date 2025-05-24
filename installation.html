@@ -255,20 +255,20 @@ it seems to be, what the developers do some of their testing on (as mentioned in
 parts of Quixote documentation <a class="reference external" href="https://github.com/Quixote-Project/Quixote">https://github.com/Quixote-Project/Quixote</a>).</p>
 <section id="getting-the-kernel-code">
 <h3>Getting the kernel code<a class="headerlink" href="#getting-the-kernel-code" title="Link to this heading">¶</a></h3>
-<p>You have to firstly acquire the kernel source code with the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
-patches. This can be done in following ways:</p>
+<p>Acquire the kernel source code with the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> patches. This can be done
+in following ways:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>You can download the source code from the official linux kernel git
+<li><p>Download the source code from the official linux kernel git
 repository and apply the TSEM patches manually from linux kernel mailing
 list. (<a class="reference external" href="https://blog.reds.ch/?p=1814">https://blog.reds.ch/?p=1814</a> can serve as a good guide for that)</p></li>
-<li><p>Or more preferably you can clone the kernel provided by the Quixote
+<li><p>Or more preferably clone the kernel provided by the Quixote
 project: <a class="reference external" href="https://github.com/Quixote-Project/TSEM">https://github.com/Quixote-Project/TSEM</a>
 Like so: <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">--depth</span> <span class="pre">1</span> <span class="pre">--all</span> <span class="pre">&lt;most</span> <span class="pre">recent</span> <span class="pre">kernel</span> <span class="pre">version&gt;</span> <span class="pre">https://github.com/Quixote-Project/TSEM</span></code></p></li>
 </ul>
 </div></blockquote>
 <p>&lt;most recent kernel version&gt; being the most recent kernel version available
-in the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> repository.
+in the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> repos.
 For example at the time of writing it would be:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>--branch<span class="w"> </span>TSEM-6.12<span class="w"> </span>https://github.com/Quixote-Project/TSEM
 </pre></div>
@@ -288,7 +288,8 @@ difference will almost always be in the package names.</p>
 <section id="generating-kernel-config">
 <h3>Generating kernel <em>.config</em><a class="headerlink" href="#generating-kernel-config" title="Link to this heading">¶</a></h3>
 <p>In order to compile Linux kernel one will also need a suitable <em>.config</em>
-file. This can be copied form your current distribution:</p>
+file. This can be copied form a working distribution (for example the one where
+the compilation is to be done):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cat<span class="w"> </span>/lib/modules/<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>/build/.config<span class="w"> </span>&gt;<span class="w"> </span>.config
 </pre></div>
 </div>
@@ -296,40 +297,41 @@ file. This can be copied form your current distribution:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>localmodconf
 </pre></div>
 </div>
-<p>in your kernel compilation directory. I would personaly suggest this approch as
-compiling kernel with all the drivers/modules built into the kernel can take a vary long
-time – depending on your computer’s processing power.</p>
-<p>Next you need to enable <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> in the <em>.config</em>, there are many ways to do this.</p>
+<p>in kernel compilation directory. This is a suggested approach for most users as
+compiling kernel with all the drivers/modules built into the kernel can take a
+vary long time – depending on the computer’s processing power.</p>
+<p>Next enable <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> in the <em>.config</em>, there are many ways to do this.</p>
 <img alt="_images/menconf-1.png" class="align-center" src="_images/menconf-1.png" />
-<p>You can use <strong>make menuconfig</strong> where you need to select <strong>Trusted
-Security Event Modeling</strong> option under <strong>Security options</strong>, set <strong>TPM PCR index
-for root domain</strong> to <strong>11</strong></p>
+<p>Use <strong>make menuconfig</strong> and select <strong>Trusted Security Event Modeling</strong> option
+under <strong>Security options</strong>, set <strong>TPM PCR index for root domain</strong> to <strong>11</strong></p>
 <img alt="_images/menconf-2.png" class="align-center" src="_images/menconf-2.png" />
 <p>and add string “tsem” to the <strong>Ordered list of enabled LSMs</strong> at the buttom of
 the page.</p>
 <img alt="_images/menconf-3.png" class="align-center" src="_images/menconf-3.png" />
 <img alt="_images/menconf-4.png" class="align-center" src="_images/menconf-4.png" />
 <p>Don’t forget to save and exit.</p>
-<p>I would also recommend adding “-tsem” or some other name to the <strong>Local
-version</strong> option in <strong>General setup</strong> of the menuconfig for easier determination
-if the correct kernel is installed afterwards.</p>
+<p>Adding “-tsem” or some other name to the <strong>Local version</strong> option in <strong>General
+setup</strong> of the menuconfig is recommended for easier determination if the correct
+kernel is installed afterwards.</p>
 <img alt="_images/menconf-5.png" class="align-center" src="_images/menconf-5.png" />
 </section>
 <section id="building-the-kernel">
 <h3>Building the kernel<a class="headerlink" href="#building-the-kernel" title="Link to this heading">¶</a></h3>
-<p>After having successfully completed the previous steps you are ready to compile
-the kernel.</p>
+<p>After successful completion of the previous steps the kernel can be compiled.</p>
 <p>run:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>-j<span class="k">$(</span>nproc<span class="k">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The “-j$(nproc)” part is optional however heavily recommended since it utilizes
-all your CPU cores, not just one (default). Or you can replace it with number of
-cores you desire, if you know how many cores exactly you want to utilize (e.g.
-make -j2 for 2 cores). Blindly guessing by putting some ridiculously big number
-should work as well as it will use all cores available.</p>
+<blockquote>
+<div><p>The “-j$(nproc)” part is optional however heavily recommended since it</p>
+</div></blockquote>
+<p>utilizes all CPU cores, not just one (default). Or it can be replaced with
+any desired number of cores. If one does not know how many cores exactly they
+want to utilize (e.g. make -j2 for 2 cores). Blindly guessing by putting some
+ridiculously big number should work as well as it will use all cores
+available.</p>
 </div>
 <p>After finishing the previous command make sure to install all compiled modules:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>make<span class="w"> </span>modules_install
@@ -339,16 +341,15 @@ should work as well as it will use all cores available.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>make<span class="w"> </span>install
 </pre></div>
 </div>
-<p>Now you should be ready to reboot your system. After the reboot make sure to
-check if the TSEM kernel is installed and that the “tsem” is in the list of
-enabled <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s:</p>
+<p>Reboot your system. After the reboot make sure to check if the TSEM kernel is
+installed and that the “tsem” is in the list of enabled <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>uname<span class="w"> </span>-r
 <span class="gp">$ </span>cat<span class="w"> </span>/sys/kernel/security/lsm
 </pre></div>
 </div>
 <img alt="_images/cat-lsm.png" class="align-center" src="_images/cat-lsm.png" />
-<p>If there is “tsem” in the list of enabled <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s you can move on to the <em>Quixote</em>
-setup.</p>
+<p>If there is “tsem” in the list of enabled <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s, move on to the
+<em>Quixote</em> setup.</p>
 <p>Don’t worry about the trailing hostname at the end — some Linux distributions
 put newline at the end of the <em>lsm</em> string, others don’t.</p>
 </section>
@@ -366,7 +367,7 @@ of writing — not recommended)</p></li>
 <section id="getting-the-source-code">
 <h3>Getting the source code<a class="headerlink" href="#getting-the-source-code" title="Link to this heading">¶</a></h3>
 <p>Downloading the Quixote sources can get a little tricky.</p>
-<p>Firstly you need to clone the Quixote repository using:</p>
+<p>Firstly clone the Quixote repository using:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/Quixote-Project/Quixote.git
 </pre></div>
 </div>
@@ -391,11 +392,11 @@ interacting with github web URLs.</p>
 </section>
 <section id="id2">
 <h3>Dependencies<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
-<p>For compilation of Quixote, you will need at minimum these packages:</p>
+<p>For compilation of Quixote, at minimum these packages are needed:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>git<span class="w"> </span>gcc<span class="w"> </span>make<span class="w"> </span>flex<span class="w"> </span>libssl-dev<span class="w"> </span>libcap-dev<span class="w"> </span>libxen-dev<span class="w"> </span>pkg-config<span class="w"> </span>elfutils
 </pre></div>
 </div>
-<p>You should already heave some of them from <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> kernel compilation.
+<p>One should already heave some of them from <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> kernel compilation.
 Complete list of packages is mentioned in case of compilation on systems with
 pre-compiled kernel installed.</p>
 <p>The compilation is quite straight forward:</p>
@@ -404,13 +405,12 @@ pre-compiled kernel installed.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>In case you use more CPU cores using the “-j” argument, you may
-encounter race conditions during compilation —  you may need to recompile the
-Quixote multiple times to get it right as the dependencies aren’t set up
-correctly and a race condition might occur, where a file starts compiling before
-all its dependencies are compiled, resulting in compilation error. Therefore I
-recommend using just the default one core, as it isn’t too long of a
-compilation.</p>
+<p>In case of using more CPU cores — the “-j” argument, one may encounter race
+conditions during compilation —  recompile the Quixote multiple times to
+get it right as the dependencies aren’t set up correctly and a race condition
+might occur, where a file starts compiling before all its dependencies are
+compiled, resulting in compilation error. Therefore using just the default
+one core is recommended, as it isn’t too long of a compilation.</p>
 </div>
 </section>
 <section id="id3">
@@ -422,8 +422,8 @@ compilation.</p>
 </section>
 <section id="path">
 <h3>PATH<a class="headerlink" href="#path" title="Link to this heading">¶</a></h3>
-<p>This falls more into the usage category, but I think it is good practice to put
-the installation paths into the <em>PATH</em> variable for ease of use.</p>
+<p>This falls more into the usage category, it’s good practice to put the
+installation paths into the <em>PATH</em> variable for ease of use.</p>
 <p>For example like so:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PATH=/opt/Quixote/sbin:/opt/Quixote/bin:</span><span class="nv">$PATH</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>/etc/environment
 </pre></div>
