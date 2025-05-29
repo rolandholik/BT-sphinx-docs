@@ -11,6 +11,9 @@
     width: 20% !important;         /* Adjust the sidebar width */
 }
 
+.red-text {
+    color: red;
+}
 
 .highlight .gp {
     color: #FF5733; /* Change color of shell prompts */
