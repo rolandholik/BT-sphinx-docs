@@ -240,3 +240,18 @@ For example like so:
 .. note::
     The change will take effect after new shell login/reboot or running
     "source /etc/environment".
+
+
+Vagrant
+-------
+
+Alternative way to set the above up is using the Vagrantfile at:
+https://github.com/rolandholik/TSEM-vagrant.
+
+Regarding setting up Vagrant itself, the official documentation should get the
+reader onboard: https://developer.hashicorp.com/vagrant/docs/installation.
+
+At the time of writing, there is issue with Virtualbox 7.1 --- Vagrant treats it
+as unsupported. Following guide should help fixing it:
+https://github.com/hashicorp/vagrant/issues/13501#issuecomment-2346267062.
+
