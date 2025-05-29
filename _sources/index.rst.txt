@@ -20,8 +20,8 @@ of the Quixote/TSEM.
 
    introduction
    installation
-   quixote
-   quixote_experiments
+   Quixote/quixote
+   Quixote/quixote_experiments
 
    
 
