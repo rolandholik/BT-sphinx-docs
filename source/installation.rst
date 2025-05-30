@@ -33,7 +33,7 @@ For example at the time of writing it would be:
 
    $ git clone --depth 1 --branch TSEM-6.12 https://github.com/Quixote-Project/TSEM
 
-.. image:: images/installation/TSEM-clone.png
+.. image:: /images/installation/TSEM-clone.png
    :align: center
 
 Dependencies
@@ -72,22 +72,22 @@ vary long time -- depending on the computer's processing power.
 
 Next enable :term:`TSEM` in the *.config*, there are many ways to do this.
 
-.. image:: images/installation/menconf-1.png
+.. image:: /images/installation/menconf-1.png
    :align: center
 
 Use **make menuconfig** and select **Trusted Security Event Modeling** option
 under **Security options**, set **TPM PCR index for root domain** to **11**
 
-.. image:: images/installation/menconf-2.png
+.. image:: /images/installation/menconf-2.png
    :align: center
 
 and add string "tsem" to the **Ordered list of enabled LSMs** at the buttom of
 the page.
 
-.. image:: images/installation/menconf-3.png
+.. image:: /images/installation/menconf-3.png
    :align: center
 
-.. image:: images/installation/menconf-4.png
+.. image:: /images/installation/menconf-4.png
    :align: center
 
 Don't forget to save and exit.
@@ -96,7 +96,7 @@ Adding "-tsem" or some other name to the **Local version** option in **General
 setup** of the menuconfig is recommended for easier determination if the correct
 kernel is installed afterwards.
 
-.. image:: images/installation/menconf-5.png
+.. image:: /images/installation/menconf-5.png
    :align: center
 
 
@@ -139,7 +139,7 @@ installed and that the "tsem" is in the list of enabled :term:`LSM`\s:
    $ uname -r
    $ cat /sys/kernel/security/lsm
 
-.. image:: images/installation/cat-lsm.png
+.. image:: /images/installation/cat-lsm.png
    :align: center
 
 If there is "tsem" in the list of enabled :term:`LSM`\s, move on to the
