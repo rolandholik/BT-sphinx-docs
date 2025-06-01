@@ -1,0 +1,737 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="LSM Hooks" href="tsem_hooks.html" /><link rel="prev" title="Installation" href="../installation.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>TSEM - TSEM guide 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b0d4dec2" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">TSEM guide 0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">TSEM guide 0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">TSEM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of TSEM</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="tsem_hooks.html">LSM Hooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quixote/quixote.html">Quixote</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Quixote</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_ker.html">quixote</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Quixote/quixote_experiments.html">Quixote experiments</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/TSEM/tsem.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="tsem">
+<h1>TSEM<a class="headerlink" href="#tsem" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p id="id1"><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> code inside kernel is located in directory <code class="docutils literal notranslate"><span class="pre">security/tsem</span></code> in
+Linux source tree.</p>
+<p>It contains following files composing <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13.0%" />
+<col style="width: 87.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">event.c</span></code></p></td>
+<td><p>Contains functions that handle population of struct tsem_event — a
+structure used to describe security events in :term`TSEM`.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">export.c</span></code></p></td>
+<td><p>Contains functions used for exporting of <em>JSON</em> encoded security events
+to a external trust orchestrator as well as handling of structures used
+for caching events of processes running in atomic context.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fs.c</span></code></p></td>
+<td><p>Contains functions for generation of <em>JSON</em> objects that are used to
+populate events descriptions. It also implements the control plane
+<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> uses to communicate with <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">map.c</span></code></p></td>
+<td><p>This file is part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It provides
+functions for mapping event characteristics into a security state
+coefficient and function responsible for generation of TASK_ID in the
+modeling algorithm used by the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model.c</span></code></p></td>
+<td><p>This file is part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It
+implements structures that hold characteristics of events used to create
+security state coefficients as well as the function responsible for their
+creation.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">model0.c</span></code></p></td>
+<td><p>This file holds array of function names that are used as <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>
+hooks by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">namespace.c</span></code></p></td>
+<td><p>This file manages subordinate namespaces used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nsmgr.c</span></code></p></td>
+<td><p>This file contains functions that handle management of modeling
+algorithms which can be added as loadable security modules. (Currently no
+such modeling algorithm is implemented)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nsmgr.h</span></code></p></td>
+<td><p>This file is header file for the <code class="docutils literal notranslate"><span class="pre">nsmgr.c</span></code>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trust.c</span></code></p></td>
+<td><p>This file is responsible for working with the <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a> register used by
+<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> for extension of security events. It is also responsible for
+loading the hardware aggregate, generated at system boot time, in
+<a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a> 0-7 to the security namespaces (both internal and external).</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tsem.c</span></code></p></td>
+<td><p>This file is the main implementation file that is responsible for
+initialization of the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. It holds definition for
+all the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks that <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implements and manages their
+initialization.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tsem.h</span></code></p></td>
+<td><p>This file holds structures and functions used across 2 and more files in
+the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation such as <a class="reference internal" href="../glossary.html#term-COE"><span class="xref std std-term">COE</span></a> structure and
+structure holding characteristics of an <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event as a whole.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All code mentioned in this document and all its subdocuments is adopted from
+<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> code base developed by <strong>Quixote Project</strong>
+<a class="reference external" href="https://github.com/Quixote-Project">https://github.com/Quixote-Project</a>.</p>
+</div>
+<section id="initialization">
+<h2>Initialization<a class="headerlink" href="#initialization" title="Link to this heading">¶</a></h2>
+<p>The following function (located in tsem.c) takes care of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
+initialization.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">tsem_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="linenos"> 2</span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">msg</span><span class="p">;</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">tsem_task</span><span class="w"> </span><span class="o">*</span><span class="n">tsk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_task</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">tsem_context</span><span class="w"> </span><span class="o">*</span><span class="n">ctx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">root_context</span><span class="p">;</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">tsem_model</span><span class="w"> </span><span class="o">*</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">root_model</span><span class="p">;</span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="n">BUILD_BUG_ON</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">tsem_names</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">TSEM_EVENT_CNT</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">));</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span><span class="w">    </span><span class="n">security_add_hooks</span><span class="p">(</span><span class="n">tsem_hooks</span><span class="p">,</span><span class="w"> </span><span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">tsem_hooks</span><span class="p">),</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tsem_lsmid</span><span class="p">);</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">    </span><span class="n">tsk</span><span class="o">-&gt;</span><span class="n">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ctx</span><span class="p">;</span>
+<span class="linenos">14</span><span class="w">    </span><span class="n">kref_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">kref</span><span class="p">);</span>
+<span class="linenos">15</span><span class="w">    </span><span class="n">kref_get</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">kref</span><span class="p">);</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">    </span><span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">inode_mutex</span><span class="p">);</span>
+<span class="linenos">18</span><span class="w">    </span><span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">inode_list</span><span class="p">);</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">    </span><span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">mount_mutex</span><span class="p">);</span>
+<span class="linenos">21</span><span class="w">    </span><span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">mount_list</span><span class="p">);</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span><span class="w">    </span><span class="n">root_context</span><span class="p">.</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tsem_model0_ops</span><span class="p">;</span>
+<span class="linenos">24</span><span class="w">    </span><span class="n">root_context</span><span class="p">.</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">root_model</span><span class="p">;</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_cache_init</span><span class="p">();</span>
+<span class="linenos">27</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">28</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_model_cache_init</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
+<span class="linenos">31</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">32</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_export_cache_init</span><span class="p">();</span>
+<span class="linenos">35</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">36</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">37</span>
+<span class="linenos">38</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_magazine_allocate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
+<span class="linenos">39</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">40</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">41</span><span class="w">    </span><span class="n">memcpy</span><span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">actions</span><span class="p">,</span><span class="w"> </span><span class="n">tsem_root_actions</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tsem_root_actions</span><span class="p">));</span>
+<span class="linenos">42</span>
+<span class="linenos">43</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">tsem_mode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">44</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">FULL_MODELING</span><span class="p">:</span>
+<span class="linenos">45</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;full modeling&quot;</span><span class="p">;</span>
+<span class="linenos">46</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">47</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">NO_ROOT_MODELING</span><span class="p">:</span>
+<span class="linenos">48</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;namespace only modeling&quot;</span><span class="p">;</span>
+<span class="linenos">49</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">50</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ROOT_EXPORT_ONLY</span><span class="p">:</span>
+<span class="linenos">51</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root export only&quot;</span><span class="p">;</span>
+<span class="linenos">52</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">53</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">54</span><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;tsem: Initialized %s.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+<span class="linenos">55</span>
+<span class="linenos">56</span><span class="w">    </span><span class="n">tsem_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">57</span><span class="w">    </span><span class="n">tsk</span><span class="o">-&gt;</span><span class="n">trust_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TSEM_TASK_TRUSTED</span><span class="p">;</span>
+<span class="linenos">58</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">59</span>
+<span class="linenos">60</span><span class="w"> </span><span class="nl">done</span><span class="p">:</span>
+<span class="linenos">61</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">62</span><span class="w">        </span><span class="n">tsem_event_magazine_free</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="linenos">63</span><span class="w">        </span><span class="n">tsem_model_magazine_free</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+<span class="linenos">64</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">65</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos">66</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>On lines 5–7, it references settings for root modeling namesapce.</p>
+<p>On lines 9, it starts by checking if structure containing names (<code class="docutils literal notranslate"><span class="pre">struct</span>
+<span class="pre">tsem_names</span></code> located in <code class="docutils literal notranslate"><span class="pre">tsem.c</span></code>) of hooks implemented by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> matches
+number of enumerators in enumeration associated enumeration (<code class="docutils literal notranslate"><span class="pre">enum</span>
+<span class="pre">tsem_event_type</span></code> located in <code class="docutils literal notranslate"><span class="pre">tsem.h</span></code>). This check is importatnt, because the
+enumeration is used across <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> codebase to refer to the names in this
+structure <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<p>On line 11, it initializes <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>s security hooks.</p>
+<p>On lines 13–15, it initializes kernel reference counter for <code class="docutils literal notranslate"><span class="pre">struct</span>
+<span class="pre">tsem_context</span></code>. This tracks number of <code class="docutils literal notranslate"><span class="pre">tsem_task</span></code> structures that reference
+the structure in its attributes. The <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_context</span></code> holds information
+about state of the root namespace.</p>
+<p>On lines 17–21, it initializes lists that hold inodes and mounts created in the
+root namespace.</p>
+<p>On lines 22–23, it initializes events that get modeled by the kernel
+:term:<code class="docutils literal notranslate"><span class="pre">TMA</span></code> and sets root model for context of root modeling namespace.</p>
+<p>On lines 26–38, it sets up caches for storing event structures — all
+generated, atomic context in root <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> and atomic context for external
+<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p>
+<p>On line 41, it sets array of actions for each event implemented by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p>
+<p>On lines 43–52, it sets scope of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> modeling. It can be set by
+<code class="docutils literal notranslate"><span class="pre">tsem_mode=</span></code> kernel boot parameter. It’s set to “FULL_MODELING” by default.</p>
+<p>On lines 54–58, it prints kernel info message about the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> being
+initialized, marks the root namespace as trusted and exits.</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
+<p>Even thought it might seem so at first glance, not all hooks have
+corresponding event name/event type. (For example inode_init_security.)</p>
+</aside>
+</aside>
+<p>To finalize <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> initialization. <code class="docutils literal notranslate"><span class="pre">set_ready()</span></code> function is called
+amongst the last init functions in kernel initialization phase.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">set_ready</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="linenos"> 2</span><span class="p">{</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">tsem_available</span><span class="p">)</span>
+<span class="linenos"> 6</span><span class="w">             </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="w">     </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configure_root_digest</span><span class="p">();</span>
+<span class="linenos"> 9</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">10</span><span class="w">             </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span><span class="w">     </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_model_init</span><span class="p">();</span>
+<span class="linenos">13</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">14</span><span class="w">             </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span><span class="w">     </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_fs_init</span><span class="p">();</span>
+<span class="linenos">17</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">18</span><span class="w">             </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span><span class="w">     </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tsem_mode</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ROOT_EXPORT_ONLY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">21</span><span class="w">             </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_ns_export_root</span><span class="p">(</span><span class="n">magazine_size</span><span class="p">);</span>
+<span class="linenos">22</span><span class="w">             </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">23</span><span class="w">                     </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">24</span><span class="w">     </span><span class="p">}</span>
+<span class="linenos">25</span>
+<span class="linenos">26</span><span class="w">     </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;tsem: Now active.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="linenos">27</span><span class="w">     </span><span class="n">static_branch_disable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tsem_not_ready</span><span class="p">);</span>
+<span class="linenos">28</span>
+<span class="linenos">29</span><span class="w"> </span><span class="nl">done</span><span class="p">:</span>
+<span class="linenos">30</span><span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos">31</span><span class="p">}</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="n">late_initcall</span><span class="p">(</span><span class="n">set_ready</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>On line 5, it checks if the <code class="docutils literal notranslate"><span class="pre">tsem_init()</span></code> function executed correctly.</p>
+<p>On line 8, it configures digest used by the root namespace, defaulting to
+sha256, one can define other digest using <code class="docutils literal notranslate"><span class="pre">tsem_digest</span></code> kernel command line
+parameter.</p>
+<p>On line 12, it initializes aggregate value, calculated over <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a>
+registers 0–7, for internal namespaces (if <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> is present of course).</p>
+<p>On line 16, it initializes pseudo-filesystem used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> —
+<a class="reference internal" href="#h-control-plane"><span class="std std-ref">control plane</span></a>.</p>
+<p>On lines 20-24, it sets up root namespace that handles exporting of events
+generated in the namespace it the <code class="docutils literal notranslate"><span class="pre">tsem_mode</span></code> kernel command line parameter
+was set to <code class="docutils literal notranslate"><span class="pre">ROOT_EXPORT_ONLY</span></code>.</p>
+<p>On lines 26-27, it prints info kernel message decalring <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> active and
+disables static branch <code class="docutils literal notranslate"><span class="pre">tsem_not_ready</span></code> (used by some hooks that might get
+called before this point).</p>
+<p>Line 33 is not part of the function, it just emphasizes that it is executed
+amongst last init functions.</p>
+</section>
+<section id="lsm-hooks">
+<h2>LSM Hooks<a class="headerlink" href="#lsm-hooks" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> like all other <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s uses security hooks to intercept
+security relevant operations on the system. These hooks get called in places
+where security critical operations happen in Linux kernel. It is up to the code
+executed by the hook to decide whether execution of code from the point, where
+the hook was called will continue — <strong>permission granted</strong> or the execution
+gets stopped — <strong>permission denied</strong>. Code executed on the hook call is
+called from a linked list containing code definitions for the hook that get
+appended to the list upon initialization of a given <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> Currently,
+<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> manages 111 <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks (list below is alphabetically
+ordered):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>bpf</p></li>
+<li><p>bpf_map</p></li>
+<li><p>bpf_prog</p></li>
+<li><p>bprm_check_security</p></li>
+<li><p>bprm_committed_creds</p></li>
+<li><p>capable</p></li>
+<li><p>capget</p></li>
+<li><p>capset</p></li>
+<li><p>cred_prepare</p></li>
+<li><p>file_fcntl</p></li>
+<li><p>file_ioctl</p></li>
+<li><p>file_ioctl_compat</p></li>
+<li><p>file_lock</p></li>
+<li><p>file_open</p></li>
+<li><p>file_receive</p></li>
+<li><p>file_truncate</p></li>
+<li><p>inode_alloc_security</p></li>
+<li><p>inode_create</p></li>
+<li><p>inode_free_security</p></li>
+<li><p>inode_getattr</p></li>
+<li><p>inode_getxattr</p></li>
+<li><p>inode_init_security</p></li>
+<li><p>inode_killpriv</p></li>
+<li><p>inode_link</p></li>
+<li><p>inode_listxattr</p></li>
+<li><p>inode_mkdir</p></li>
+<li><p>inode_mknod</p></li>
+<li><p>inode_removexattr</p></li>
+<li><p>inode_rename</p></li>
+<li><p>inode_rmdir</p></li>
+<li><p>inode_setattr</p></li>
+<li><p>inode_setxattr</p></li>
+<li><p>inode_symlink</p></li>
+<li><p>inode_unlink</p></li>
+<li><p>ipc_permission</p></li>
+<li><p>kernel_load_data</p></li>
+<li><p>kernel_module_request</p></li>
+<li><p>kernel_read_file</p></li>
+<li><p>key_alloc</p></li>
+<li><p>key_permission</p></li>
+<li><p>mmap_file</p></li>
+<li><p>move_mount</p></li>
+<li><p>msg_queue_alloc_security</p></li>
+<li><p>msg_queue_associate</p></li>
+<li><p>msg_queue_msgctl</p></li>
+<li><p>msg_queue_msgrcv</p></li>
+<li><p>msg_queue_msgsnd</p></li>
+<li><p>netlink_send</p></li>
+<li><p>path_chmod</p></li>
+<li><p>path_chown</p></li>
+<li><p>path_chroot</p></li>
+<li><p>path_link</p></li>
+<li><p>path_mkdir</p></li>
+<li><p>path_mknod</p></li>
+<li><p>path_rename</p></li>
+<li><p>path_rmdir</p></li>
+<li><p>path_symlink</p></li>
+<li><p>path_truncate</p></li>
+<li><p>path_unlink</p></li>
+<li><p>ptrace_access_check</p></li>
+<li><p>ptrace_traceme</p></li>
+<li><p>quotactl</p></li>
+<li><p>quota_on</p></li>
+<li><p>sb_mount</p></li>
+<li><p>sb_pivotroot</p></li>
+<li><p>sb_remount</p></li>
+<li><p>sb_statfs</p></li>
+<li><p>sb_umount</p></li>
+<li><p>sem_alloc_security</p></li>
+<li><p>sem_associate</p></li>
+<li><p>sem_semctl</p></li>
+<li><p>sem_semop</p></li>
+<li><p>settime</p></li>
+<li><p>shm_alloc_security</p></li>
+<li><p>shm_associate</p></li>
+<li><p>shm_shmat</p></li>
+<li><p>shm_shmctl</p></li>
+<li><p>socket_accept</p></li>
+<li><p>socket_bind</p></li>
+<li><p>socket_connect</p></li>
+<li><p>socket_create</p></li>
+<li><p>socket_getpeername</p></li>
+<li><p>socket_getsockname</p></li>
+<li><p>socket_listen</p></li>
+<li><p>socket_post_create</p></li>
+<li><p>socket_recvmsg</p></li>
+<li><p>socket_sendmsg</p></li>
+<li><p>socket_setsockopt</p></li>
+<li><p>socket_shutdown</p></li>
+<li><p>socket_socketpair</p></li>
+<li><p>syslog</p></li>
+<li><p>task_alloc</p></li>
+<li><p>task_free</p></li>
+<li><p>task_getioprio</p></li>
+<li><p>task_getpgid</p></li>
+<li><p>task_getscheduler</p></li>
+<li><p>task_getsid</p></li>
+<li><p>task_kill</p></li>
+<li><p>task_prctl</p></li>
+<li><p>task_prlimit</p></li>
+<li><p>task_setioprio</p></li>
+<li><p>task_setnice</p></li>
+<li><p>task_setpgid</p></li>
+<li><p>task_setrlimit</p></li>
+<li><p>task_setscheduler</p></li>
+<li><p>tun_dev_attach</p></li>
+<li><p>tun_dev_attach_queue</p></li>
+<li><p>tun_dev_create</p></li>
+<li><p>tun_dev_open</p></li>
+<li><p>unix_may_send</p></li>
+<li><p>unix_stream_connect</p></li>
+</ul>
+</div></blockquote>
+<p>See <a class="reference internal" href="tsem_hooks.html#tsem-hooks"><span class="std std-ref">LSM Hooks</span></a> for more detailed description.</p>
+</section>
+<section id="control-plane">
+<span id="h-control-plane"></span><h2>Control Plane<a class="headerlink" href="#control-plane" title="Link to this heading">¶</a></h2>
+<p><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> utilizes a pseudo-file system that is used for communication with
+userspace <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s. The control plane is used mainly to export event
+descriptions and security state coefficients to the <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>. It is located in
+<code class="docutils literal notranslate"><span class="pre">/sys/kernel/security/tsem/</span></code> of the host system.</p>
+<p>See tree listing of the directory below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tree<span class="w"> </span>/sys/kernel/security/tsem/
+<span class="go">/sys/kernel/security/tsem/</span>
+<span class="go">├── aggregate</span>
+<span class="go">├── control</span>
+<span class="go">├── external_tma</span>
+<span class="go">├── id</span>
+<span class="go">└── internal_tma</span>
+<span class="go">    └── model0</span>
+<span class="go">        ├── forensics</span>
+<span class="go">        ├── forensics_coefficients</span>
+<span class="go">        ├── forensics_counts</span>
+<span class="go">        ├── measurement</span>
+<span class="go">        ├── state</span>
+<span class="go">        ├── trajectory</span>
+<span class="go">        ├── trajectory_coefficients</span>
+<span class="go">        └── trajectory_counts</span>
+
+<span class="go">3 directories, 11 files</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="tsem_hooks.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">LSM Hooks</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../installation.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Installation</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Roland Holik
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">TSEM</a><ul>
+<li><a class="reference internal" href="#initialization">Initialization</a></li>
+<li><a class="reference internal" href="#lsm-hooks">LSM Hooks</a></li>
+<li><a class="reference internal" href="#control-plane">Control Plane</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=283e6f7d"></script>
+    </body>
+</html>
