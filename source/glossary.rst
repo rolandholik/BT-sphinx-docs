@@ -1,10 +1,16 @@
 .. glossary::
 
+   COE
+    Context Of Execution.
+
    TO
     Trust Orchestrator.
 
    TMA
     Trusted Modeling Agent.
+
+   TPM
+    Trusted Platform Module.
 
    TSEM
     Trusted Security Event Modeling.
@@ -24,5 +30,11 @@
    MQTT
     Message Queuing Telemetry Transport.
 
+   PCR
+    Platform Configuration Register
+
    SGX
     (Intel) Software Guard Extensions.
+
+   IPC
+    Inter-Process Communication.

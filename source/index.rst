@@ -20,6 +20,7 @@ of the Quixote/TSEM.
 
    introduction
    installation
+   TSEM/tsem
    Quixote/quixote
    Quixote/quixote_experiments
 
