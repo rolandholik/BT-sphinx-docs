@@ -22,7 +22,7 @@ of the Quixote/TSEM.
    installation
    TSEM/tsem
    Quixote/quixote
-   Quixote/quixote_experiments
+   QuixoteExperiments/overview
 
    
 
