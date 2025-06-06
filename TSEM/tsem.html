@@ -214,7 +214,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../Quixote/quixote_experiments.html">Quixote experiments</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -634,14 +640,14 @@ userspace <a class="reference internal" href="../glossary.html#term-TO"><span cl
 descriptions and security state coefficients to the <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>. It is located in
 <code class="docutils literal notranslate"><span class="pre">/sys/kernel/security/tsem/</span></code> of the host system.</p>
 <p>See tree listing of the directory below:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tree<span class="w"> </span>/sys/kernel/security/tsem/
-<span class="go">/sys/kernel/security/tsem/</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tree<span class="w"> </span>-F<span class="w"> </span>/sys/kernel/security/tsem
+<span class="go">/sys/kernel/security/tsem</span>
 <span class="go">├── aggregate</span>
 <span class="go">├── control</span>
-<span class="go">├── external_tma</span>
+<span class="go">├── external_tma/</span>
 <span class="go">├── id</span>
-<span class="go">└── internal_tma</span>
-<span class="go">    └── model0</span>
+<span class="go">└── internal_tma/</span>
+<span class="go">    └── model0/</span>
 <span class="go">        ├── forensics</span>
 <span class="go">        ├── forensics_coefficients</span>
 <span class="go">        ├── forensics_counts</span>
@@ -653,6 +659,108 @@ descriptions and security state coefficients to the <a class="reference internal
 
 <span class="go">3 directories, 11 files</span>
 </pre></div>
+</div>
+<p>Each of the 11 files responds in context of the namespace, the accessing process
+is assigned to. This means multiple <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s might run at once and even
+though they write and read from the same files each communicates <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
+that manages their corresponding modeling namespace.</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13.0%" />
+<col style="width: 87.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Directory</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">external_tma/</span></code></p></td>
+<td><p>When exporting events from root security modeling namespace, or when
+modeling in external seubordinate modeling namespace, the files that
+emerge here are used for reading of security events. Their names are
+numbers starting from 1 (0 is reserved for root namespace) based on order
+in which the namespaces are created.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">internal_tma</span></code></p></td>
+<td><p>Holds subdirectories which represent external <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s implemented
+in the kernel. Currently, there is only one — model0.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model0</span></code></p></td>
+<td><p>Holds files used for exporting events and security state coefficients for
+the “model0” kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 13.0%" />
+<col style="width: 87.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">aggregate</span></code></p></td>
+<td><p>Used by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s to acquire aggregate value calculated by extension
+of <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a>s 0–7. This value can be seen, for example, on the first
+line of security map generated when saving a map of security state
+coefficientsusing <code class="docutils literal notranslate"><span class="pre">quixote</span></code> with <code class="docutils literal notranslate"><span class="pre">-m</span></code> command line option.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">control</span></code></p></td>
+<td><p>Used by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s to create and control security modeling namespaces
+writing control commands and reading from the file.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">id</span></code></p></td>
+<td><p>When read outputs id number of the security namesapce, the orchestrato is
+operating in.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forensics</span></code></p></td>
+<td><p>Used to read set of <em>JSON</em> formated event descriptions, that violate
+currently security map according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling,
+from the only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_coefficients</span></code></p></td>
+<td><p>Used to read set of security state coefficients, that violate currently
+security map according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling, from the only
+currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_counts</span></code></p></td>
+<td><p>Used to read count of events, that violate currently security map
+according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling, from the only currently
+implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">measurement</span></code></p></td>
+<td><p>Used to read linear extension of all security state coefficients
+generated up to that point, by the only currently implemented kernel
+based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”. If read from root modeling namespace, the
+measurement is extended into a <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">state</span></code></p></td>
+<td><p>Used to read security state coefficient the namespace is currently in,
+from the only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory</span></code></p></td>
+<td><p>Used to read set of <em>JSON</em> formated security events generated by the
+namespace modeled by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
+“model0”.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_coefficients</span></code></p></td>
+<td><p>Used to read set of security state coefficients generated by the
+namespace modeled by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
+“model0”.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_counts</span></code></p></td>
+<td><p>Used to read count of security events generated by the namespace modeled
+by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 </section>

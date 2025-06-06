@@ -1,0 +1,538 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Container mode" href="container_mode.html" /><link rel="prev" title="Quixote experiments" href="overview.html" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
+        <title>Process mode - TSEM guide 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=b0d4dec2" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">TSEM guide 0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">TSEM guide 0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../TSEM/tsem.html">TSEM</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of TSEM</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../TSEM/tsem_hooks.html">LSM Hooks</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Quixote/quixote.html">Quixote</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Quixote</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_ker.html">quixote</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="overview.html">Quixote experiments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Process mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_mode.html">Container mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="export_mode.html">Export mode</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/QuixoteExperiments/process_mode.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="process-mode">
+<h1>Process mode<a class="headerlink" href="#process-mode" title="Link to this heading">¶</a></h1>
+<p id="id1">Just for comparison, we tried to replicate the example from official
+documentation: <a class="reference external" href="https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst">https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst</a>.</p>
+<p>We started by creating the model.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+</pre></div>
+</div>
+<p>Then we inspected its trajectory in a second terminal session using
+<code class="docutils literal notranslate"><span class="pre">quixote-console</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">quixote-console -w test -T</span>
+</pre></div>
+</div>
+<p>We got the output with the generated events:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;: &quot;1&quot;, &quot;process&quot;: &quot;quixote&quot;, &quot;type&quot;:</span>
+<span class="go">&quot;capable&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;: &quot;2257&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;680001&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
+<span class="go">&quot;capable&quot;: {&quot;cap&quot;: &quot;8&quot;, &quot;opts&quot;: &quot;0&quot;}} {&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;:</span>
+<span class="go">&quot;2&quot;, &quot;process&quot;: &quot;quixote&quot;, &quot;type&quot;: &quot;task_prctl&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;:</span>
+<span class="go">&quot;2257&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;721570&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
+<span class="go">&quot;task_prctl&quot;: {&quot;option&quot;: &quot;24&quot;, &quot;arg2&quot;: &quot;33&quot;, &quot;arg3&quot;: &quot;0&quot;, &quot;arg4&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;arg5&quot;: &quot;0&quot;}} {&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;: &quot;3&quot;, &quot;process&quot;: &quot;quixote&quot;,</span>
+<span class="go">&quot;type&quot;: &quot;file_open&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;: &quot;2257&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;869603&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
+<span class="go">&quot;file_open&quot;: {&quot;file&quot;: {&quot;flags&quot;: &quot;32800&quot;, &quot;inode&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;mode&quot;: &quot;0100755&quot;, &quot;s_magic&quot;: &quot;0xef53&quot;, &quot;s_id&quot;: &quot;sda3&quot;, &quot;s_uuid&quot;:</span>
+<span class="go">&quot;e896110b42b24dbca89c7caa36961685&quot;}, &quot;path&quot;: {&quot;dev&quot;: {&quot;major&quot;: &quot;8&quot;, &quot;minor&quot;:</span>
+<span class="go">&quot;3&quot;}, &quot;type&quot;: &quot;root&quot;, &quot;pathname&quot;: &quot;/usr/bin/bash&quot;}, &quot;digest&quot;:</span>
+<span class="go">&quot;59474588a312b6b6e73e5a42a59bf71e62b55416b6c9d5e4a6e1c630c2a9ecd4&quot;}}}</span>
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">...</span>
+</pre></div>
+</div>
+<p>We executed <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">rocinante</span> <span class="pre">/etc/passwd</span></code> and exited the shell:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+<span class="go">exit</span>
+<span class="go">Wrote security model to: test.model</span>
+</pre></div>
+</div>
+<p>The model for our workload got saved into <code class="docutils literal notranslate"><span class="pre">test.model</span></code>.</p>
+<p>Then we tired to enforce the model and got the following permission denial:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+<span class="go">exit</span>
+<span class="go">Wrote security model to: test.model</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">bash: fork: Operation not permitted</span>
+</pre></div>
+</div>
+<p>We tired to examine, what went wrong using <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> and got the
+following output:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-F<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;5&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;86&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;2572&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;2571&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;a19fd658e8d728107045f0f9f6546e9bbe2de4aa19d24095053c93ad4df6792f&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;153958885&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;948b402ade828c471fefce85e9ad4d51e3e6fe9402f5bbbbd4d9b2e09f375473&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;5&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;89&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;2572&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;2571&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;a19fd658e8d728107045f0f9f6546e9bbe2de4aa19d24095053c93ad4df6792f&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;154265146&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100644&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/etc/locale.alias&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;8138bbaea6a31dbcd47cca87d5f0a30980d352888374ec894f6dae473b215bde&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<p>This indicates that, the denial was caused by <code class="docutils literal notranslate"><span class="pre">bash</span></code> process interacting
+with <code class="docutils literal notranslate"><span class="pre">/root/.bash_hostory</span></code> and <code class="docutils literal notranslate"><span class="pre">/etc/locale.alias</span></code>.</p>
+<p>We tried to backpropagate the events.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>test.model
+</pre></div>
+</div>
+<p>And re-ran the workload:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+<span class="go">exit</span>
+<span class="go">Wrote security model to: test.model</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="go">exit</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+</pre></div>
+</div>
+<p>We were yet again met with permission denial. Therefore we tried to generate
+pseudonym for the paths and appended them to the <code class="docutils literal notranslate"><span class="pre">test.model</span></code> file.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>generate-pseudonym<span class="w"> </span>-P<span class="w"> </span>-i<span class="w"> </span>/etc/locale.alias
+<span class="gp"># </span>pseudonym<span class="w"> </span>e3436cf59b887299c3ab9ae0cd6e3106a457955a8fb22c85ec02005e86f125b9
+<span class="gp"># </span>generate-pseudonym<span class="w"> </span>-i<span class="w"> </span>-P<span class="w"> </span>/root/.bash_hostory
+<span class="gp"># </span>pseudonym<span class="w"> </span>afa1b7a0a3a9da80f7ebad6263798506b6b88bb3410510ac3425c96cc87dcaf3
+</pre></div>
+</div>
+<p>Then we tried to enforce the model again.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+<span class="go">exit</span>
+<span class="go">Wrote security model to: test.model</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="go">exit</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+</pre></div>
+</div>
+<p>We were again faced with permission denial.</p>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="container_mode.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Container mode</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="overview.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Quixote experiments</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Roland Holik
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=2709fde1"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=283e6f7d"></script>
+    </body>
+</html>

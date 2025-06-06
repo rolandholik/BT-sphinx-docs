@@ -149,7 +149,7 @@ requires runc bundle directory with name corresponding to the workload name.
 Example 2: Exporting to a MQTT broker
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-Exporting to a file isn't the most impressive thing ``-quixote-export`` can do
+Exporting to a file isn't the most impressive thing ``quixote-export`` can do
 --- ``quixote`` can do the same. Exporting to a :term:`MQTT` broker is what
 makes ``quixote-export`` interesting.
 
