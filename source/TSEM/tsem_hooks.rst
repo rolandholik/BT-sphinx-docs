@@ -11,7 +11,7 @@ This section describes some of the :term:`LSM` hooks :term:`TSEM` leverages.
 functions --- ``msg_queue_alloc_security``, ``sem_alloc_security``,
 ``shm_alloc_security`` are all handeled by same functions. Most of the functions
 basically populate structures that hold characteristics of different security
-events, but there are also functions that don't.
+events, but there are also functions that do something different.
 
 
 Generating security events (few examples)
@@ -145,9 +145,9 @@ is modeled by the current namespace. If one of the conditions isn't true, the
 hook grants permission without modeling the event. The hook exits if there
 is no file provided to the hook and the mapping is not set executable (e.g.
 anonymous mapping of shared memory), granting permission for further execution
-without modeling the event. The hook allocates :term:`TSEM` event structure
-for mmap_file characteristics and stores mmap_file related characteristics to
-it. Afterwards, the hook models the event --- deciding to deny or permit the
+without modeling the event. The hook allocates :term:`TSEM` event structure for
+``mmap_file`` characteristics and stores ``mmap_file`` related characteristics
+to it. Afterwards, the hook models the event --- deciding to deny or permit the
 operation --- and destroys the event structure. 
 
 task_alloc
@@ -174,8 +174,8 @@ task_alloc
    	return dispatch_event(ep);
    }
 
-This hook assigns serial number (tnum) and modeling namespace (context) to the
-new tasks. It allocates :term:`TSEM` event structure for task_alloc event
+This hook assigns serial number (tnum) and modeling namespace (context) to a
+new task. It allocates :term:`TSEM` event structure for task_alloc event
 characteristics and stores task_alloc related characteristics to it. If the new
 task has valid id it increments reference count for the task. Afterwards, the
 hook models the event --- deciding to deny or permit the operation --- and
@@ -254,17 +254,17 @@ task_kill
    	return dispatch_event(ep);
    }
 
-This hook acquires namespace context for current task (the one sending the kill
-signal ) and target task (the one that is to be killed). If ``task_kill`` isn't
-modeled by the current namespace, the kill signal originates from kernel or it's
-urgent signal, the hook exits, granting permission without modeling the event.
-If the task initiating the killing doesn't have ``CAP_MAC_ADMIN`` and the target
-task does or if the task initiating the killing doesn't have ``CAP_MAC_ADMIN``
-and the kill signal is sent to task from another modeling namespace, it returns
-permission denied, without modeling the event. The hook allocates :term:`TSEM`
-event structure holding data about ``task_kill``, populates it with task kill
-characteristics and models the event --- deciding to grant or deny permission
---- and destroys the event structure.
+This hook acquires namespace context for current task (the one sending the 
+signal) and target task (the one that is to recieve the signal). If
+``task_kill`` isn't modeled by the current namespace, the signal originates
+from kernel or it's urgent signal, the hook exits, granting permission without
+modeling the event. If the task initiating the signal doesn't have
+``CAP_MAC_ADMIN`` and the target task does or if the task initiating the
+signaling doesn't have ``CAP_MAC_ADMIN`` and the signal is sent to task from
+another modeling namespace, it returns permission denied, without modeling the
+event. The hook allocates :term:`TSEM` event structure holding data about
+``task_kill``, populates it with task kill characteristics and models the event
+--- deciding to grant or deny permission --- and destroys the event structure.
 
 
 Not generating security events
