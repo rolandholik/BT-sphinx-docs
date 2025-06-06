@@ -44,7 +44,7 @@ Then we tried executing the model in enforced mode.
 We got segmentation fault.
 
 To see what caused the segmentation fault, we relaunched the workload and
-inspected the it using ``quixote-console``.
+inspected the its forensic violations using ``quixote-console``.
 
 .. code-block:: console
 

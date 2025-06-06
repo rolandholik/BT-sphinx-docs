@@ -338,7 +338,7 @@ terminal).
    /run/runc/httpd/state.json: operation not permitted"
    #
 
-Again, we got denied access. This time when inspeced in the ``quixote-console``
+Again, we got denied access. This time when inspected in the ``quixote-console``
 we got less forensic events.
    
 
