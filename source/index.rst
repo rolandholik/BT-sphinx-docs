@@ -24,7 +24,7 @@ of the Quixote/TSEM.
    Quixote/quixote
    QuixoteExperiments/overview
 
-   
+   Setup/overview
 
 
 .. Indices and tables
