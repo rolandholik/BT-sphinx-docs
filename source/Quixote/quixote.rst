@@ -12,6 +12,7 @@ Quixote
    quixote_us
    quixote_export
    quixote_console
+   quixote_inject
 
 
 Quixote -- the trust orchestrator
