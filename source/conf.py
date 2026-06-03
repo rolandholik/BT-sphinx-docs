@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'TSEM guide'
-copyright = '2025, Roland Holik'
+copyright = '2026, Roland Holik'
 author = 'Roland Holik'
 release = '0.1'
 
