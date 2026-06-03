@@ -8,19 +8,60 @@ LSM Hooks
 This section describes some of the :term:`LSM` hooks :term:`TSEM` leverages.
 
 :term:`TSEM` implements all together 111 :term:`LSM` hooks with 109 unique
-functions --- ``msg_queue_alloc_security``, ``sem_alloc_security``,
-``shm_alloc_security`` are all handeled by same functions. Most of the functions
-basically populate structures that hold characteristics of different security
-events, but there are also functions that do something different.
+functions ---\ ``msg_queue_alloc_security``, ``sem_alloc_security``,
+``shm_alloc_security`` are all handled by the same function
+(``sem_alloc_security``). The majority of these functions populate data
+structures that capture the characteristics of various security events, while
+some functions perform additional or distinct tasks.
 
 
 Generating security events (few examples)
 -----------------------------------------
 
-This section describes hooks that populate :term:`TSEM` security event
-structures with data. Most of the hooks in :term:`TSEM` do basically just that,
-therefore most of the hooks chosen for this demonstration actually do a bit more
-set up.
+This section describes some of the :term:`TSEM` security hooks. While most of
+the :term:`TSEM` security hooks just populate security event structures with
+data, hooks described in this section also include some additional
+configuration.
+
+.. note::
+   Event modeling and reference count management --- often managed below --- are
+   handled by the following function:
+
+   .. code-block:: c
+   
+       static int dispatch_event(struct tsem_event *ep)
+       {
+           int retn;
+   
+           if (unlikely(tsem_task_untrusted(current))) {
+               retn = untrusted_task(ep);
+               goto done;
+           }
+   
+           if (likely(!tsem_context(current)->ops->event_init))
+               retn = tsem_event_init(ep);
+           else
+               retn = tsem_context(current)->ops->event_init(ep);
+           if (ep->terminate_event)
+               goto done;
+           if (retn > 0) {
+               if (!tsem_context(current)->external)
+                   retn = tsem_model_event(ep);
+               else
+                   retn = tsem_export_event(ep);
+           }
+   
+        done:
+           tsem_event_put(ep);
+           return retn;
+       }
+
+   The function verifies if the event is trusted, if it isn't the task gets
+   processed as untrusted, if it is, the event gets populated with relevant
+   characteristics and is modeled or exported, depending on its type. In all
+   cases, it the reference counter of the event gets decreased in the done
+   section.
+
 
 bprm_check_security
 ~~~~~~~~~~~~~~~~~~~
@@ -45,12 +86,12 @@ bprm_check_security
    }
 
 This hook is one of the simple ones. It checks if :term:`TSEM` is fully
-initialized and if this function is modeled by the current namespace. If one
-of the conditions is not true, it exits, granting permission without modeling
-the event. It allocates structure holding data about binary handlers in
-:term:`TSEM` CELL structure and assigns the binary characteristics to it.
+initialized and if this hook is modeled by the current namespace. If one of
+the conditions is not true, it exits, granting permission without modeling the
+event. It allocates structure holding data about binary handlers in :term:`TSEM`
+CELL structure and assigns the binary characteristics to the structure.
 Afterwards, the hook models the event --- deciding to deny or permit the
-operation --- and destroys the event structure.
+operation --- and decreases reference count for the event.
 
 
 file_open
@@ -90,7 +131,7 @@ file_open
    }
 
 This hook checks if :term:`TSEM` is fully initialized and if this type of event
-is modeled by the current namespace. If one of the conditions isn't true, the
+is modeled by the current namespace. If one of the conditions is not true, the
 hook grants permission without modeling the event. If the file it tries to
 access belongs to the :term:`TSEM` control plane and the process trying to open
 the file has ``CAP_MAC_ADMIN`` capability set, the hook allows opening of the
@@ -99,7 +140,7 @@ capability tries to open control plane file, the hook denies the operation
 without modeling the event. The hook allocates event structure holding data
 about file in :term:`TSEM` CELL structure and assigns file characteristics from
 the accesses file to it. Afterwards, the hook models the event --- deciding to
-deny or permit the operation --- and destroys the event structure.
+deny or permit the operation --- and decreases reference count for the event.
 
 
 mmap_file
@@ -142,13 +183,14 @@ mmap_file
 
 This hook checks if :term:`TSEM` is fully initialized and if this type of event
 is modeled by the current namespace. If one of the conditions isn't true, the
-hook grants permission without modeling the event. The hook exits if there
-is no file provided to the hook and the mapping is not set executable (e.g.
-anonymous mapping of shared memory), granting permission for further execution
-without modeling the event. The hook allocates :term:`TSEM` event structure for
-``mmap_file`` characteristics and stores ``mmap_file`` related characteristics
-to it. Afterwards, the hook models the event --- deciding to deny or permit the
-operation --- and destroys the event structure. 
+hook grants permission without modeling the event. The hook exits if there is no
+file provided to the hook and the mapping is not set executable (e.g. anonymous
+mapping of shared memory), is not a regular file or is part of a
+pesudo-filesystem, granting permission for further execution without modeling
+the event. The hook allocates :term:`TSEM` event structure for ``mmap_file``
+characteristics and stores ``mmap_file`` related characteristics to it.
+Afterwards, the hook models the event --- deciding to deny or permit the
+operation --- and decreases reference count for the event. 
 
 task_alloc
 ~~~~~~~~~~
@@ -177,9 +219,9 @@ task_alloc
 This hook assigns serial number (tnum) and modeling namespace (context) to a
 new task. It allocates :term:`TSEM` event structure for task_alloc event
 characteristics and stores task_alloc related characteristics to it. If the new
-task has valid id it increments reference count for the task. Afterwards, the
-hook models the event --- deciding to deny or permit the operation --- and
-destroys the event structure. 
+task has valid id it increments reference count for its modeling context.
+Afterwards, the hook models the event --- deciding to deny or permit the
+operation --- and decreases reference count for the event. 
 
 
 task_free
@@ -208,9 +250,9 @@ task_free
    }
 
 This hook sets its event structure to zeros, populates it with
-``TSEM_TASK_FREE`` related characteristics and releases its kernel reference
-from the modeling namespace of the task. This hook does not explicitly grant or
-deny access as it's a void function.
+``TSEM_TASK_FREE`` related characteristics and releases a reference to the
+modeling namespace of the task. This hook does not explicitly grant or deny
+access as it's a void function.
 
 
 task_kill
@@ -254,17 +296,18 @@ task_kill
    	return dispatch_event(ep);
    }
 
-This hook acquires namespace context for current task (the one sending the 
-signal) and target task (the one that is to recieve the signal). If
-``task_kill`` isn't modeled by the current namespace, the signal originates
-from kernel or it's urgent signal, the hook exits, granting permission without
+This hook retrieves the modeling contexts for current task (the one sending the
+signal) and target task (the one that is to receive the signal). If
+``task_kill`` isn't modeled by the current namespace, the signal is kernel
+generated or its urgent signal, the hook exits, granting permission without
 modeling the event. If the task initiating the signal doesn't have
 ``CAP_MAC_ADMIN`` and the target task does or if the task initiating the
-signaling doesn't have ``CAP_MAC_ADMIN`` and the signal is sent to task from
-another modeling namespace, it returns permission denied, without modeling the
-event. The hook allocates :term:`TSEM` event structure holding data about
+signaling doesn't have ``CAP_MAC_ADMIN`` and the signal is sent to a task in 
+another modeling namespace, the hook returns permission denied, without modeling
+the event. The hook allocates :term:`TSEM` event structure holding data about
 ``task_kill``, populates it with task kill characteristics and models the event
---- deciding to grant or deny permission --- and destroys the event structure.
+--- deciding to grant or deny permission --- and decreases reference count for
+the event.
 
 
 Not generating security events
@@ -341,10 +384,11 @@ inode_init_security
    	return -EOPNOTSUPP;
    }
 
-This hook searches in the directory parent directory of the inode that is meant
-to have its security related data initialized. If found the hook initializes the
-tsem_inode structure with :term:`TSEM` security related credentials of the
-current task.
+This hook searches the parent directory's create list for an entry matching the
+current task and pathname. If a matching entry is found the hook initializes the
+tsem_inode structure with :term:`TSEM` security-related credentials of the
+current task. The hook always returns -EOPNOTSUPP, indicating that it does not
+provide extended security attributes for the inode.
 
 
 inode_free_security
@@ -398,12 +442,12 @@ This hook clears data in the three lists that :ref:`inode_alloc_security
    the lists.
 
 Managed by same function
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 The tsem_ipc_alloc hook gets mapped to three different :term:`LSM` hooks.
 
 msg_queue_alloc_security, sem_alloc_security, shm_alloc_security
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: c
 
@@ -415,8 +459,8 @@ msg_queue_alloc_security, sem_alloc_security, shm_alloc_security
    	return 0;
    }
 
-This hook assigns id of the task that created the :term:`IPC` resource to the
-tsem_ipc structure of the resource. Data in this structure is important for
+This hook assigns the id of the task that created the :term:`IPC` resource to
+the tsem_ipc structure of the resource. Data in this structure is important for
 modeling of hooks that utilize the resource.
 
 

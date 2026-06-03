@@ -6,10 +6,10 @@ Installation
 Building TSEM kernel
 --------------------
 
-Installation of :term:`TSEM` infrastructure, like it or not, involves
-compilation of the Linux kernel. For this reference, I'm using Ubuntu 22.04 as
-it seems to be, what the developers do some of their testing on (as mentioned in
-parts of Quixote documentation https://github.com/Quixote-Project/Quixote).
+Installation of :term:`TSEM` infrastructure, involves compilation of the Linux
+kernel. For this reference, We are using Ubuntu 22.04 as it seems to be, what
+the developers do some of their testing on (as mentioned in parts of Quixote
+documentation https://github.com/rolandholik/Quixote).
 
 Getting the kernel code
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -21,9 +21,9 @@ in following ways:
       repository and apply the TSEM patches manually from linux kernel mailing
       list. (https://blog.reds.ch/?p=1814 can serve as a good guide for that)
 
-    - Or more preferably clone the kernel provided by the Quixote
-      project: https://github.com/Quixote-Project/TSEM
-      Like so: :code:`git clone --depth 1 --all <most recent kernel version> https://github.com/Quixote-Project/TSEM`
+    - Or more preferably, clone the kernel, originally provided by the Quixote
+      project: https://github.com/rolandholik/TSEM
+      Like so: :code:`git clone --depth 1 --all <most recent kernel version> https://github.com/rolandholik/TSEM`
    
 <most recent kernel version> being the most recent kernel version available
 in the :term:`TSEM` repos.
@@ -31,7 +31,7 @@ For example at the time of writing it would be:
 
 .. code-block:: console
 
-   $ git clone --depth 1 --branch TSEM-6.12 https://github.com/Quixote-Project/TSEM
+   $ git clone --depth 1 --branch TSEM-6.12 https://github.com/rolandholik/TSEM 
 
 .. image:: /images/installation/TSEM-clone.png
    :align: center
@@ -66,9 +66,9 @@ Or generated using:
 
    $ make localmodconf
 
-in kernel compilation directory. This is a suggested approach for most users as
-compiling kernel with all the drivers/modules built into the kernel can take a
-vary long time -- depending on the computer's processing power.
+in the kernel compilation directory. This is a suggested approach for most users
+as compiling kernel with all the drivers/modules built into the kernel can take
+a vary long time -- depending on the computer's processing power.
 
 Next enable :term:`TSEM` in the *.config*, there are many ways to do this.
 
@@ -112,7 +112,7 @@ run:
    $ make -j$(nproc)
 
 .. note::
-    The "-j$(nproc)" part is optional however heavily recommended since it
+   The "-j$(nproc)" part is optional however heavily recommended since it
    utilizes all CPU cores, not just one (default). Or it can be replaced with
    any desired number of cores. If one does not know how many cores exactly they
    want to utilize (e.g. make -j2 for 2 cores). Blindly guessing by putting some
@@ -163,29 +163,29 @@ Getting the source code
 
 Downloading the Quixote sources can get a little tricky.
 
-Firstly clone the Quixote repository using:
+First, clone the Quixote repository using:
 
 .. code-block:: console
 
-   $ git clone --recurse-submodules https://github.com/Quixote-Project/Quixote.git
+   $ git clone --recurse-submodules https://github.com/rolandholik/Quixote.git
 
 .. admonition:: Possible Issue
 
     In case, you don't have github setup with your RSA key --- *ssh* method, the you
-    will be asked to confirm fingerprint of github.com, the he will fail, since the
-    sub-repository is referenced by ssh (git@...). An effective but a little dirty
-    workaround for that would be manually rewriting the *ssh* access method to web
-    URL and retrying the pull:
+    will be asked to confirm fingerprint of github.com, the fetch will fail,
+    since the sub-repository is referenced by ssh (git@...). An effective but a
+    little dirty workaround for that would be manually rewriting the *ssh*
+    access method to web URL and retrying the pull:
 
 .. code-block:: console
 
    $ cd Quixote
-   $ sed -i 's/url = git@github.com:Quixote-Project\/HurdLib.git/url = https:\/\/github.com\/Quixote-Project\/HurdLib.git/g' .git/config
+   $ sed -i 's/url = git@github.com:Quixote-Project\/HurdLib.git/url = https:\/\/github.com\/rolandholik\/HurdLib.git/g' .git/config
    $ git pull --recurse-submodules
 
 .. note::
     It is not recommended to interact with git configs manually, but so is
-    interacting with github web URLs.
+    interacting with github web (https/https) URLs.
 
 
 Dependencies
@@ -195,7 +195,7 @@ For compilation of Quixote, at minimum these packages are needed:
 
 .. code-block:: console
 
-   $ sudo apt-get git gcc make flex libssl-dev libcap-dev libxen-dev pkg-config elfutils
+   $ sudo apt-get git gcc make flex libssl-dev libcap-dev libxen-dev pkg-config elfutils libcurl4-openssl-dev
 
 One should already heave some of them from :term:`TSEM` kernel compilation.
 Complete list of packages is mentioned in case of compilation on systems with
@@ -242,6 +242,51 @@ For example like so:
     "source /etc/environment".
 
 
+Loadable modules
+----------------
+
+At the time of writing there is only one loadable kernel module available in the
+Quixote utilities source tree --- ``tsem-intergrity.c``. The module is located
+in Quixote source tree (*TSEM/tsem-intergrity.c). To enable the module
+compilation, configure the *BUILD_KERNEL_SOURCE* in *Config.mk* in root of
+Quixote source tree. 
+
+.. ::
+
+   # If defined, the kernel source directory to be used for building the
+   # TSEM kernel modules.
+   # BUILD_KERNEL_SOURCE
+
+And run ``make``.
+
+.. code-block:: console
+
+   $ make
+
+Among other files, this should produce *tsem-intergrity.ko*. To load the module
+(until system reboot) run following in the *TSEM/* directory in Quixote source
+tree:
+
+.. code-block:: console
+
+   $ insmod tsem-intergrity.ko
+
+Or 
+
+.. code-block:: console
+
+   $ sudo cp tsem-intergrity.ko /lib/modules/$(uname -r)/extra/
+   $ sudo depmod -a
+   $ sudo modprobe tsem_intergrity
+
+.. warning::
+   Notice the change from ``-`` to ``_`` it's not a typo!
+
+.. warning::
+   To install the loadable module, one must have the exact kernel tree that was
+   used to build the kernel for the monitored system, otherwise, the compiled
+   module (the *ko* file) will be rejected during loading.
+
 Vagrant
 -------
 
@@ -251,7 +296,7 @@ https://github.com/rolandholik/TSEM-vagrant.
 Regarding setting up Vagrant itself, the official documentation should get the
 reader onboard: https://developer.hashicorp.com/vagrant/docs/installation.
 
-At the time of writing, there is issue with Virtualbox 7.1 --- Vagrant treats it
-as unsupported. Following guide should help fixing it:
+At the time of writing, there is an issue with VirtualBox 7.2 --- Vagrant treats
+it as unsupported. The following guide should help resolve it:
 https://github.com/hashicorp/vagrant/issues/13501#issuecomment-2346267062.
 

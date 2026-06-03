@@ -96,6 +96,7 @@ utility.
 On the side of :term:`MQTT` client, we received 823,472 event descriptions.
 
 .. code-block:: console
+
    {"export": {"type": "event"}, "event": {"pid": "213", "tnum": "222",
    "context": "0", "number": "29224", "process": "systemd-udevd", "type":
    "file_open", "ttd": "14", "p_ttd": "14", "task_id":

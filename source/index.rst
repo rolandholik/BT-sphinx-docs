@@ -6,9 +6,9 @@
 Welcome to TSEM guide!
 ======================
 
-This is a guide focuses on getting Trusted Security Event Modeling Linux
-Security Module up and running and illustrates some examples of its possible
-use cases.
+This guide aims to explain the Trusted Security Event Modeling Linux Security
+Module :term:`TSEM` in simple terms, covers its setup, and provides examples of
+how it can be used.
 
 All credit for the software demonstrated in this guide goes to Quixote-Project
 (https://github.com/Quixote-Project) and all the people involved in development
