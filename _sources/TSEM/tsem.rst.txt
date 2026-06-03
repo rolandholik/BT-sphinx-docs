@@ -7,14 +7,13 @@ TSEM
    :maxdepth: 3
 
    tsem_hooks
-   tsem_cp
 
 .. _tsem:
 
-:term:`TSEM` code inside kernel is located in directory ``security/tsem`` in
-Linux source tree.
+:term:`TSEM` kernel code is located in directory ``security/tsem`` in the Linux
+kernel source tree.
 
-It contains following files composing :term:`TSEM` implementation:
+The :term:`TSEM` implementation is composed of the following files:
 
 .. list-table::
    :widths: 15 100
@@ -23,55 +22,52 @@ It contains following files composing :term:`TSEM` implementation:
    - * File
      * Description
    - * ``event.c``
-     * Contains functions that handle population of struct tsem_event --- a
-       structure used to describe security events in :term`TSEM`.
+     * Contains functions that handle population of ``struct tsem_event`` --- a
+       structure used to describe security events in :term:`TSEM`.
    - * ``export.c``
-     * Contains functions used for exporting of *JSON* encoded security events
-       to a external trust orchestrator as well as handling of structures used
-       for caching events of processes running in atomic context.
+     * Contains functions used for exporting *JSON*-encoded security events to
+       an external trust orchestrator and handling structures used for caching
+       events of processes running in atomic context.
    - * ``fs.c``
-     * Contains functions for generation of *JSON* objects that are used to
-       populate events descriptions. It also implements the control plane
-       :term:`TSEM` uses to communicate with :term:`TO`/:term:`TMA`\s.
+     * Contains functions used for generating *JSON* objects that populate event
+       descriptions. It also implements the control plane :term:`TSEM` uses to
+       communicate with :term:`TO`/:term:`TMA`\s.
    - * ``map.c``
-     * This file is part of the internal :term:`TMA` implementation. It provides
-       functions for mapping event characteristics into a security state
-       coefficient and function responsible for generation of TASK_ID in the
-       modeling algorithm used by the :term:`TMA`.
+     * Part of the internal :term:`TMA` implementation. It provides functions
+       for mapping event characteristics into a security state coefficient and
+       function responsible for generating TASK_ID in the modeling algorithm used
+       by the :term:`TMA`.
    - * ``model.c``
-     * This file is part of the internal :term:`TMA` implementation. It
-       implements structures that hold characteristics of events used to create
-       security state coefficients as well as the function responsible for their
-       creation.
+     * Part of the internal :term:`TMA` implementation. It implements structures
+       that hold characteristics of events used to create security state
+       coefficients as well as the function responsible for their creation.
    - * ``model0.c``
-     * This file holds array of function names that are used as :term:`LSM`
-       hooks by :term:`TSEM`.
+     * Defines array of boolean values that define which :term:`LSM` hooks
+       should get handled by :term:`TSEM`.
    - * ``namespace.c``
-     * This file manages subordinate namespaces used by :term:`TSEM`.
+     * Manages subordinate namespaces used by :term:`TSEM`.
    - * ``nsmgr.c``
-     * This file contains functions that handle management of modeling
-       algorithms which can be added as loadable security modules. (Currently no
-       such modeling algorithm is implemented)
+     * Contains functions that handle management of security models which can be
+       added as loadable security modules.
    - * ``nsmgr.h``
-     * This file is header file for the ``nsmgr.c``.
+     * Header file for the ``nsmgr.c``.
    - * ``trust.c``
-     * This file is responsible for working with the :term:`PCR` register used by
+     * Responsible for working with the :term:`PCR` register used by
        :term:`TSEM` for extension of security events. It is also responsible for
        loading the hardware aggregate, generated at system boot time, in
        :term:`PCR` 0-7 to the security namespaces (both internal and external).
    - * ``tsem.c``
-     * This file is the main implementation file that is responsible for
-       initialization of the :term:`TSEM` :term:`LSM`. It holds definition for
-       all the :term:`LSM` hooks that :term:`TSEM` implements and manages their
-       initialization.
+     * The main implementation file that is responsible for initialization of
+       the :term:`TSEM` :term:`LSM`. It holds definition for all the :term:`LSM`
+       hooks that :term:`TSEM` implements and manages their initialization.
    - * ``tsem.h``
-     * This file holds structures and functions used across 2 and more files in
-       the :term:`TSEM` implementation such as :term:`COE` structure and
-       structure holding characteristics of an :term:`TSEM` event as a whole.
+     * Holds structures and functions used in the :term:`TSEM` implementation
+       such as :term:`COE` structure and structure holding characteristics of a
+       :term:`TSEM` event as a whole.
 
 
 .. note::
-   All code mentioned in this document and all its subdocuments is adopted from
+   All code mentioned in this document and all its sub-documents is adopted from
    :term:`TSEM` code base developed by **Quixote Project**
    https://github.com/Quixote-Project.
 
@@ -108,6 +104,8 @@ initialization.
 
        root_context.ops = &tsem_model0_ops;
        root_context.model = &root_model;
+       for (lp = 0; lp <= 255; ++lp)
+           INIT_LIST_HEAD(&root_model.coeff_lists[lp]);
 
        retn = tsem_event_cache_init();
        if (retn)
@@ -151,39 +149,41 @@ initialization.
        return retn;
    }
 
-On lines 5--7, it references settings for root modeling namesapce.
+Lines 5--7 reference structures that hold settings for root modeling namespace.
 
-On lines 9, it starts by checking if structure containing names (``struct
-tsem_names`` located in ``tsem.c``) of hooks implemented by :term:`TSEM` matches
-number of enumerators in enumeration associated enumeration (``enum
-tsem_event_type`` located in ``tsem.h``). This check is importatnt, because the
-enumeration is used across :term:`TSEM` codebase to refer to the names in this
-structure [#]_.
+Line 9 checks if structure containing names (``struct tsem_names`` located in
+``tsem.c``) of hooks implemented by :term:`TSEM` matches number of enumerators
+in the associated enumeration (``enum tsem_event_type`` located in ``tsem.h``).
+This check is important, as the enumeration is used throughout :term:`TSEM`
+codebase to refer to the names in this structure [#]_.
 
-On line 11, it initializes :term:`TSEM`\s security hooks.
+Line 11 initializes :term:`TSEM`\s security hooks.
 
-On lines 13--15, it initializes kernel reference counter for ``struct
-tsem_context``. This tracks number of ``tsem_task`` structures that reference
-the structure in its attributes. The ``struct tsem_context`` holds information
-about state of the root namespace.
-
-On lines 17--21, it initializes lists that hold inodes and mounts created in the
+Lines 13--15 initialize kernel reference counter for ``struct tsem_context`` and
+acquire additional reference for the current task. This counter tracks the
+number of ``tsem_task`` structures that reference the structure in their
+attributes. The ``struct tsem_context`` holds information about state of the
 root namespace.
 
-On lines 22--23, it initializes events that get modeled by the kernel
-:term:``TMA`` and sets root model for context of root modeling namespace.
+Lines 17--21, initialize lists that track inodes and mount points associated
+with the root namespace.
 
-On lines 26--38, it sets up caches for storing event structures --- all
-generated, atomic context in root :term:`TMA` and atomic context for external
-:term:`TMA`.
+Lines 23--24 configure the root namespace to use the default :term:`TSEM` model
+implementation and associate the root context with the root model.
 
-On line 41, it sets array of actions for each event implemented by :term:`TSEM`.
+Lines 25--26 initialize the hash table buckets used to store security
+coefficient lists generated by the internal :term:`TMA`.
 
-On lines 43--52, it sets scope of :term:`TSEM` modeling. It can be set by
+Lines 28--40 initialize caches used for efficient ``struct tsem_event``
+allocation, model-specific event allocation, and event export handling.
+
+Line 43 copies the default action configuration into the root namespace context.
+
+Lines 45--54 set the scope of :term:`TSEM` modeling. It can be set by
 ``tsem_mode=`` kernel boot parameter. It's set to "FULL_MODELING" by default.
 
-On lines 54--58, it prints kernel info message about the :term:`LSM` being
-initialized, marks the root namespace as trusted and exits.
+Lines 56--60 print kernel information message indicating :term:`LSM`
+initialization, mark the current task as trusted and complete initialization.
 
 
 .. [#] Even thought it might seem so at first glance, not all hooks have
@@ -230,24 +230,23 @@ amongst the last init functions in kernel initialization phase.
 
    late_initcall(set_ready);
 
-On line 5, it checks if the ``tsem_init()`` function executed correctly.
+Line 5 checks if the ``tsem_init()`` function executed correctly.
 
-On line 8, it configures digest used by the root namespace, defaulting to
-sha256, one can define other digest using ``tsem_digest`` kernel command line
-parameter.
+Line 8 configures the digest used by the root namespace, defaulting to sha256.
+One can define other digest using ``tsem_digest`` kernel command line parameter.
 
-On line 12, it initializes aggregate value, calculated over :term:`TPM`
-registers 0--7, for internal namespaces (if :term:`TPM` is present of course).
+Line 12 initializes aggregate value, calculated over :term:`TPM` registers 0--7,
+for internal namespaces (if :term:`TPM` is present of course).
 
-On line 16, it initializes pseudo-filesystem used by :term:`TSEM` ---
-:ref:`control plane <h_control_plane>`.
+Line 16 initializes pseudo-filesystem used by :term:`TSEM` --- :ref:`control
+plane <h_control_plane>`.
 
-On lines 20-24, it sets up root namespace that handles exporting of events
-generated in the namespace it the ``tsem_mode`` kernel command line parameter
-was set to ``ROOT_EXPORT_ONLY``.
+Lines 20-24 sets up root namespace that handles exporting of events generated in
+the namespace if the ``tsem_mode`` kernel command line parameter was set to
+``ROOT_EXPORT_ONLY``.
 
-On lines 26-27, it prints info kernel message decalring :term:`TSEM` active and
-disables static branch ``tsem_not_ready`` (used by some hooks that might get
+Lines 26-27 print info kernel message indicating that :term:`TSEM` is active and
+disable static branch ``tsem_not_ready`` (used by some hooks that might get
 called before this point).
 
 Line 33 is not part of the function, it just emphasizes that it is executed
@@ -402,7 +401,7 @@ See tree listing of the directory below:
    /sys/kernel/security/tsem
    ├── aggregate
    ├── control
-   ├── external_tma/
+   ├── export
    ├── id
    └── internal_tma/
        └── model0/
@@ -415,9 +414,9 @@ See tree listing of the directory below:
            ├── trajectory_coefficients
            └── trajectory_counts
    
-   3 directories, 11 files
+   2 directories, 12 files
 
-Each of the 11 files responds in context of the namespace, the accessing process
+Each of the 12 files responds in context of the namespace, the accessing process
 is assigned to. This means multiple :term:`TO`\s might run at once and even
 though they write and read from the same files each communicates :term:`TMA`
 that manages their corresponding modeling namespace.
@@ -429,18 +428,12 @@ that manages their corresponding modeling namespace.
 
    - * Directory
      * Description
-   - * ``external_tma/``
-     * When exporting events from root security modeling namespace, or when
-       modeling in external seubordinate modeling namespace, the files that
-       emerge here are used for reading of security events. Their names are
-       numbers starting from 1 (0 is reserved for root namespace) based on order
-       in which the namespaces are created.
    - * ``internal_tma``
-     * Holds subdirectories which represent external :term:`TMA`\s implemented
+     * Holds subdirectories which internal external :term:`TMA`\s implemented
        in the kernel. Currently, there is only one --- model0.
    - * ``model0``
      * Holds files used for exporting events and security state coefficients for
-       the "model0" kernel based :term:`TMA`.
+       the "model0" kernel-based :term:`TMA`.
 
 
 .. list-table::
@@ -449,47 +442,45 @@ that manages their corresponding modeling namespace.
 
    - * File
      * Description
+   - * ``export``
+     * Used by userspace utilities to read *JSON*-formated events.
    - * ``aggregate``
-     * Used by :term:`TO`\s to acquire aggregate value calculated by extension
-       of :term:`PCR`\s 0--7. This value can be seen, for example, on the first
-       line of security map generated when saving a map of security state
-       coefficientsusing ``quixote`` with ``-m`` command line option.
+     * Used by :term:`TO`\s to acquire the aggregate value calculated by
+       extending of :term:`PCR`\s 0--7. This value can be seen, for example, on
+       the first line of a security map generated when saving a map of security
+       state coefficients using ``quixote`` with ``-m`` command line option.
    - * ``control``
      * Used by :term:`TO`\s to create and control security modeling namespaces
-       writing control commands and reading from the file.
+       by writing control commands to and reading from the file.
    - * ``id``
-     * When read outputs id number of the security namesapce, the orchestrato is
-       operating in.
+     * Used to read the *id* number of the security namespace, in which the
+       orchestrator is operating.
    - * ``forensics``
-     * Used to read set of *JSON* formated event descriptions, that violate
-       currently security map according to wich the :term:`TMA` is modeling,
-       from the only currently implemented kernel based :term:`TMA` "model0".
+     * Used to read a set of *JSON*-formatted event descriptions from the
+       reading process's namespace. These descriptions detail violations of the
+       current security map.
    - * ``forensic_coefficients``
-     * Used to read set of security state coefficients, that violate currently
-       security map according to wich the :term:`TMA` is modeling, from the only
-       currently implemented kernel based :term:`TMA` "model0".
+     * Used to read the set of security state coefficients, that violate the
+       current security map according to which the :term:`TMA` is modeling. The
+       coefficients correspond to the namespace of the process reading the file.
    - * ``forensic_counts``
-     * Used to read count of events, that violate currently security map
-       according to wich the :term:`TMA` is modeling, from the only currently
-       implemented kernel based :term:`TMA` "model0".
+     * Used to read the linear extension of all security state coefficients
+       generated up to that point, by the namespace of the process reading the
+       file.
    - * ``measurement``
-     * Used to read linear extension of all security state coefficients
-       generated up to that point, by the only currently implemented kernel
-       based :term:`TMA` "model0". If read from root modeling namespace, the
-       measurement is extended into a :term:`TPM` :term:`PCR`.
+     * Used to read the linear extension of all security state coefficients
+       generated up to that point by the namespace of the process reading the
+       file.
    - * ``state``
-     * Used to read security state coefficient the namespace is currently in,
-       from the only currently implemented kernel based :term:`TMA` "model0". 
+     * Used to read the security‑state coefficient the namespace is currently
+       in.
    - * ``trajectory``
-     * Used to read set of *JSON* formated security events generated by the
-       namespace modeled by only currently implemented kernel based :term:`TMA`
-       "model0".
+     * Used to read the set of *JSON*-formatted security events generated by the
+       namespace.
    - * ``trajectory_coefficients``
-     * Used to read set of security state coefficients generated by the
-       namespace modeled by only currently implemented kernel based :term:`TMA`
-       "model0".
+     * Used to read the set of security state coefficients generated by the
+       namespace of the process reading the file.
    - * ``trajectory_counts``
-     * Used to read count of security events generated by the namespace modeled
-       by only currently implemented kernel based :term:`TMA` "model0".
-
+     * Used to read the counts of individual security events generated by the
+       namespace of the process reading the file.
 

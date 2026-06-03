@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Process mode" href="process_mode.html" /><link rel="prev" title="quixote-console" href="../Quixote/quixote_console.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Process mode" href="process_mode.html" /><link rel="prev" title="quixote-inject" href="../Quixote/quixote_inject.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>Quixote experiments - TSEM guide 0.1 documentation</title>
@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Quixote experiments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -267,25 +274,22 @@
 </div>
 <section id="id2">
 <h2>Quixote experiments<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
-<p>This section showcases our experiments in following <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> modes:</p>
+<p>This section showcases our experiments in the following <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> modes:</p>
 <section id="process-mode">
 <h3>Process mode<a class="headerlink" href="#process-mode" title="Link to this heading">¶</a></h3>
 <p>See <a class="reference internal" href="process_mode.html#id1"><span class="std std-ref">Process mode</span></a>.</p>
 </section>
 <section id="container-mode">
 <h3>Container mode<a class="headerlink" href="#container-mode" title="Link to this heading">¶</a></h3>
-<p>See <a class="reference internal" href="container_mode.html#id1"><span class="std std-ref">Container mode</span></a>.</p>
-</section>
-<section id="execute-mode">
-<h3>Execute mode<a class="headerlink" href="#execute-mode" title="Link to this heading">¶</a></h3>
-<p>See <a class="reference internal" href="execute_mode.html#id1"><span class="std std-ref">Execute mode</span></a>.</p>
+<p>See <a class="reference internal" href="container_debian.html#container-debian"><span class="std std-ref">Container mode - Debian</span></a>.
+See <a class="reference internal" href="container_httpd.html#container-httpd"><span class="std std-ref">Container mode - HTTPD (Apache web server)</span></a>.</p>
 </section>
 <section id="export-mode-quixote-export">
 <h3>Export mode (<code class="docutils literal notranslate"><span class="pre">quixote_export</span></code>)<a class="headerlink" href="#export-mode-quixote-export" title="Link to this heading">¶</a></h3>
 <p>See <a class="reference internal" href="export_mode.html#id1"><span class="std std-ref">Export mode</span></a>.</p>
 <p>All our experiments were conducted on Ubuntu 22.04 installed in a VirtualBox
-virtual machine. Quixote repository on commit 060cc9b and TSEM repository on
-commit 8da9f53.</p>
+virtual machine. Quixote repository on commit 64775bb and <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
+repository on commit 8da9f53.</p>
 </section>
 </section>
 </section>
@@ -304,14 +308,14 @@ commit 8da9f53.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../Quixote/quixote_console.html">
+          <a class="prev-page" href="../Quixote/quixote_inject.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">quixote-console</div>
+                <div class="title">quixote-inject</div>
                 
               </div>
             </a>
@@ -319,7 +323,7 @@ commit 8da9f53.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -349,7 +353,6 @@ commit 8da9f53.</p>
 <li><a class="reference internal" href="#id2">Quixote experiments</a><ul>
 <li><a class="reference internal" href="#process-mode">Process mode</a></li>
 <li><a class="reference internal" href="#container-mode">Container mode</a></li>
-<li><a class="reference internal" href="#execute-mode">Execute mode</a></li>
 <li><a class="reference internal" href="#export-mode-quixote-export">Export mode (<code class="docutils literal notranslate"><span class="pre">quixote_export</span></code>)</a></li>
 </ul>
 </li>

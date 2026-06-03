@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -265,32 +272,51 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
 <section id="about">
 <span id="id1"></span><h2>About<a class="headerlink" href="#about" title="Link to this heading">¶</a></h2>
-<p>This Guide came to light as supporting documentation to my bachelors thesis,
+<p>This guide came to light as supporting documentation to my bachelor’s thesis,
 documenting my exploration of at the time of writing newly proposed Linux
 Security Module (<a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>) called Trusted Security Event Modeling (or rather
-<strong>TSEM</strong>, yeah, the full name is quite mouthful :)). It’s supposed to give the
-reader better understanding of what <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is and how to use it.</p>
-<p><a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> comes with documentation of its own, but it can be quite daunting
-for newcomers and people, who just want to get their hands dirty or try to
-quickly grasp the basic principles of the LSM. Here I’m providing a view of TSEM
-through eyes of a undergraduate student (me).</p>
+<strong>TSEM</strong>. It’s supposed to give the reader better understanding of what
+<a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is and how to use it.</p>
+<p><a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> comes with documentation of its own, which explains mostly the
+theory behind the <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. Therefore it can be quite daunting for newcomers
+and people, who just want to get their hands dirty or try to quickly grasp the
+basic principles of the <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. In this documentation, I’m hoping to
+provide a more “hands on” overview of <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>, through eyes of a
+undergraduate computer science student (me).</p>
 </section>
 <section id="trusted-security-event-modeling-tsem">
 <h2>Trusted Security Event Modeling – TSEM<a class="headerlink" href="#trusted-security-event-modeling-tsem" title="Link to this heading">¶</a></h2>
-<p>TSEM is a newly proposed Linux Security Module. What makes it different when
-compared to other <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s is that it uses models based on desired
+<p><a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is a newly proposed Linux Security Module. What makes it different
+when compared to other <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>s is that it uses models based on desired
 behaviour of the system rather than manually defined policies. <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
 isn’t capable of access control on its own. It’s meant to interact with a Trust
-Orchestrator (<a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a>) that is implemented as a standalone program.
-<a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a> handles the modeling part as well as enforcing of the model.
-Currently there is only one such program available made by the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
-developers themselves — <strong>Quixote</strong>.</p>
+Orchestrator (<a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a>) that is implemented as a standalone program and a
+Trusted Modeling Agent (<a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>).</p>
+<p><a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> represents the root of trust of the modeling in <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>. It
+implements the modeling algorithm, models security events and decides on model
+(policy) violation. Currently there are 2 types of <a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s available,
+internal (implemented in kernel space) and external (implemented in user space).</p>
+<p><a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a> handles coordination between userspace interrogation utilities and
+<a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> (creating namespaces, loading workload models, exporting policy
+relevant data). Currently there is one set of such utilities available made by
+the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> developers — <strong>Quixote</strong>. The notion of TSEM is meant to also
+support more complicated modeling approaches such as machine learning models.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> — said in very simple terms — is more of a
+framework than an actual <a class="reference internal" href="glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. This means it can be used as, for
+example, an <a class="reference internal" href="glossary.html#term-HIDS"><span class="xref std std-term">HIDS</span></a>, if such functionality gets implemented in a
+userspace program.</p>
+</div>
 </section>
 <section id="quixote">
 <h2>Quixote<a class="headerlink" href="#quixote" title="Link to this heading">¶</a></h2>
-<p>Quixote represents a relatively simplistic approach to security modeling as it
-uses implements deterministic modeling. Quixote <a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a> needs a <a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.
-Quixote comes in 6 different implementations:</p>
+<p>Quixote utilities are the userspace <a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s for <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>. Its current
+utilities help implement relatively simple deterministic security models through
+<a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>. Within the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> architecture, each <a class="reference internal" href="glossary.html#term-TO"><span class="xref std std-term">TO</span></a> is paired
+with a <a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> that implements the security modeling algorithm and root of
+trust. Quixote github repository currently provides six different <a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
+implementations:</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>quixote           (<a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> in kernel)</p></li>
@@ -302,13 +328,11 @@ Quixote comes in 6 different implementations:</p>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>There are also quixote-export quixote-console wich come with no
+<p>There are also quixote-export quixote-console which come with no
 <a class="reference internal" href="glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> as they serves only for purposes of security event exporting
 and workload monitoring respectively.</p>
 </div>
 </div></blockquote>
-<p>The notion of TSEM is also meant to support more complicated modeling approaches
-such as machine learning models.</p>
 </section>
 </section>
 
@@ -341,7 +365,7 @@ such as machine learning models.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

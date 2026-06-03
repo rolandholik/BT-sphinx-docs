@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Container mode" href="container_mode.html" /><link rel="prev" title="Quixote experiments" href="overview.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Container mode - Debian" href="container_debian.html" /><link rel="prev" title="Quixote experiments" href="overview.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>Process mode - TSEM guide 0.1 documentation</title>
@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="overview.html">Quixote experiments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -263,52 +270,31 @@
         <article role="main" id="furo-main-content">
           <section id="process-mode">
 <h1>Process mode<a class="headerlink" href="#process-mode" title="Link to this heading">¶</a></h1>
-<p id="id1">Just for comparison, we tried to replicate the example from official
-documentation: <a class="reference external" href="https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst">https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst</a>.</p>
-<p>We started by creating the model.</p>
+<p id="id1">Our experiment was inspired by the example from official documentation:
+<a class="reference external" href="https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst">https://github.com/Quixote-Project/TSEM/blob/TSEM-6.12/Documentation/admin-guide/LSM/tsem.rst</a>.
+We used 2 terminals, first (Terminal n.1) for running the workload and second
+(Terminal n.2) for its interrogation. All models end trajectories generated
+during the experiments can be downloaded by clicking on the redirect links.</p>
+<p>We started by creating the security map.</p>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
 </pre></div>
+</div>
 </div>
 <p>Then we inspected its trajectory in a second terminal session using
 <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code>.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">quixote-console -w test -T</span>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-T<span class="w"> </span>&gt;<span class="w"> </span>saved.file
 </pre></div>
 </div>
-<p>We got the output with the generated events:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;: &quot;1&quot;, &quot;process&quot;: &quot;quixote&quot;, &quot;type&quot;:</span>
-<span class="go">&quot;capable&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;: &quot;2257&quot;, &quot;task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
-<span class="go">&quot;p_task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
-<span class="go">&quot;680001&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
-<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
-<span class="go">&quot;capable&quot;: {&quot;cap&quot;: &quot;8&quot;, &quot;opts&quot;: &quot;0&quot;}} {&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;:</span>
-<span class="go">&quot;2&quot;, &quot;process&quot;: &quot;quixote&quot;, &quot;type&quot;: &quot;task_prctl&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;:</span>
-<span class="go">&quot;2257&quot;, &quot;task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
-<span class="go">&quot;p_task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
-<span class="go">&quot;721570&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
-<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
-<span class="go">&quot;task_prctl&quot;: {&quot;option&quot;: &quot;24&quot;, &quot;arg2&quot;: &quot;33&quot;, &quot;arg3&quot;: &quot;0&quot;, &quot;arg4&quot;: &quot;0&quot;,</span>
-<span class="go">&quot;arg5&quot;: &quot;0&quot;}} {&quot;event&quot;: {&quot;context&quot;: &quot;3&quot;, &quot;number&quot;: &quot;3&quot;, &quot;process&quot;: &quot;quixote&quot;,</span>
-<span class="go">&quot;type&quot;: &quot;file_open&quot;, &quot;ttd&quot;: &quot;2257&quot;, &quot;p_ttd&quot;: &quot;2257&quot;, &quot;task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
-<span class="go">&quot;p_task_id&quot;:</span>
-<span class="go">&quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;, &quot;ts&quot;:</span>
-<span class="go">&quot;869603&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;egid&quot;:</span>
-<span class="go">&quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;: &quot;0x1ffffffffff&quot;},</span>
-<span class="go">&quot;file_open&quot;: {&quot;file&quot;: {&quot;flags&quot;: &quot;32800&quot;, &quot;inode&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;,</span>
-<span class="go">&quot;mode&quot;: &quot;0100755&quot;, &quot;s_magic&quot;: &quot;0xef53&quot;, &quot;s_id&quot;: &quot;sda3&quot;, &quot;s_uuid&quot;:</span>
-<span class="go">&quot;e896110b42b24dbca89c7caa36961685&quot;}, &quot;path&quot;: {&quot;dev&quot;: {&quot;major&quot;: &quot;8&quot;, &quot;minor&quot;:</span>
-<span class="go">&quot;3&quot;}, &quot;type&quot;: &quot;root&quot;, &quot;pathname&quot;: &quot;/usr/bin/bash&quot;}, &quot;digest&quot;:</span>
-<span class="go">&quot;59474588a312b6b6e73e5a42a59bf71e62b55416b6c9d5e4a6e1c630c2a9ecd4&quot;}}}</span>
-<span class="go">...</span>
-<span class="go">...</span>
-<span class="go">...</span>
-</pre></div>
 </div>
+<p>The output showed, that the workload generated unique 155 security events.</p>
+<p><a class="reference download internal" download="" href="../_downloads/a2a432bdf926e0a97f2432f39df791c4/process_1.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">trajectory</span></code></a></p>
 <p>We executed <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">rocinante</span> <span class="pre">/etc/passwd</span></code> and exited the shell:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id4" title="Link to this code">¶</a></div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
 <span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
 <span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
@@ -316,35 +302,45 @@ documentation: <a class="reference external" href="https://github.com/Quixote-Pr
 <span class="go">exit</span>
 <span class="go">Wrote security model to: test.model</span>
 </pre></div>
+</div>
 </div>
 <p>The model for our workload got saved into <code class="docutils literal notranslate"><span class="pre">test.model</span></code>.</p>
-<p>Then we tired to enforce the model and got the following permission denial:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<p><a class="reference download internal" download="" href="../_downloads/26f7abe12b10c328f1ff38708a819cd5/test.model"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>Then we tired to enforce the model.</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id5" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
 <span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
 <span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
-<span class="gp">#</span>
-<span class="go">exit</span>
-<span class="go">Wrote security model to: test.model</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="gp"># </span>cat<span class="w"> </span>/etc/passwd
 <span class="go">bash: fork: Operation not permitted</span>
 <span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
 <span class="go">bash: fork: Operation not permitted</span>
 </pre></div>
 </div>
-<p>We tired to examine, what went wrong using <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> and got the
-following output:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-F<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+</div>
+<p>The model worked as long as we held to the modeled <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">rocinante</span>
+<span class="pre">/etc/passwd</span></code> command. When we tried to print contents of <em>etc/passwd</em> using
+<code class="docutils literal notranslate"><span class="pre">cat</span></code>, we got our first permission denial — <em>bash: fork: Operation not
+permitted</em>. The same denial occurred even when running the previously allowed
+<code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">/etc/passwd</span></code> again.</p>
+<p>We tired to examine the security violations using <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> and got
+the following output:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id6" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+<span class="gp"># </span>cat<span class="w"> </span>saved.file
 <span class="go">{</span>
 <span class="go">  &quot;event&quot;: {</span>
-<span class="go">    &quot;context&quot;: &quot;5&quot;,</span>
-<span class="go">    &quot;number&quot;: &quot;86&quot;,</span>
+<span class="go">    &quot;context&quot;: &quot;2&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;299&quot;,</span>
 <span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
-<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
-<span class="go">    &quot;ttd&quot;: &quot;2572&quot;,</span>
-<span class="go">    &quot;p_ttd&quot;: &quot;2571&quot;,</span>
-<span class="go">    &quot;task_id&quot;: &quot;a19fd658e8d728107045f0f9f6546e9bbe2de4aa19d24095053c93ad4df6792f&quot;,</span>
-<span class="go">    &quot;p_task_id&quot;: &quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
-<span class="go">    &quot;ts&quot;: &quot;153958885&quot;</span>
+<span class="go">    &quot;type&quot;: &quot;inode_getattr&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;1104&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1103&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;251712378776&quot;</span>
 <span class="go">  },</span>
 <span class="go">  &quot;COE&quot;: {</span>
 <span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
@@ -357,13 +353,12 @@ following output:</p>
 <span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
 <span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
 <span class="go">  },</span>
-<span class="go">  &quot;file_open&quot;: {</span>
-<span class="go">    &quot;file&quot;: {</span>
-<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">  &quot;inode_getattr&quot;: {</span>
+<span class="go">    &quot;path&quot;: {</span>
 <span class="go">      &quot;inode&quot;: {</span>
 <span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
 <span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
-<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100755&quot;,</span>
 <span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
 <span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
 <span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
@@ -374,23 +369,22 @@ following output:</p>
 <span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
 <span class="go">        },</span>
 <span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
-<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
-<span class="go">      },</span>
-<span class="go">      &quot;digest&quot;: &quot;948b402ade828c471fefce85e9ad4d51e3e6fe9402f5bbbbd4d9b2e09f375473&quot;</span>
+<span class="go">        &quot;pathname&quot;: &quot;/usr/bin/cat&quot;</span>
+<span class="go">      }</span>
 <span class="go">    }</span>
 <span class="go">  }</span>
 <span class="go">}</span>
 <span class="go">{</span>
 <span class="go">  &quot;event&quot;: {</span>
-<span class="go">    &quot;context&quot;: &quot;5&quot;,</span>
-<span class="go">    &quot;number&quot;: &quot;89&quot;,</span>
+<span class="go">    &quot;context&quot;: &quot;2&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;304&quot;,</span>
 <span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
 <span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
-<span class="go">    &quot;ttd&quot;: &quot;2572&quot;,</span>
-<span class="go">    &quot;p_ttd&quot;: &quot;2571&quot;,</span>
-<span class="go">    &quot;task_id&quot;: &quot;a19fd658e8d728107045f0f9f6546e9bbe2de4aa19d24095053c93ad4df6792f&quot;,</span>
-<span class="go">    &quot;p_task_id&quot;: &quot;647110c3e238dca7ec813f0998fa58cd91c2a60d8e19f5bbe048f9566f1cb189&quot;,</span>
-<span class="go">    &quot;ts&quot;: &quot;154265146&quot;</span>
+<span class="go">    &quot;ttd&quot;: &quot;1104&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1103&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;251712533564&quot;</span>
 <span class="go">  },</span>
 <span class="go">  &quot;COE&quot;: {</span>
 <span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
@@ -428,55 +422,468 @@ following output:</p>
 <span class="go">}</span>
 </pre></div>
 </div>
-<p>This indicates that, the denial was caused by <code class="docutils literal notranslate"><span class="pre">bash</span></code> process interacting
-with <code class="docutils literal notranslate"><span class="pre">/root/.bash_hostory</span></code> and <code class="docutils literal notranslate"><span class="pre">/etc/locale.alias</span></code>.</p>
-<p>We tried to backpropagate the events.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>test.model
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/49cf010ac0b72d7e6c889709c168e921/process_2.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>The output depicts the denied <code class="docutils literal notranslate"><span class="pre">cat</span></code> executable and an event likely generated
+by cat when trying to read locale configuration.</p>
+<p>After exiting the shell and running the enforced model again, we got the denial
+<code class="docutils literal notranslate"><span class="pre">bash:</span> <span class="pre">fork:</span> <span class="pre">Operation</span> <span class="pre">not</span> <span class="pre">permitted</span></code> right after launch.</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id7" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
 </pre></div>
 </div>
-<p>And re-ran the workload:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+</div>
+<p>And the following violations got generated:</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id8" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+<span class="gp"># </span>cat<span class="w"> </span>saved.file
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;14&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;88&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;1267&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1266&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;36940888&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;7eb7770e5e25a62f3fa7c3c7185a7c5780803470e9c46ab401e7e57f95f85ffe&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;14&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;91&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;1267&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1266&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;37068610&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100644&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/etc/locale.alias&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;8138bbaea6a31dbcd47cca87d5f0a30980d352888374ec894f6dae473b215bde&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/0a8dced83327cd9e247d1fc1b751ea27/process_3.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>Now the issue seems to be <em>.bash_history</em> that got updated with last commands
+after closing the shell in the Terminal n.1.</p>
+<p>So we tried to backpropagate the violations to the original security map:</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id9" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>test.model.up
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/8ce2bb862d74d8074f85a475e4836e76/test.model.up"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>And relaunched the modeled workload.</p>
+<div class="literal-block-wrapper docutils container" id="id10">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id10" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up<span class="w"> </span>-e
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp"># </span>grep<span class="w"> </span>deCervantes<span class="w"> </span>/etc/hosts
+<span class="go">grep: /etc/hosts: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp"># </span>grep<span class="w"> </span>ext4<span class="w"> </span>/etc/fstab
+<span class="go">grep: /etc/fstab: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp"># </span>cat<span class="w"> </span>/etc/passwd
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">grep rocinante /etc/passwd</span>
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>The model worked again. When executing <code class="docutils literal notranslate"><span class="pre">grep</span></code> the paths that were not part
+of the security map got denied, but <code class="docutils literal notranslate"><span class="pre">grep</span> <span class="pre">/etc/passwd</span></code> was still permitted.
+Then we tired to <code class="docutils literal notranslate"><span class="pre">cat</span> <span class="pre">/etc/passwd</span></code> again and got 5 violations.</p>
+<div class="literal-block-wrapper docutils container" id="id11">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id11" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/f7d20cfeb1fdd547cd345271c79a9595/process_4.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>The violations include all the paths we tried to grep, but for some reason, also
+the <code class="docutils literal notranslate"><span class="pre">cat</span></code> binary again.</p>
+<p>Before exiting the workload shell, we saved the model with the violations
+backpropagated.</p>
+<div class="literal-block-wrapper docutils container" id="id12">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id12" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-M<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>test.model.up2
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/ae4a7f09d2e74d88aa4a22088877e703/test.model.up2"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>And relaunched the modeled workload.</p>
+<div class="literal-block-wrapper docutils container" id="id13">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id13" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model.up
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>Firstly, without the latest 5 violations, then with the 5 violations backpropagated.</p>
+<div class="literal-block-wrapper docutils container" id="id14">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id14" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up2<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>Interestingly, the modeled workload without the backpropagated violations worked
+and the model with the violations backpropagated didn’t. Running the
+backpropagated model, we got 1 violation, that we saved into a file.</p>
+<div class="literal-block-wrapper docutils container" id="id15">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id15" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+<span class="gp"># </span>cat<span class="w"> </span>saved.file
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;17&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;88&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;1369&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1368&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;36988407&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;513aa9615c7c57e37308d750282423d829d76c698b462b661c4e3191a2d631e6&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/4563c0c193343b04cc080cfb8bddbaf4/process_5.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>Since the violation is the accessing of the <em>.bash_history</em> again. This seems
+to be the right time to utilize the pseudonym functionality of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p>
+<div class="literal-block-wrapper docutils container" id="id16">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id16" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>generate-pseudonym<span class="w"> </span>-i<span class="w"> </span>-T<span class="w"> </span>saved.file
+<span class="go">pseudonym 17a0dce53b9018e2559b9180c5434668a0dfde6ca4e7010ad02821eb6418fa37</span>
+<span class="gp"># </span>cp<span class="w"> </span>test.model.up2<span class="w"> </span>test.model.up2p
+<span class="gp"># </span>vim<span class="w"> </span>test.model.up2p
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/af133e01959ad1c70b497551ea21a374/test.model.up2p"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>We re-ran the modeled workload.</p>
+<div class="literal-block-wrapper docutils container" id="id17">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id17" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up2p<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>We were met with the same violation. Note, that even the digest of the files is
+the same.</p>
+<div class="literal-block-wrapper docutils container" id="id18">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id18" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+<span class="gp"># </span>cat.saved.file
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;17&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;88&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;1369&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;1368&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;36988407&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;513aa9615c7c57e37308d750282423d829d76c698b462b661c4e3191a2d631e6&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/4fd4107ebf4a66bf0f2c0c0e0286c80a/process_6.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>We tried to backpropagate again before exit.</p>
+<div class="literal-block-wrapper docutils container" id="id19">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id19" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M<span class="w"> </span>-u<span class="w"> </span>&gt;<span class="w"> </span>test.model.up2p2
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>We appended the pseudonym to the model again.</p>
+<p><a class="reference download internal" download="" href="../_downloads/60993682d78e8c2ef33c705ce00c5d64/test.model.up2p2"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>Then we re-ran the workload with the updated security map.</p>
+<div class="literal-block-wrapper docutils container" id="id20">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id20" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up2p2<span class="w"> </span>-e
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>It seemed to have worked.</p>
+<p>We re-ran the modeled workload with the updated model again.</p>
+<div class="literal-block-wrapper docutils container" id="id21">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id21" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up2p2<span class="w"> </span>-e
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp"># </span>grep<span class="w"> </span>ext4<span class="w"> </span>/etc/fstab
+<span class="go">UUID=e896110b-42b2-4dbc-a89c-7caa36961685 /               ext4    errors=remount-ro 0</span>
+<span class="gp"># </span>grep<span class="w"> </span>deCervantes<span class="w"> </span>/etc/hosts
+<span class="go">127.0.1.1    deCervantes</span>
+<span class="gp"># </span>cat<span class="w"> </span>/etc/passwd
+<span class="go">bash: /usr/bin/cat: Operation not permitted</span>
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp"># </span>cat<span class="w"> </span>/etc/shadow
+<span class="go">bash: /usr/bin/cat: Operation not permitted</span>
 <span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
 <span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
 <span class="gp">#</span>
 <span class="go">exit</span>
-<span class="go">Wrote security model to: test.model</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
-<span class="go">bash: fork: Operation not permitted</span>
-<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
-<span class="go">bash: fork: Operation not permitted</span>
-<span class="go">exit</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
-<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
 </pre></div>
 </div>
-<p>We were yet again met with permission denial. Therefore we tried to generate
-pseudonym for the paths and appended them to the <code class="docutils literal notranslate"><span class="pre">test.model</span></code> file.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>generate-pseudonym<span class="w"> </span>-P<span class="w"> </span>-i<span class="w"> </span>/etc/locale.alias
-<span class="gp"># </span>pseudonym<span class="w"> </span>e3436cf59b887299c3ab9ae0cd6e3106a457955a8fb22c85ec02005e86f125b9
-<span class="gp"># </span>generate-pseudonym<span class="w"> </span>-i<span class="w"> </span>-P<span class="w"> </span>/root/.bash_hostory
-<span class="gp"># </span>pseudonym<span class="w"> </span>afa1b7a0a3a9da80f7ebad6263798506b6b88bb3410510ac3425c96cc87dcaf3
-</pre></div>
 </div>
-<p>Then we tried to enforce the model again.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-o<span class="w"> </span>test.model
+<p>Re-run once again.</p>
+<div class="literal-block-wrapper docutils container" id="id22">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id22" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up2p2<span class="w"> </span>-e
 <span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
 <span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
 <span class="gp">#</span>
 <span class="go">exit</span>
-<span class="go">Wrote security model to: test.model</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
-<span class="go">bash: fork: Operation not permitted</span>
-<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
-<span class="go">bash: fork: Operation not permitted</span>
-<span class="go">exit</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
-<span class="go">bash: fork: Operation not permitted</span>
-<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model<span class="w"> </span>-e
-<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
 </pre></div>
 </div>
-<p>We were again faced with permission denial.</p>
+</div>
+<p>We tried to re-ran the modeled workload without the pseudonym.</p>
+<div class="literal-block-wrapper docutils container" id="id23">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id23" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up3<span class="w"> </span>-e
+<span class="gp"># </span>grep<span class="w"> </span>rocinante<span class="w"> </span>/etc/passwd
+<span class="go">rocinante:x:1000:1000:rocinante,,,:/home/rocinante:/bin/bash</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/0a8604279131f31abd38a657eeae8743/test.model.up3"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">model</span></code></a></p>
+<p>The model started correctly. The pseudonym doesn’t seem to have helped.</p>
+<p>Our terminal glitched out, so we had to drop from the <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">su</span></code> environment
+and go back. Then we re-ran the workload.</p>
+<div class="literal-block-wrapper docutils container" id="id24">
+<div class="code-block-caption"><span class="caption-text">Terminal n.1</span><a class="headerlink" href="#id24" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>su
+<span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-m<span class="w"> </span>test.model.up3<span class="w"> </span>-e
+<span class="go">bash: fork: Operation not permitted</span>
+<span class="gp">#</span>
+</pre></div>
+</div>
+</div>
+<p>We got denial. So we inspected the violation.</p>
+<div class="literal-block-wrapper docutils container" id="id25">
+<div class="code-block-caption"><span class="caption-text">Terminal n.2</span><a class="headerlink" href="#id25" title="Link to this code">¶</a></div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-F<span class="w"> </span>&gt;<span class="w"> </span>saved.file
+<span class="gp"># </span>cat<span class="w"> </span>saved.file
+<span class="go">{</span>
+<span class="go">  &quot;event&quot;: {</span>
+<span class="go">    &quot;context&quot;: &quot;32&quot;,</span>
+<span class="go">    &quot;number&quot;: &quot;88&quot;,</span>
+<span class="go">    &quot;process&quot;: &quot;bash&quot;,</span>
+<span class="go">    &quot;type&quot;: &quot;file_open&quot;,</span>
+<span class="go">    &quot;ttd&quot;: &quot;2057&quot;,</span>
+<span class="go">    &quot;p_ttd&quot;: &quot;2056&quot;,</span>
+<span class="go">    &quot;task_id&quot;: &quot;094e29687d185cf4eaa48ddebfcda205465ad78df543e361621ea0acf2d4f986&quot;,</span>
+<span class="go">    &quot;p_task_id&quot;: &quot;8b4453f1259f134be62e96853362c8e11698b01063e91527a26c8c8ecad55cfb&quot;,</span>
+<span class="go">    &quot;ts&quot;: &quot;35510019&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;COE&quot;: {</span>
+<span class="go">    &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;euid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;suid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;egid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;sgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsuid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;fsgid&quot;: &quot;0&quot;,</span>
+<span class="go">    &quot;capeff&quot;: &quot;0x1fdffffffff&quot;</span>
+<span class="go">  },</span>
+<span class="go">  &quot;file_open&quot;: {</span>
+<span class="go">    &quot;file&quot;: {</span>
+<span class="go">      &quot;flags&quot;: &quot;32768&quot;,</span>
+<span class="go">      &quot;inode&quot;: {</span>
+<span class="go">        &quot;uid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">        &quot;mode&quot;: &quot;0100600&quot;,</span>
+<span class="go">        &quot;s_magic&quot;: &quot;0xef53&quot;,</span>
+<span class="go">        &quot;s_id&quot;: &quot;sda3&quot;,</span>
+<span class="go">        &quot;s_uuid&quot;: &quot;e896110b42b24dbca89c7caa36961685&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;path&quot;: {</span>
+<span class="go">        &quot;dev&quot;: {</span>
+<span class="go">          &quot;major&quot;: &quot;8&quot;,</span>
+<span class="go">          &quot;minor&quot;: &quot;3&quot;</span>
+<span class="go">        },</span>
+<span class="go">        &quot;type&quot;: &quot;root&quot;,</span>
+<span class="go">        &quot;pathname&quot;: &quot;/root/.bash_history&quot;</span>
+<span class="go">      },</span>
+<span class="go">      &quot;digest&quot;: &quot;751bbd42b307cccaaf9673f9721ef70f22676ae31c056df162b86d057f873181&quot;</span>
+<span class="go">    }</span>
+<span class="go">  }</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+</div>
+<p><a class="reference download internal" download="" href="../_downloads/cdb9e931894fc4e1c01eea8e82006666/process_7.json"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">forensics</span></code></a></p>
+<p>The violation was the <em>.bash_history</em> again. It was because the file had a new
+digest and the last backpropagation didn’t cover it.</p>
 </section>
 
         </article>
@@ -484,12 +891,12 @@ pseudonym for the paths and appended them to the <code class="docutils literal n
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="container_mode.html">
+          <a class="next-page" href="container_debian.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Container mode</div>
+                <div class="title">Container mode - Debian</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -508,7 +915,7 @@ pseudonym for the paths and appended them to the <code class="docutils literal n
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

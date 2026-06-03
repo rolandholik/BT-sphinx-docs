@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -265,16 +272,55 @@
 <h1>LSM Hooks<a class="headerlink" href="#lsm-hooks" title="Link to this heading">¶</a></h1>
 <p id="tsem-hooks">This section describes some of the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> leverages.</p>
 <p><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implements all together 111 <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks with 109 unique
-functions — <code class="docutils literal notranslate"><span class="pre">msg_queue_alloc_security</span></code>, <code class="docutils literal notranslate"><span class="pre">sem_alloc_security</span></code>,
-<code class="docutils literal notranslate"><span class="pre">shm_alloc_security</span></code> are all handeled by same functions. Most of the functions
-basically populate structures that hold characteristics of different security
-events, but there are also functions that do something different.</p>
+functions —<code class="docutils literal notranslate"><span class="pre">msg_queue_alloc_security</span></code>, <code class="docutils literal notranslate"><span class="pre">sem_alloc_security</span></code>,
+<code class="docutils literal notranslate"><span class="pre">shm_alloc_security</span></code> are all handled by the same function
+(<code class="docutils literal notranslate"><span class="pre">sem_alloc_security</span></code>). The majority of these functions populate data
+structures that capture the characteristics of various security events, while
+some functions perform additional or distinct tasks.</p>
 <section id="generating-security-events-few-examples">
 <h2>Generating security events (few examples)<a class="headerlink" href="#generating-security-events-few-examples" title="Link to this heading">¶</a></h2>
-<p>This section describes hooks that populate <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security event
-structures with data. Most of the hooks in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> do basically just that,
-therefore most of the hooks chosen for this demonstration actually do a bit more
-set up.</p>
+<p>This section describes some of the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security hooks. While most of
+the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security hooks just populate security event structures with
+data, hooks described in this section also include some additional
+configuration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Event modeling and reference count management — often managed below — are
+handled by the following function:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">dispatch_event</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">tsem_event</span><span class="w"> </span><span class="o">*</span><span class="n">ep</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">tsem_task_untrusted</span><span class="p">(</span><span class="n">current</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">untrusted_task</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="o">!</span><span class="n">tsem_context</span><span class="p">(</span><span class="n">current</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">event_init</span><span class="p">))</span>
+<span class="w">        </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_init</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span>
+<span class="w">        </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_context</span><span class="p">(</span><span class="n">current</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">ops</span><span class="o">-&gt;</span><span class="n">event_init</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ep</span><span class="o">-&gt;</span><span class="n">terminate_event</span><span class="p">)</span>
+<span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">tsem_context</span><span class="p">(</span><span class="n">current</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">external</span><span class="p">)</span>
+<span class="w">            </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_model_event</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_export_event</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w"> </span><span class="nl">done</span><span class="p">:</span>
+<span class="w">    </span><span class="n">tsem_event_put</span><span class="p">(</span><span class="n">ep</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The function verifies if the event is trusted, if it isn’t the task gets
+processed as untrusted, if it is, the event gets populated with relevant
+characteristics and is modeled or exported, depending on its type. In all
+cases, it the reference counter of the event gets decreased in the done
+section.</p>
+</div>
 <section id="bprm-check-security">
 <h3>bprm_check_security<a class="headerlink" href="#bprm-check-security" title="Link to this heading">¶</a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">tsem_bprm_check_security</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">linux_binprm</span><span class="w"> </span><span class="o">*</span><span class="n">bprm</span><span class="p">)</span>
@@ -296,12 +342,12 @@ set up.</p>
 </pre></div>
 </div>
 <p>This hook is one of the simple ones. It checks if <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is fully
-initialized and if this function is modeled by the current namespace. If one
-of the conditions is not true, it exits, granting permission without modeling
-the event. It allocates structure holding data about binary handlers in
-<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> CELL structure and assigns the binary characteristics to it.
+initialized and if this hook is modeled by the current namespace. If one of
+the conditions is not true, it exits, granting permission without modeling the
+event. It allocates structure holding data about binary handlers in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
+CELL structure and assigns the binary characteristics to the structure.
 Afterwards, the hook models the event — deciding to deny or permit the
-operation — and destroys the event structure.</p>
+operation — and decreases reference count for the event.</p>
 </section>
 <section id="file-open">
 <h3>file_open<a class="headerlink" href="#file-open" title="Link to this heading">¶</a></h3>
@@ -338,7 +384,7 @@ operation — and destroys the event structure.</p>
 </pre></div>
 </div>
 <p>This hook checks if <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is fully initialized and if this type of event
-is modeled by the current namespace. If one of the conditions isn’t true, the
+is modeled by the current namespace. If one of the conditions is not true, the
 hook grants permission without modeling the event. If the file it tries to
 access belongs to the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> control plane and the process trying to open
 the file has <code class="docutils literal notranslate"><span class="pre">CAP_MAC_ADMIN</span></code> capability set, the hook allows opening of the
@@ -347,7 +393,7 @@ capability tries to open control plane file, the hook denies the operation
 without modeling the event. The hook allocates event structure holding data
 about file in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> CELL structure and assigns file characteristics from
 the accesses file to it. Afterwards, the hook models the event — deciding to
-deny or permit the operation — and destroys the event structure.</p>
+deny or permit the operation — and decreases reference count for the event.</p>
 </section>
 <section id="mmap-file">
 <h3>mmap_file<a class="headerlink" href="#mmap-file" title="Link to this heading">¶</a></h3>
@@ -387,13 +433,14 @@ deny or permit the operation — and destroys the event structure.</p>
 </div>
 <p>This hook checks if <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is fully initialized and if this type of event
 is modeled by the current namespace. If one of the conditions isn’t true, the
-hook grants permission without modeling the event. The hook exits if there
-is no file provided to the hook and the mapping is not set executable (e.g.
-anonymous mapping of shared memory), granting permission for further execution
-without modeling the event. The hook allocates <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event structure for
-<code class="docutils literal notranslate"><span class="pre">mmap_file</span></code> characteristics and stores <code class="docutils literal notranslate"><span class="pre">mmap_file</span></code> related characteristics
-to it. Afterwards, the hook models the event — deciding to deny or permit the
-operation — and destroys the event structure.</p>
+hook grants permission without modeling the event. The hook exits if there is no
+file provided to the hook and the mapping is not set executable (e.g. anonymous
+mapping of shared memory), is not a regular file or is part of a
+pesudo-filesystem, granting permission for further execution without modeling
+the event. The hook allocates <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event structure for <code class="docutils literal notranslate"><span class="pre">mmap_file</span></code>
+characteristics and stores <code class="docutils literal notranslate"><span class="pre">mmap_file</span></code> related characteristics to it.
+Afterwards, the hook models the event — deciding to deny or permit the
+operation — and decreases reference count for the event.</p>
 </section>
 <section id="task-alloc">
 <h3>task_alloc<a class="headerlink" href="#task-alloc" title="Link to this heading">¶</a></h3>
@@ -420,9 +467,9 @@ operation — and destroys the event structure.</p>
 <p>This hook assigns serial number (tnum) and modeling namespace (context) to a
 new task. It allocates <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event structure for task_alloc event
 characteristics and stores task_alloc related characteristics to it. If the new
-task has valid id it increments reference count for the task. Afterwards, the
-hook models the event — deciding to deny or permit the operation — and
-destroys the event structure.</p>
+task has valid id it increments reference count for its modeling context.
+Afterwards, the hook models the event — deciding to deny or permit the
+operation — and decreases reference count for the event.</p>
 </section>
 <section id="task-free">
 <h3>task_free<a class="headerlink" href="#task-free" title="Link to this heading">¶</a></h3>
@@ -448,9 +495,9 @@ destroys the event structure.</p>
 </pre></div>
 </div>
 <p>This hook sets its event structure to zeros, populates it with
-<code class="docutils literal notranslate"><span class="pre">TSEM_TASK_FREE</span></code> related characteristics and releases its kernel reference
-from the modeling namespace of the task. This hook does not explicitly grant or
-deny access as it’s a void function.</p>
+<code class="docutils literal notranslate"><span class="pre">TSEM_TASK_FREE</span></code> related characteristics and releases a reference to the
+modeling namespace of the task. This hook does not explicitly grant or deny
+access as it’s a void function.</p>
 </section>
 <section id="task-kill">
 <h3>task_kill<a class="headerlink" href="#task-kill" title="Link to this heading">¶</a></h3>
@@ -491,17 +538,18 @@ deny access as it’s a void function.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This hook acquires namespace context for current task (the one sending the
-signal) and target task (the one that is to recieve the signal). If
-<code class="docutils literal notranslate"><span class="pre">task_kill</span></code> isn’t modeled by the current namespace, the signal originates
-from kernel or it’s urgent signal, the hook exits, granting permission without
+<p>This hook retrieves the modeling contexts for current task (the one sending the
+signal) and target task (the one that is to receive the signal). If
+<code class="docutils literal notranslate"><span class="pre">task_kill</span></code> isn’t modeled by the current namespace, the signal is kernel
+generated or its urgent signal, the hook exits, granting permission without
 modeling the event. If the task initiating the signal doesn’t have
 <code class="docutils literal notranslate"><span class="pre">CAP_MAC_ADMIN</span></code> and the target task does or if the task initiating the
-signaling doesn’t have <code class="docutils literal notranslate"><span class="pre">CAP_MAC_ADMIN</span></code> and the signal is sent to task from
-another modeling namespace, it returns permission denied, without modeling the
-event. The hook allocates <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event structure holding data about
+signaling doesn’t have <code class="docutils literal notranslate"><span class="pre">CAP_MAC_ADMIN</span></code> and the signal is sent to a task in
+another modeling namespace, the hook returns permission denied, without modeling
+the event. The hook allocates <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event structure holding data about
 <code class="docutils literal notranslate"><span class="pre">task_kill</span></code>, populates it with task kill characteristics and models the event
-— deciding to grant or deny permission — and destroys the event structure.</p>
+— deciding to grant or deny permission — and decreases reference count for
+the event.</p>
 </section>
 </section>
 <section id="not-generating-security-events">
@@ -573,10 +621,11 @@ functioning of <a class="reference internal" href="../glossary.html#term-TSEM"><
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This hook searches in the directory parent directory of the inode that is meant
-to have its security related data initialized. If found the hook initializes the
-tsem_inode structure with <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security related credentials of the
-current task.</p>
+<p>This hook searches the parent directory’s create list for an entry matching the
+current task and pathname. If a matching entry is found the hook initializes the
+tsem_inode structure with <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security-related credentials of the
+current task. The hook always returns -EOPNOTSUPP, indicating that it does not
+provide extended security attributes for the inode.</p>
 </section>
 <section id="inode-free-security">
 <h3>inode_free_security<a class="headerlink" href="#inode-free-security" title="Link to this heading">¶</a></h3>
@@ -626,11 +675,12 @@ page. <a class="reference internal" href="#inode-alloc-security-r"><span class="
 the lists.</p>
 </div>
 </section>
+</section>
 <section id="managed-by-same-function">
-<h3>Managed by same function<a class="headerlink" href="#managed-by-same-function" title="Link to this heading">¶</a></h3>
+<h2>Managed by same function<a class="headerlink" href="#managed-by-same-function" title="Link to this heading">¶</a></h2>
 <p>The tsem_ipc_alloc hook gets mapped to three different <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks.</p>
 <section id="msg-queue-alloc-security-sem-alloc-security-shm-alloc-security">
-<h4>msg_queue_alloc_security, sem_alloc_security, shm_alloc_security<a class="headerlink" href="#msg-queue-alloc-security-sem-alloc-security-shm-alloc-security" title="Link to this heading">¶</a></h4>
+<h3>msg_queue_alloc_security, sem_alloc_security, shm_alloc_security<a class="headerlink" href="#msg-queue-alloc-security-sem-alloc-security-shm-alloc-security" title="Link to this heading">¶</a></h3>
 <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">tsem_ipc_alloc</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kern_ipc_perm</span><span class="w"> </span><span class="o">*</span><span class="n">kipc</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">     </span><span class="k">struct</span><span class="w"> </span><span class="nc">tsem_ipc</span><span class="w"> </span><span class="o">*</span><span class="n">tipc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_ipc</span><span class="p">(</span><span class="n">kipc</span><span class="p">);</span>
@@ -640,10 +690,9 @@ the lists.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This hook assigns id of the task that created the <a class="reference internal" href="../glossary.html#term-IPC"><span class="xref std std-term">IPC</span></a> resource to the
-tsem_ipc structure of the resource. Data in this structure is important for
+<p>This hook assigns the id of the task that created the <a class="reference internal" href="../glossary.html#term-IPC"><span class="xref std std-term">IPC</span></a> resource to
+the tsem_ipc structure of the resource. Data in this structure is important for
 modeling of hooks that utilize the resource.</p>
-</section>
 </section>
 </section>
 </section>
@@ -677,7 +726,7 @@ modeling of hooks that utilize the resource.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -717,10 +766,10 @@ modeling of hooks that utilize the resource.</p>
 <li><a class="reference internal" href="#inode-alloc-security">inode_alloc_security</a></li>
 <li><a class="reference internal" href="#inode-init-security">inode_init_security</a></li>
 <li><a class="reference internal" href="#inode-free-security">inode_free_security</a></li>
-<li><a class="reference internal" href="#managed-by-same-function">Managed by same function</a><ul>
-<li><a class="reference internal" href="#msg-queue-alloc-security-sem-alloc-security-shm-alloc-security">msg_queue_alloc_security, sem_alloc_security, shm_alloc_security</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#managed-by-same-function">Managed by same function</a><ul>
+<li><a class="reference internal" href="#msg-queue-alloc-security-sem-alloc-security-shm-alloc-security">msg_queue_alloc_security, sem_alloc_security, shm_alloc_security</a></li>
 </ul>
 </li>
 </ul>

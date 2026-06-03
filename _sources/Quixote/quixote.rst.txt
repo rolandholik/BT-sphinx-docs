@@ -12,6 +12,7 @@ Quixote
    quixote_us
    quixote_export
    quixote_console
+   quixote_inject
 
 
 Quixote -- the trust orchestrator
@@ -20,14 +21,20 @@ Quixote -- the trust orchestrator
 :term:`TSEM` Linux security module itself serves more as a "security module
 infrastructure" rather than a standalone :term:`LSM`.
 
-For purposes of modeling :term:`TO` and :term:`TMA` are needed.
+For purposes of modeling and policy enforcement :term:`TMA` and :term:`TO` are
+needed, respectively.
 
-:term:`TO` and :term:`TMA` work together such that :term:`TMA` represents a
-modeling algorithm which :term:`TO` models in a independent security modeling
-namespace --- **internal** or **external**. When modeling in **internal**
-namespace, the security events get processed inside the kernel, when modeling in
-**external** namespace, security events get sent to orchestrator in userspace.
-The namespace is determined by location of :term:`TMA`.
+:term:`TO` and :term:`TMA` work together such that :term:`TMA` implements a
+modeling algorithm and policies. :term:`TO` --- Quixote utilities --- coordinate
+:term:`TMA` with the kernel. :term:`TO` sets up a modeling namespace
+(**internal** or **external**), runs a workload, handles communication between
+:term:`TMA` and userspace tool sending management commands (e.g. from
+``quixote-console``).
+
+When modeling in **internal** namespace, the security events get processed
+in the kernel spcae, when modeling in **external** namespace, security events
+get sent to the orchestrator in userspace (e.g. ``quixote-us``). The namespace
+is determined by location of :term:`TMA`.
 
 As of writing of this document there are following :term:`TO` utilities --
 :term:`TMA` implementations:
@@ -77,30 +84,30 @@ Process/Container
 Process
 ~~~~~~~
 
-When run in process mode a new shell is spawned in child process. The process
-and all subordinate processes will be modeled by :term:`TO` and :term:`TMA`.
-Which :term:`TO`/:term:`TMA` is used depends on which Quixote implementation
-(from table shown above) gets used.
+When run in process mode a new shell is spawned in a child process. The process
+and all subordinate processes will be modeled by a Quixote utility and an
+:term:`TMA`. Which :term:`TO`/:term:`TMA` is used depends on which Quixote
+implementation (from table shown above) gets used.
 
 .. note::
    Subordinate security namespaces (all namespaces except root) are
-   non-hierarchical. Which means it isn't possible to one run Quixote
+   non-hierarchical. Which means it isn't possible to one run Quixote utility
    implementation inside another.
 
 Container
 ~~~~~~~~~
 
-When run in container mode the modeling is being done for :term:`OCI` runc
-process -- once again :term:`TO`/:term:`TMA` is used based on which quixote
-implementation is used for the modeling.
+When run in container mode, modeling is performed for the :term:`OCI` ``runc``
+process, using :term:`TO` and :term:`TMA` which are determined by the *quixote*
+implementation.
 
-The runc container(s) used with *quixote* are specified in
-``/var/lib/Quixote/Magazine`` directory. Each folder in this directory
-represents a so called bundle that contains configuration files necessary for
-runc container start up.
+The ``runc`` container(s) used with the Quixote utility are specified in
+*/var/lib/Quixote/Magazine* directory. Each folder in this directory represents
+a so called bundle that contains configuration files necessary for a ``runc``
+container start up.
 
-**rootfs** -- subdirectory which contains the whole file tree the container is
-based on 
+**rootfs** -- subdirectory which contains the whole filesystem tree the
+container is based on 
 
 **config.json** -- configuration file that specifies properties of the
 container such as capabilities (C-list capabilities), mountpoints, environment
@@ -109,13 +116,13 @@ variables...
 Usage principles
 ----------------
 
-As previously mentioned, there are several "quixotes" --- quixote
+As previously mentioned, there are several "quixotes" --- Quixote utility
 implementations. However most of them follow these basic usage patterns.
 
 Creating model (map)
 ~~~~~~~~~~~~~~~~~~~~
 
-``quixote`` (\| ``us`` \| ``xen``\| ``sgx``\| ``mcu``) (``-P``\|) ``-w`` {model_name} ``-o`` {model_file}
+``quixote-`` (\| ``us`` \| ``xen``\| ``sgx``\| ``mcu``) (``-P``\|) ``-w`` {model_name} ``-o`` {model_file}
 
 ``-P`` indicates process mode --- modeled namespace is created inside a child
 process ``-w`` sets the name of the workload, which is by default ``runc``
@@ -125,7 +132,7 @@ process, when used with ``-P`` the ``-w`` sets the name of the process namespace
 Executing the model
 ~~~~~~~~~~~~~~~~~~~
 
-``quixote`` (\| ``us`` \| ``xen`` \| ``sgx`` \| ``mcu``) (``-P``\|) ``-w`` {model_name} ``-m`` {model_file} (``-e``\|)
+``quixote-`` (\| ``us`` \| ``xen`` \| ``sgx`` \| ``mcu``) (``-P``\|) ``-w`` {model_name} ``-m`` {model_file} (``-e``\|)
 
 ``-P`` indicates process mode --- modeled namespace is created inside a child
 process ``-w`` sets the name of the workload, which is by default ``runc``
@@ -141,27 +148,24 @@ makes the model enforced --- in case of deviation from the model defined in the
 
 Detailed description
 --------------------
-There are more Quixote implementations, or perhaps more accurately said more
-:term:`TMA` implementations, however Not all of them can be tested currently.
-Because of their, at the time of writing non-functional state. Basically the
-only ones that worked were the implementations that get compiled in the default
-``make`` configuration. For demonstration purposes, it should not make much of a
-difference as they follow the same usage principles as the functioning ones and
-have the most potential for mass adoption (if such thing ends up happening).
+
+Six additional Quixote utilities exist, though not all are currently testable
+due to a non-functional state. At present, only implementations compiled using
+the default make configuration are functional. For demonstration purposes, these
+functional implementations adhere to the same usage principles as the others and
+offer the greatest potential for real use adoption, because of their suitability
+for a wider range of computing environments.
 
 .. note::
-   The non-functional implementations were allegedly functional at some point
-   with earlier :term:`TSEM` releases, but since the userspace utilities as well
-   as :term:`TSEM` are under constant development, these fell behind the new
-   functionalities in :term:`TSEM` and Quixote codebase which made them error
-   out during compilation the time of writing.
+   These non-functional implementations were allegedly previously compatible with
+   earlier :term:`TSEM` releases. However, ongoing development of userspace
+   utilities and :term:`TSEM` itself has resulted in these implementations falling
+   behind, causing compilation errors.
 
 .. warning::
-   Descriptions of the flags below describe their intended functionality,
-   however not all of them really work in the desired fashion. As mentioned in
-   note above, this is caused by the fact that the utilities are, at the time of
-   writing under heavy development and some functionalities might get
-   accidentally broken as new refactor/feature gets released.
+   The flag descriptions outline intended functionality, however, due to ongoing
+   development, actual behavior may deviate a bit. Features are subject to
+   change or accidental breakage with new refactorings or features.
 
 
 quixote 

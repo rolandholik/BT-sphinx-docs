@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Execute mode" href="execute_mode.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Complementary tools" href="../Setup/overview.html" /><link rel="prev" title="Container mode - HTTPD" href="container_httpd.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>Export mode - TSEM guide 0.1 documentation</title>
@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="overview.html">Quixote experiments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -338,6 +345,49 @@ utility.</p>
 </pre></div>
 </div>
 <p>On the side of <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> client, we received 823,472 event descriptions.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">{&quot;export&quot;: {&quot;type&quot;: &quot;event&quot;}, &quot;event&quot;: {&quot;pid&quot;: &quot;213&quot;, &quot;tnum&quot;: &quot;222&quot;,</span>
+<span class="go">&quot;context&quot;: &quot;0&quot;, &quot;number&quot;: &quot;29224&quot;, &quot;process&quot;: &quot;systemd-udevd&quot;, &quot;type&quot;:</span>
+<span class="go">&quot;file_open&quot;, &quot;ttd&quot;: &quot;14&quot;, &quot;p_ttd&quot;: &quot;14&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;1681046464&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;egid&quot;: &quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;:</span>
+<span class="go">&quot;0x1ffffffffff&quot;}, &quot;file_open&quot;: {&quot;file&quot;: {&quot;flags&quot;: &quot;33024&quot;, &quot;inode&quot;: {&quot;uid&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;mode&quot;: &quot;0100644&quot;, &quot;s_magic&quot;: &quot;0x62656572&quot;, &quot;s_id&quot;: &quot;sysfs&quot;,</span>
+<span class="go">&quot;s_uuid&quot;: &quot;42275e4bd2164a89911463e8c7d26ba6&quot;}, &quot;path&quot;: {&quot;dev&quot;: {&quot;major&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;minor&quot;: &quot;22&quot;}, &quot;type&quot;: &quot;root&quot;, &quot;pathname&quot;:</span>
+<span class="go">&quot;/sys/devices/virtual/tty/tty16/uevent&quot;}, &quot;digest&quot;:</span>
+<span class="go">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;}}}</span>
+<span class="go">{&quot;export&quot;: {&quot;type&quot;: &quot;event&quot;}, &quot;event&quot;: {&quot;pid&quot;: &quot;208&quot;, &quot;tnum&quot;: &quot;217&quot;,</span>
+<span class="go">&quot;context&quot;: &quot;0&quot;, &quot;number&quot;: &quot;29225&quot;, &quot;process&quot;: &quot;systemd-udevd&quot;, &quot;type&quot;:</span>
+<span class="go">&quot;inode_create&quot;, &quot;ttd&quot;: &quot;14&quot;, &quot;p_ttd&quot;: &quot;14&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;1681049040&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;egid&quot;: &quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;:</span>
+<span class="go">&quot;0x1ffffffffff&quot;}, &quot;inode_create&quot;: {&quot;dir&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;, &quot;mode&quot;:</span>
+<span class="go">&quot;040755&quot;, &quot;s_magic&quot;: &quot;0x1021994&quot;, &quot;s_id&quot;: &quot;tmpfs&quot;, &quot;s_uuid&quot;:</span>
+<span class="go">&quot;8c7c18fe675349cd9d29e669b231a7bc&quot;}, &quot;dentry&quot;: {&quot;path&quot;: {&quot;dev&quot;: {&quot;major&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;minor&quot;: &quot;25&quot;}, &quot;owner&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;,</span>
+<span class="go">&quot;instance&quot;: &quot;90&quot;, &quot;type&quot;: &quot;root&quot;, &quot;pathname&quot;: &quot;/udev/data/.#c4:13HBjJnk&quot;}},</span>
+<span class="go">&quot;mode&quot;: &quot;0100600&quot;}} {&quot;export&quot;: {&quot;type&quot;: &quot;event&quot;}, &quot;event&quot;: {&quot;pid&quot;: &quot;213&quot;,</span>
+<span class="go">&quot;tnum&quot;: &quot;222&quot;, &quot;context&quot;: &quot;0&quot;, &quot;number&quot;: &quot;29226&quot;, &quot;process&quot;: &quot;systemd-udevd&quot;,</span>
+<span class="go">&quot;type&quot;: &quot;inode_getattr&quot;, &quot;ttd&quot;: &quot;14&quot;, &quot;p_ttd&quot;: &quot;14&quot;, &quot;task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;,</span>
+<span class="go">&quot;p_task_id&quot;:</span>
+<span class="go">&quot;c00d36d583e479ca6b13bbed2c61d78d07f8e633b6a6f7d2695ff13f14ef84b2&quot;, &quot;ts&quot;:</span>
+<span class="go">&quot;1681050982&quot;}, &quot;COE&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;euid&quot;: &quot;0&quot;, &quot;suid&quot;: &quot;0&quot;, &quot;gid&quot;: &quot;0&quot;,</span>
+<span class="go">&quot;egid&quot;: &quot;0&quot;, &quot;sgid&quot;: &quot;0&quot;, &quot;fsuid&quot;: &quot;0&quot;, &quot;fsgid&quot;: &quot;0&quot;, &quot;capeff&quot;:</span>
+<span class="go">&quot;0x1ffffffffff&quot;}, &quot;inode_getattr&quot;: {&quot;path&quot;: {&quot;inode&quot;: {&quot;uid&quot;: &quot;0&quot;, &quot;gid&quot;:</span>
+<span class="go">&quot;0&quot;, &quot;mode&quot;: &quot;0100644&quot;, &quot;s_magic&quot;: &quot;0x62656572&quot;, &quot;s_id&quot;: &quot;sysfs&quot;, &quot;s_uuid&quot;:</span>
+<span class="go">&quot;42275e4bd2164a89911463e8c7d26ba6&quot;}, &quot;path&quot;: {&quot;dev&quot;: {&quot;major&quot;: &quot;0&quot;, &quot;minor&quot;:</span>
+<span class="go">&quot;22&quot;}, &quot;type&quot;: &quot;root&quot;, &quot;pathname&quot;:</span>
+<span class="go">&quot;/sys/devices/virtual/tty/tty16/uevent&quot;}}}}</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -346,15 +396,23 @@ utility.</p>
       <footer>
         
         <div class="related-pages">
-          
-          <a class="prev-page" href="execute_mode.html">
+          <a class="next-page" href="../Setup/overview.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Complementary tools</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="container_httpd.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Execute mode</div>
+                <div class="title">Container mode - HTTPD</div>
                 
               </div>
             </a>
@@ -362,7 +420,7 @@ utility.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

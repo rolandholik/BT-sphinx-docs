@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -265,9 +272,9 @@
 <h1>TSEM<a class="headerlink" href="#tsem" title="Link to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<p id="id1"><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> code inside kernel is located in directory <code class="docutils literal notranslate"><span class="pre">security/tsem</span></code> in
-Linux source tree.</p>
-<p>It contains following files composing <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation:</p>
+<p id="id1"><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> kernel code is located in directory <code class="docutils literal notranslate"><span class="pre">security/tsem</span></code> in the Linux
+kernel source tree.</p>
+<p>The <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation is composed of the following files:</p>
 <div class="table-wrapper colwidths-given docutils container">
 <table class="docutils align-default">
 <colgroup>
@@ -281,69 +288,66 @@ Linux source tree.</p>
 </thead>
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">event.c</span></code></p></td>
-<td><p>Contains functions that handle population of struct tsem_event — a
-structure used to describe security events in :term`TSEM`.</p></td>
+<td><p>Contains functions that handle population of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_event</span></code> — a
+structure used to describe security events in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">export.c</span></code></p></td>
-<td><p>Contains functions used for exporting of <em>JSON</em> encoded security events
-to a external trust orchestrator as well as handling of structures used
-for caching events of processes running in atomic context.</p></td>
+<td><p>Contains functions used for exporting <em>JSON</em>-encoded security events to
+an external trust orchestrator and handling structures used for caching
+events of processes running in atomic context.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fs.c</span></code></p></td>
-<td><p>Contains functions for generation of <em>JSON</em> objects that are used to
-populate events descriptions. It also implements the control plane
-<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> uses to communicate with <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s.</p></td>
+<td><p>Contains functions used for generating <em>JSON</em> objects that populate event
+descriptions. It also implements the control plane <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> uses to
+communicate with <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">map.c</span></code></p></td>
-<td><p>This file is part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It provides
-functions for mapping event characteristics into a security state
-coefficient and function responsible for generation of TASK_ID in the
-modeling algorithm used by the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
+<td><p>Part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It provides functions
+for mapping event characteristics into a security state coefficient and
+function responsible for generating TASK_ID in the modeling algorithm used
+by the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model.c</span></code></p></td>
-<td><p>This file is part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It
-implements structures that hold characteristics of events used to create
-security state coefficients as well as the function responsible for their
-creation.</p></td>
+<td><p>Part of the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementation. It implements structures
+that hold characteristics of events used to create security state
+coefficients as well as the function responsible for their creation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">model0.c</span></code></p></td>
-<td><p>This file holds array of function names that are used as <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>
-hooks by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
+<td><p>Defines array of boolean values that define which <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks
+should get handled by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">namespace.c</span></code></p></td>
-<td><p>This file manages subordinate namespaces used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
+<td><p>Manages subordinate namespaces used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">nsmgr.c</span></code></p></td>
-<td><p>This file contains functions that handle management of modeling
-algorithms which can be added as loadable security modules. (Currently no
-such modeling algorithm is implemented)</p></td>
+<td><p>Contains functions that handle management of security models which can be
+added as loadable security modules.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">nsmgr.h</span></code></p></td>
-<td><p>This file is header file for the <code class="docutils literal notranslate"><span class="pre">nsmgr.c</span></code>.</p></td>
+<td><p>Header file for the <code class="docutils literal notranslate"><span class="pre">nsmgr.c</span></code>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trust.c</span></code></p></td>
-<td><p>This file is responsible for working with the <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a> register used by
+<td><p>Responsible for working with the <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a> register used by
 <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> for extension of security events. It is also responsible for
 loading the hardware aggregate, generated at system boot time, in
 <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a> 0-7 to the security namespaces (both internal and external).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tsem.c</span></code></p></td>
-<td><p>This file is the main implementation file that is responsible for
-initialization of the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. It holds definition for
-all the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> hooks that <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implements and manages their
-initialization.</p></td>
+<td><p>The main implementation file that is responsible for initialization of
+the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>. It holds definition for all the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>
+hooks that <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implements and manages their initialization.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">tsem.h</span></code></p></td>
-<td><p>This file holds structures and functions used across 2 and more files in
-the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation such as <a class="reference internal" href="../glossary.html#term-COE"><span class="xref std std-term">COE</span></a> structure and
-structure holding characteristics of an <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event as a whole.</p></td>
+<td><p>Holds structures and functions used in the <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> implementation
+such as <a class="reference internal" href="../glossary.html#term-COE"><span class="xref std std-term">COE</span></a> structure and structure holding characteristics of a
+<a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> event as a whole.</p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All code mentioned in this document and all its subdocuments is adopted from
+<p>All code mentioned in this document and all its sub-documents is adopted from
 <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> code base developed by <strong>Quixote Project</strong>
 <a class="reference external" href="https://github.com/Quixote-Project">https://github.com/Quixote-Project</a>.</p>
 </div>
@@ -375,74 +379,77 @@ initialization.</p>
 <span class="linenos">22</span>
 <span class="linenos">23</span><span class="w">    </span><span class="n">root_context</span><span class="p">.</span><span class="n">ops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">tsem_model0_ops</span><span class="p">;</span>
 <span class="linenos">24</span><span class="w">    </span><span class="n">root_context</span><span class="p">.</span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">root_model</span><span class="p">;</span>
-<span class="linenos">25</span>
-<span class="linenos">26</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_cache_init</span><span class="p">();</span>
-<span class="linenos">27</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
-<span class="linenos">28</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
-<span class="linenos">29</span>
-<span class="linenos">30</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_model_cache_init</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
-<span class="linenos">31</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
-<span class="linenos">32</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
-<span class="linenos">33</span>
-<span class="linenos">34</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_export_cache_init</span><span class="p">();</span>
-<span class="linenos">35</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
-<span class="linenos">36</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
-<span class="linenos">37</span>
-<span class="linenos">38</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_magazine_allocate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
-<span class="linenos">39</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
-<span class="linenos">40</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
-<span class="linenos">41</span><span class="w">    </span><span class="n">memcpy</span><span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">actions</span><span class="p">,</span><span class="w"> </span><span class="n">tsem_root_actions</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tsem_root_actions</span><span class="p">));</span>
-<span class="linenos">42</span>
-<span class="linenos">43</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">tsem_mode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="linenos">44</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">FULL_MODELING</span><span class="p">:</span>
-<span class="linenos">45</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;full modeling&quot;</span><span class="p">;</span>
-<span class="linenos">46</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
-<span class="linenos">47</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">NO_ROOT_MODELING</span><span class="p">:</span>
-<span class="linenos">48</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;namespace only modeling&quot;</span><span class="p">;</span>
-<span class="linenos">49</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
-<span class="linenos">50</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ROOT_EXPORT_ONLY</span><span class="p">:</span>
-<span class="linenos">51</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root export only&quot;</span><span class="p">;</span>
-<span class="linenos">52</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
-<span class="linenos">53</span><span class="w">    </span><span class="p">}</span>
-<span class="linenos">54</span><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;tsem: Initialized %s.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
-<span class="linenos">55</span>
-<span class="linenos">56</span><span class="w">    </span><span class="n">tsem_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
-<span class="linenos">57</span><span class="w">    </span><span class="n">tsk</span><span class="o">-&gt;</span><span class="n">trust_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TSEM_TASK_TRUSTED</span><span class="p">;</span>
-<span class="linenos">58</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<span class="linenos">59</span>
-<span class="linenos">60</span><span class="w"> </span><span class="nl">done</span><span class="p">:</span>
-<span class="linenos">61</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="linenos">62</span><span class="w">        </span><span class="n">tsem_event_magazine_free</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-<span class="linenos">63</span><span class="w">        </span><span class="n">tsem_model_magazine_free</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
-<span class="linenos">64</span><span class="w">    </span><span class="p">}</span>
-<span class="linenos">65</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
-<span class="linenos">66</span><span class="p">}</span>
+<span class="linenos">25</span><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">lp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">lp</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">255</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">lp</span><span class="p">)</span>
+<span class="linenos">26</span><span class="w">        </span><span class="n">INIT_LIST_HEAD</span><span class="p">(</span><span class="o">&amp;</span><span class="n">root_model</span><span class="p">.</span><span class="n">coeff_lists</span><span class="p">[</span><span class="n">lp</span><span class="p">]);</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_cache_init</span><span class="p">();</span>
+<span class="linenos">29</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">30</span><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos">31</span>
+<span class="linenos">32</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_model_cache_init</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
+<span class="linenos">33</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">34</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_export_cache_init</span><span class="p">();</span>
+<span class="linenos">37</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">38</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tsem_event_magazine_allocate</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="w"> </span><span class="n">magazine_size</span><span class="p">);</span>
+<span class="linenos">41</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span>
+<span class="linenos">42</span><span class="w">        </span><span class="k">goto</span><span class="w"> </span><span class="n">done</span><span class="p">;</span>
+<span class="linenos">43</span><span class="w">    </span><span class="n">memcpy</span><span class="p">(</span><span class="n">ctx</span><span class="o">-&gt;</span><span class="n">actions</span><span class="p">,</span><span class="w"> </span><span class="n">tsem_root_actions</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">tsem_root_actions</span><span class="p">));</span>
+<span class="linenos">44</span>
+<span class="linenos">45</span><span class="w">    </span><span class="k">switch</span><span class="w"> </span><span class="p">(</span><span class="n">tsem_mode</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">46</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">FULL_MODELING</span><span class="p">:</span>
+<span class="linenos">47</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;full modeling&quot;</span><span class="p">;</span>
+<span class="linenos">48</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">49</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">NO_ROOT_MODELING</span><span class="p">:</span>
+<span class="linenos">50</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;namespace only modeling&quot;</span><span class="p">;</span>
+<span class="linenos">51</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">52</span><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="no">ROOT_EXPORT_ONLY</span><span class="p">:</span>
+<span class="linenos">53</span><span class="w">        </span><span class="n">msg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root export only&quot;</span><span class="p">;</span>
+<span class="linenos">54</span><span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="linenos">55</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">56</span><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;tsem: Initialized %s.</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">msg</span><span class="p">);</span>
+<span class="linenos">57</span>
+<span class="linenos">58</span><span class="w">    </span><span class="n">tsem_available</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
+<span class="linenos">59</span><span class="w">    </span><span class="n">tsk</span><span class="o">-&gt;</span><span class="n">trust_status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TSEM_TASK_TRUSTED</span><span class="p">;</span>
+<span class="linenos">60</span><span class="w">    </span><span class="n">retn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="w"> </span><span class="nl">done</span><span class="p">:</span>
+<span class="linenos">63</span><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">retn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">64</span><span class="w">        </span><span class="n">tsem_event_magazine_free</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="linenos">65</span><span class="w">        </span><span class="n">tsem_model_magazine_free</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+<span class="linenos">66</span><span class="w">    </span><span class="p">}</span>
+<span class="linenos">67</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">retn</span><span class="p">;</span>
+<span class="linenos">68</span><span class="p">}</span>
 </pre></div>
 </div>
-<p>On lines 5–7, it references settings for root modeling namesapce.</p>
-<p>On lines 9, it starts by checking if structure containing names (<code class="docutils literal notranslate"><span class="pre">struct</span>
-<span class="pre">tsem_names</span></code> located in <code class="docutils literal notranslate"><span class="pre">tsem.c</span></code>) of hooks implemented by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> matches
-number of enumerators in enumeration associated enumeration (<code class="docutils literal notranslate"><span class="pre">enum</span>
-<span class="pre">tsem_event_type</span></code> located in <code class="docutils literal notranslate"><span class="pre">tsem.h</span></code>). This check is importatnt, because the
-enumeration is used across <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> codebase to refer to the names in this
-structure <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
-<p>On line 11, it initializes <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>s security hooks.</p>
-<p>On lines 13–15, it initializes kernel reference counter for <code class="docutils literal notranslate"><span class="pre">struct</span>
-<span class="pre">tsem_context</span></code>. This tracks number of <code class="docutils literal notranslate"><span class="pre">tsem_task</span></code> structures that reference
-the structure in its attributes. The <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_context</span></code> holds information
-about state of the root namespace.</p>
-<p>On lines 17–21, it initializes lists that hold inodes and mounts created in the
+<p>Lines 5–7 reference structures that hold settings for root modeling namespace.</p>
+<p>Line 9 checks if structure containing names (<code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_names</span></code> located in
+<code class="docutils literal notranslate"><span class="pre">tsem.c</span></code>) of hooks implemented by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> matches number of enumerators
+in the associated enumeration (<code class="docutils literal notranslate"><span class="pre">enum</span> <span class="pre">tsem_event_type</span></code> located in <code class="docutils literal notranslate"><span class="pre">tsem.h</span></code>).
+This check is important, as the enumeration is used throughout <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>
+codebase to refer to the names in this structure <a class="footnote-reference brackets" href="#id3" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p>
+<p>Line 11 initializes <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>s security hooks.</p>
+<p>Lines 13–15 initialize kernel reference counter for <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_context</span></code> and
+acquire additional reference for the current task. This counter tracks the
+number of <code class="docutils literal notranslate"><span class="pre">tsem_task</span></code> structures that reference the structure in their
+attributes. The <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_context</span></code> holds information about state of the
 root namespace.</p>
-<p>On lines 22–23, it initializes events that get modeled by the kernel
-:term:<code class="docutils literal notranslate"><span class="pre">TMA</span></code> and sets root model for context of root modeling namespace.</p>
-<p>On lines 26–38, it sets up caches for storing event structures — all
-generated, atomic context in root <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> and atomic context for external
-<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p>
-<p>On line 41, it sets array of actions for each event implemented by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a>.</p>
-<p>On lines 43–52, it sets scope of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> modeling. It can be set by
+<p>Lines 17–21, initialize lists that track inodes and mount points associated
+with the root namespace.</p>
+<p>Lines 23–24 configure the root namespace to use the default <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> model
+implementation and associate the root context with the root model.</p>
+<p>Lines 25–26 initialize the hash table buckets used to store security
+coefficient lists generated by the internal <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p>
+<p>Lines 28–40 initialize caches used for efficient <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">tsem_event</span></code>
+allocation, model-specific event allocation, and event export handling.</p>
+<p>Line 43 copies the default action configuration into the root namespace context.</p>
+<p>Lines 45–54 set the scope of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> modeling. It can be set by
 <code class="docutils literal notranslate"><span class="pre">tsem_mode=</span></code> kernel boot parameter. It’s set to “FULL_MODELING” by default.</p>
-<p>On lines 54–58, it prints kernel info message about the <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a> being
-initialized, marks the root namespace as trusted and exits.</p>
+<p>Lines 56–60 print kernel information message indicating <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>
+initialization, mark the current task as trusted and complete initialization.</p>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id3" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">1</a><span class="fn-bracket">]</span></span>
@@ -487,19 +494,18 @@ amongst the last init functions in kernel initialization phase.</p>
 <span class="linenos">33</span><span class="n">late_initcall</span><span class="p">(</span><span class="n">set_ready</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>On line 5, it checks if the <code class="docutils literal notranslate"><span class="pre">tsem_init()</span></code> function executed correctly.</p>
-<p>On line 8, it configures digest used by the root namespace, defaulting to
-sha256, one can define other digest using <code class="docutils literal notranslate"><span class="pre">tsem_digest</span></code> kernel command line
-parameter.</p>
-<p>On line 12, it initializes aggregate value, calculated over <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a>
-registers 0–7, for internal namespaces (if <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> is present of course).</p>
-<p>On line 16, it initializes pseudo-filesystem used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> —
-<a class="reference internal" href="#h-control-plane"><span class="std std-ref">control plane</span></a>.</p>
-<p>On lines 20-24, it sets up root namespace that handles exporting of events
-generated in the namespace it the <code class="docutils literal notranslate"><span class="pre">tsem_mode</span></code> kernel command line parameter
-was set to <code class="docutils literal notranslate"><span class="pre">ROOT_EXPORT_ONLY</span></code>.</p>
-<p>On lines 26-27, it prints info kernel message decalring <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> active and
-disables static branch <code class="docutils literal notranslate"><span class="pre">tsem_not_ready</span></code> (used by some hooks that might get
+<p>Line 5 checks if the <code class="docutils literal notranslate"><span class="pre">tsem_init()</span></code> function executed correctly.</p>
+<p>Line 8 configures the digest used by the root namespace, defaulting to sha256.
+One can define other digest using <code class="docutils literal notranslate"><span class="pre">tsem_digest</span></code> kernel command line parameter.</p>
+<p>Line 12 initializes aggregate value, calculated over <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> registers 0–7,
+for internal namespaces (if <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> is present of course).</p>
+<p>Line 16 initializes pseudo-filesystem used by <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> — <a class="reference internal" href="#h-control-plane"><span class="std std-ref">control
+plane</span></a>.</p>
+<p>Lines 20-24 sets up root namespace that handles exporting of events generated in
+the namespace if the <code class="docutils literal notranslate"><span class="pre">tsem_mode</span></code> kernel command line parameter was set to
+<code class="docutils literal notranslate"><span class="pre">ROOT_EXPORT_ONLY</span></code>.</p>
+<p>Lines 26-27 print info kernel message indicating that <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> is active and
+disable static branch <code class="docutils literal notranslate"><span class="pre">tsem_not_ready</span></code> (used by some hooks that might get
 called before this point).</p>
 <p>Line 33 is not part of the function, it just emphasizes that it is executed
 amongst last init functions.</p>
@@ -644,7 +650,7 @@ descriptions and security state coefficients to the <a class="reference internal
 <span class="go">/sys/kernel/security/tsem</span>
 <span class="go">├── aggregate</span>
 <span class="go">├── control</span>
-<span class="go">├── external_tma/</span>
+<span class="go">├── export</span>
 <span class="go">├── id</span>
 <span class="go">└── internal_tma/</span>
 <span class="go">    └── model0/</span>
@@ -657,10 +663,10 @@ descriptions and security state coefficients to the <a class="reference internal
 <span class="go">        ├── trajectory_coefficients</span>
 <span class="go">        └── trajectory_counts</span>
 
-<span class="go">3 directories, 11 files</span>
+<span class="go">2 directories, 12 files</span>
 </pre></div>
 </div>
-<p>Each of the 11 files responds in context of the namespace, the accessing process
+<p>Each of the 12 files responds in context of the namespace, the accessing process
 is assigned to. This means multiple <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s might run at once and even
 though they write and read from the same files each communicates <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
 that manages their corresponding modeling namespace.</p>
@@ -676,20 +682,13 @@ that manages their corresponding modeling namespace.</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">external_tma/</span></code></p></td>
-<td><p>When exporting events from root security modeling namespace, or when
-modeling in external seubordinate modeling namespace, the files that
-emerge here are used for reading of security events. Their names are
-numbers starting from 1 (0 is reserved for root namespace) based on order
-in which the namespaces are created.</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">internal_tma</span></code></p></td>
-<td><p>Holds subdirectories which represent external <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s implemented
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">internal_tma</span></code></p></td>
+<td><p>Holds subdirectories which internal external <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s implemented
 in the kernel. Currently, there is only one — model0.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">model0</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">model0</span></code></p></td>
 <td><p>Holds files used for exporting events and security state coefficients for
-the “model0” kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
+the “model0” kernel-based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -706,58 +705,58 @@ the “model0” kernel based <a class="reference internal" href="../glossary.ht
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">aggregate</span></code></p></td>
-<td><p>Used by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s to acquire aggregate value calculated by extension
-of <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a>s 0–7. This value can be seen, for example, on the first
-line of security map generated when saving a map of security state
-coefficientsusing <code class="docutils literal notranslate"><span class="pre">quixote</span></code> with <code class="docutils literal notranslate"><span class="pre">-m</span></code> command line option.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">export</span></code></p></td>
+<td><p>Used by userspace utilities to read <em>JSON</em>-formated events.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">control</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">aggregate</span></code></p></td>
+<td><p>Used by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s to acquire the aggregate value calculated by
+extending of <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a>s 0–7. This value can be seen, for example, on
+the first line of a security map generated when saving a map of security
+state coefficients using <code class="docutils literal notranslate"><span class="pre">quixote</span></code> with <code class="docutils literal notranslate"><span class="pre">-m</span></code> command line option.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">control</span></code></p></td>
 <td><p>Used by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>s to create and control security modeling namespaces
-writing control commands and reading from the file.</p></td>
+by writing control commands to and reading from the file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">id</span></code></p></td>
-<td><p>When read outputs id number of the security namesapce, the orchestrato is
-operating in.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">id</span></code></p></td>
+<td><p>Used to read the <em>id</em> number of the security namespace, in which the
+orchestrator is operating.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forensics</span></code></p></td>
-<td><p>Used to read set of <em>JSON</em> formated event descriptions, that violate
-currently security map according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling,
-from the only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forensics</span></code></p></td>
+<td><p>Used to read a set of <em>JSON</em>-formatted event descriptions from the
+reading process’s namespace. These descriptions detail violations of the
+current security map.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_coefficients</span></code></p></td>
-<td><p>Used to read set of security state coefficients, that violate currently
-security map according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling, from the only
-currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_coefficients</span></code></p></td>
+<td><p>Used to read the set of security state coefficients, that violate the
+current security map according to which the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling. The
+coefficients correspond to the namespace of the process reading the file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_counts</span></code></p></td>
-<td><p>Used to read count of events, that violate currently security map
-according to wich the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is modeling, from the only currently
-implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forensic_counts</span></code></p></td>
+<td><p>Used to read the linear extension of all security state coefficients
+generated up to that point, by the namespace of the process reading the
+file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">measurement</span></code></p></td>
-<td><p>Used to read linear extension of all security state coefficients
-generated up to that point, by the only currently implemented kernel
-based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”. If read from root modeling namespace, the
-measurement is extended into a <a class="reference internal" href="../glossary.html#term-TPM"><span class="xref std std-term">TPM</span></a> <a class="reference internal" href="../glossary.html#term-PCR"><span class="xref std std-term">PCR</span></a>.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">measurement</span></code></p></td>
+<td><p>Used to read the linear extension of all security state coefficients
+generated up to that point by the namespace of the process reading the
+file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">state</span></code></p></td>
-<td><p>Used to read security state coefficient the namespace is currently in,
-from the only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">state</span></code></p></td>
+<td><p>Used to read the security‑state coefficient the namespace is currently
+in.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory</span></code></p></td>
-<td><p>Used to read set of <em>JSON</em> formated security events generated by the
-namespace modeled by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
-“model0”.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory</span></code></p></td>
+<td><p>Used to read the set of <em>JSON</em>-formatted security events generated by the
+namespace.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_coefficients</span></code></p></td>
-<td><p>Used to read set of security state coefficients generated by the
-namespace modeled by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
-“model0”.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_coefficients</span></code></p></td>
+<td><p>Used to read the set of security state coefficients generated by the
+namespace of the process reading the file.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_counts</span></code></p></td>
-<td><p>Used to read count of security events generated by the namespace modeled
-by only currently implemented kernel based <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> “model0”.</p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">trajectory_counts</span></code></p></td>
+<td><p>Used to read the counts of individual security events generated by the
+namespace of the process reading the file.</p></td>
 </tr>
 </tbody>
 </table>
@@ -794,7 +793,7 @@ by only currently implemented kernel based <a class="reference internal" href=".
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

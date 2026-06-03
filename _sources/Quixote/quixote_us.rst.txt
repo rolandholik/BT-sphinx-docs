@@ -28,32 +28,37 @@ Command line flags
        process. 
    - * ``-S``
      * Show mode
-     * Shows contents of Magazine directory, so it basically shows available
-       runc bundles. 
+     * Shows the contents of the Magazine directory, listing the available
+       ``runc`` bundles. 
    - * ``-e``
      * Enforce
      * Sets the security coefficient map to be enforced (must be used with
        ``-m`` and the predefined security map must be **sealed**). 
    - * ``-t``
      * Trajectory
-     * Outputs events as *JSON* formatted lines in stead of security state
+     * Outputs events as *JSON*-formatted lines instead of security state
        coefficients (must be used with ``-o``). 
    - * ``-u``
      * Current namespace
      * Specifies if the modeling security namespace used should be based on
-       current user namespace, where the process is running in stead of the
+       the current user namespace, where the process is running, in stead of the
        initial user namespace. 
    - * ``-X``
      * Execute mode
-     * In execute mode there isn't namespace setup in container or process
+     * In execute mode, there isn't namespace setup in container or process
        (running bash), but only one program with its arguments gets run in the
        created security namespace. The name of the program with its arguments
-       are specified as the very last argument to the quixote utility as
+       are specified as the very last argument to the ``quixote`` utility as
        follows: ``-- {name of the program} {its arguments}``. 
+   - * ``-M``
+     * Model (alternative)
+     * Allows usage of an alternative model for event modeling. At the time of
+       writing there is only one such model implemented available in the source
+       tree of Quixote utilities. 
    - * ``-d``
      * Debug
      * There are debug statements in the Quixote codebase. These get printed
-       into a file if this flag is set with pathname of the file as argument. 
+       into a file if this flag is set with pathname of the file as an argument. 
    - * ``-h``
      * Hash digest
      * Sets hash function to be used for generation of security state
@@ -66,7 +71,7 @@ Command line flags
      * Cache size
      * Specifies number of preallocated structures holding data for security
        events happening in atomic context. One should not have to worry too much
-       about this number, since the default (128 structures) should suffice for
+       about this number, since the default (32 structures) should suffice for
        most use cases. 
    - * ``-o``
      * Output file
@@ -86,14 +91,14 @@ Command line flags
 Concrete usage examples
 .......................
 
-The usage is pretty much identical to ``quixote`` except the different
+The usage is pretty much identical to ``quixote`` except for the different
 executable name.
 
 Example 0: Show runc bundles
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 As mentioned in the above table, when used with ``-S``, ``quixote-us`` lists
-available runc bundle directories that hold all the necessary stuff for
+available ``runc`` bundle directories that hold all the necessary stuff for
 launching a ``runc`` container.
 
 .. code-block:: console
@@ -101,36 +106,36 @@ launching a ``runc`` container.
    # quixote-us -S
 
 If the output of this command does not show any bundle directories, you might
-want to create some. Otherwise you will only be able to use the Process/Execute
-mode.
+want to create some :ref:`runc setup <runc_setup>`. Otherwise you will only
+be able to use the Process/Execute mode.
 
 Example 1: Container workload
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 The following is the "most basic way" to create a workload. It creates a
 workload in free modeling mode. Which means it does not get evaluated against
-any predefined model (set of security state coefficients). This Model can be
+any predefined model (set of security state coefficients). This model can be
 inspected using ``quixote-console`` (described in section below).
 
-When ``-P`` isn't specified, ``quixote-us`` defaults to container mode, which means the
-process is executed inside :term:`OCI` runc container. This requires runc bundle
-directory with name corresponding to the workload name to be placed inside
-``/var/lib/Quixote/Magazine/`` directory. 
+When the ``-P`` isn't specified, ``quixote-us`` defaults to the container mode,
+which means the process is executed inside :term:`OCI` ``runc`` container. This
+requires ``runc`` bundle directory with name corresponding to the workload name
+to be placed inside ``/var/lib/Quixote/Magazine/`` directory. 
 
 .. code-block:: console
 
    # quixote-us -w test_container_workload
 
-When ``-o`` flag gets used, the security modeling states get output to file
+When the ``-o`` flag gets used, the security modeling states get output to file
 specified as argument to the flag.
 
 .. code-block:: console
 
    # quixote-us -w test_container_workload -o test.model
 
-These coefficients can than be used as model for the workload. This way any
-violations of the model get captured and can be viewed using the
-quixote-console.
+These coefficients can then be used as model for the workload. This way any
+violations of the model are captured and can be viewed using the
+``quixote-console``.
 
 .. code-block:: console
 
@@ -144,7 +149,7 @@ the process being evaluated as untrusted and its execution will get denied.
    # quixote-us -w test_container_workload -m test.model -e
 
 .. warning::
-   In case of running multiple workloads at once, each has to have unique name
+   In case of running multiple workloads at once, each has to have a unique name
    as the name also serves as a identification for management sockets created at
    ``/var/lib/Quixote/mgmt/`` in the linux host file system. 
 
@@ -158,16 +163,16 @@ launches workload in a subordinate ``bash`` process.
 
    # quixote-us -P -w test_container_workload
 
-When ``-o`` flag gets used, the security modeling states get output to file
+When the ``-o`` flag gets used, the security modeling states get output to file
 specified as argument to the flag.
 
 .. code-block:: console
 
    # quixote-us -P -w test_container_workload -o test.model
 
-These coefficients can than be used as model for the workload. This way any
+These coefficients can then be used as model for the workload. That way any
 violations of the model get captured and can be viewed using the
-quixote-console.
+``quixote-console``.
 
 .. code-block:: console
 
@@ -183,37 +188,38 @@ to the process being evaluated as untrusted and its execution will get denied.
 Example 3: Execute workload
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-One can execute specific program in :term:`TSEM` security namespace using ``-X``
-flag in following way.
+One can execute specific program in :term:`TSEM` security namespace using the
+``-X`` flag in following way.
 
-This runs ``ls`` command itself in a security namespace. It does not have much
-use except analysis though.
-
-.. code-block:: console
-
-   # quixote-us -X test_container_workload -- ls
-
-Its power can be seen a little bit better when a model definition is created.
+This runs ``ls`` command itself in a security namespace. It's not very useful
+except for analysis.
 
 .. code-block:: console
 
-   # quixote-us -X test_container_workload -o test_model -- ls
+   # quixote-us -w test_container_workload -X test_container -- ls
+
+Its usefulness can be seen a little bit better when a model definition is
+created.
+
+.. code-block:: console
+
+   # quixote-us -w test_container_workload -X test_container -o test_model -- ls
 
 Now when trying to list contents of ``/`` directory, we get "Permission denied".
 
 .. code-block:: console
 
-   # quixote-us -X test_container_workload -m test_model -e -- ls /
+   # quixote-us -w test_container_workload -X test_container -m test_model -e -- ls /
 
-However running listing of current directory works just fine.
+However, running listing of current directory works just fine.
 
 .. code-block:: console
 
-   # quixote-us -X test_container_workload -m test_model -e -- ls
+   # quixote-us -w test_container_workload -X test_container -m test_model -e -- ls
 
 .. warning::
-   In case of running multiple workloads at once, each has to have unique name
-   as the name also serves as a identification for management sockets created at
-   ``/var/lib/Quixote/mgmt/`` in the linux host file system. 
+   In case of running multiple workloads at once, each has to have a unique name
+   as the name also serves as an identification for management sockets created
+   at ``/var/lib/Quixote/mgmt/`` in the Linux host file system. 
 
 

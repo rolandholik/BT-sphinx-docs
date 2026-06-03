@@ -8,8 +8,8 @@ quixote-console
 ~~~~~~~~~~~~~~~
 This implementation doesn't do modeling --- has no associated :term:`TMA`. It
 is used for interrogation of :term:`TMA`\s. It has to be run on the same system
-as the interrogated *quixote* because it communicates with the *quixote* using
-management sockets located in ``/var/lib/Quixote/mgmt``.
+as the interrogated :term:`TMA` because it communicates with the :term:`TMA`
+using management sockets located in ``/var/lib/Quixote/mgmt``.
 
 Command line flags
 ..................
@@ -23,46 +23,47 @@ Command line flags
      * Description
    - * ``NONE``
      * No flag
-     * When called with no flag, ``quixote-console`` prints list of running
-       workloads which can be interrogated [#]_.
+     * When called with no flags, ``quixote-console`` prints a list of running
+       workloads, that can be interrogated [#]_.
    - * ``-E``
      * Output events
-     * Outputs log of events divergent from predefined sealed map --- only
-       system call name and name of process which called the system call in
-       *JSON* format.
+     * Outputs a log of events divergent from the predefined sealed map --- only
+       system call name and the name of the process which called the system call
+       in *JSON* format.
    - * ``-F``
      * Output forensics
      * Makes ``quixote-console`` output security events that violate the
        predefined and sealed map for the interrogated workload.
    - * ``-M``
      * Output model
-     * Outputs model (security state coefficients). In case a predefined map of
-       security state coefficients is defined and is in sealed mode, it only
+     * Outputs the model (security state coefficients). In case a predefined map
+       of security state coefficients is defined and is in sealed mode, it only
        outputs the predefined map.
    - * ``-S``
      * Output state
-     * Prints security state coefficient the interrogated workload is currently
-       in.
+     * Prints the security state coefficient the interrogated workload is
+       currently in.
    - * ``-T``
      * Output trajectory
-     * If run without predefined map --- outputs full model (all its events).
+     * If run without a predefined map --- outputs the full model (all its
+       events).
 
-       If run with predefined **non-sealed** map --- outputs events divergent
+       If run with a predefined **non-sealed** map --- outputs events divergent
        from the predefined model.
 
-       If run with predefined **sealed** map --- outputs empty model.
+       If run with predefined **sealed** map --- outputs an empty model.
    - * ``-c``
      * Count output
-     * If used with ``-T`` or ``-F`` count of each event in the gets output in
-       stead of the list of events. The order of the events is preserved ---
-       this can be used for analysis purposes.
+     * If used with ``-T`` or ``-F``, the count of each event is output instead
+       of the list of events. The order of the events is preserved --- this can be
+       used for analysis purposes.
    - * ``-p``
      * Prefix
-     * When used in combination with ``-T`` ``-s`` or ``-F`` ``-s`` it outputs
+     * When used in combination with ``-T`` ``-s`` or ``-F`` ``-s``, it outputs
        states with prepended "state" keyword.
    - * ``-s``
      * Coefficient output 
-     * If used with ``-T`` or ``-F`` coefficients get output in stead of
+     * If used with ``-T`` or ``-F``, coefficients are output instead of the
        security events.
    - * ``-u``
      * Update
@@ -72,26 +73,26 @@ Command line flags
        **flag.**
    - * ``-w``
      * Workload name
-     * Specifies name of the workload that is to be interrogated. This flag takes
-       string argument with the name. 
+     * Specifies the name of the workload that is to be interrogated. This flag
+       takes string argument with the name. 
 
-.. [#] It is mentioned in official documentation that it should drop a "Quixote
-   Shell" which would accept interrogation commands, but at the time of writing
-   this feature is "dead code" --- it is implemented, but can't be reached in
-   the workflow of the code.
+.. [#] It is mentioned in the official documentation that it should drop the
+   "Quixote Shell" which would accept interrogation commands, but at the time of
+   writing this feature is "dead code" --- it's implemented, but can't be
+   reached in the workflow of the code.
 
-More visual usage examples
-..........................
+Concrete usage examples
+.......................
 
-With ``quixote-console`` has a bit simpler usage, since it's used for workload
+``quixote-console`` has a bit simpler usage, since it's used for workload
 interrogation.
 
 Example 0: Show runc bundles and process sockets
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 Launching just ``quixote-console`` itself will list bundle directories in
-``/var/lib/Quixote/Magazine`` (or even other than bundle, but those are supposed
-to be there) and sockets for Process/Execute workloads.
+``/var/lib/Quixote/Magazine`` (or even other than bundle directories, but only
+those are supposed to be there) and the sockets for Process/Execute workloads.
 
 .. code-block:: console
 
@@ -106,23 +107,23 @@ To output just the state the workload is currently in.
 
    # quixote-console -w test -S
 
-This outputs just the state value for current workload state. The ``state`` is
-not prepended even if ``-p`` is used.
+This outputs just the state value for current workload . The ``state`` is not
+prepended even if ``-p`` is used.
 
 Example 2: Output current model
 ,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-Following outputs current model definition with all states that happened during
-the workload execution. If a sealed model was previously loaded (e.g.
-:ref:`quixote <ref-seal-cont-mod>`) only the loaded model gets output.
+Following command outputs the current model definition with all states that
+happened during the workload execution. If a sealed model was previously loaded
+(e.g. :ref:`quixote <ref-seal-cont-mod>`) only the loaded model gets output.
 
 .. code-block:: console
 
    # quixote-console -w test -M
 
-In case a model with all events is desired to be output in **sealed** mode e.g.
-for back "propagation" --- relaunching the workload with the updated model, so
-that previous model violations are included --- do the following.
+In case a model with all events is desired to be output in the **sealed** mode
+e.g. for back "propagation" --- relaunching the workload with the updated model,
+so that the previous model violations are included --- run following command.
 
 .. code-block:: console
 
@@ -134,24 +135,25 @@ Example 3: Output trajectory
 Outputs security event descriptions with following logic:
     - If run in **free modeling** with **no predefined** security event map:
         * The full model --- all security events triggered.
-    - If run in **free modeling** with **predefined** security event map:
+    - If run in **free modeling** with a **predefined** security event map:
         * The full model --- outputs events divergent from the predefined model.
-    - If run in **sealed** mode with **predefined** security event map:
+    - If run in **sealed** mode with a **predefined** security event map:
         * Empty output
 
 .. code-block:: console
 
    # quixote-console -w test -T
 
-If states are desired in stead of *JSON* event descriptions, run following.
+If states are desired in stead of the *JSON* event descriptions, run the
+following command.
 
 .. code-block:: console
 
    # quixote-console -w test -T -s
 
 If the output states are intended to be used for e.g. model enforcement in the
-future, following outputs the stated with ``state`` prepended to each state
-coefficient.
+future, the following command outputs the states with ``state`` prepended to
+each state coefficient.
 
 .. code-block:: console
 

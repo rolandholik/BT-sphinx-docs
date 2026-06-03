@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -268,25 +275,39 @@
 </dd>
 <dt id="term-TMA">TMA<a class="headerlink" href="#term-TMA" title="Link to this term">¶</a></dt><dd><p>Trusted Modeling Agent.</p>
 </dd>
-<dt id="term-TPM">TPM<a class="headerlink" href="#term-TPM" title="Link to this term">¶</a></dt><dd><p>Trusted Platform Module.</p>
+<dt id="term-TPM">TPM<a class="headerlink" href="#term-TPM" title="Link to this term">¶</a></dt><dd><p>Trusted Platform Module.
+A hardware security chip that provides cryptographic keys, secure storage, and platform integrity measurements.</p>
 </dd>
 <dt id="term-TSEM">TSEM<a class="headerlink" href="#term-TSEM" title="Link to this term">¶</a></dt><dd><p>Trusted Security Event Modeling.</p>
 </dd>
-<dt id="term-LSM">LSM<a class="headerlink" href="#term-LSM" title="Link to this term">¶</a></dt><dd><p>Linux Security Module.</p>
+<dt id="term-LSM">LSM<a class="headerlink" href="#term-LSM" title="Link to this term">¶</a></dt><dd><p>Linux Security Module.
+A kernel framework that allows security modules (like AppArmor, SELinux, or TSEM) to enforce access control policies.</p>
 </dd>
-<dt id="term-HIDS">HIDS<a class="headerlink" href="#term-HIDS" title="Link to this term">¶</a></dt><dd><p>Host Intrusion Detection System.</p>
+<dt id="term-HIDS">HIDS<a class="headerlink" href="#term-HIDS" title="Link to this term">¶</a></dt><dd><p>Host Intrusion Detection System.
+A security system that monitors a host machine for suspicious activity, policy violations, or intrusions.</p>
 </dd>
-<dt id="term-OCI">OCI<a class="headerlink" href="#term-OCI" title="Link to this term">¶</a></dt><dd><p>Open Container Initiative.</p>
+<dt id="term-OCI">OCI<a class="headerlink" href="#term-OCI" title="Link to this term">¶</a></dt><dd><p>Open Container Initiative.
+A standards body defining open specifications for container images and runtimes.</p>
 </dd>
-<dt id="term-FQDN">FQDN<a class="headerlink" href="#term-FQDN" title="Link to this term">¶</a></dt><dd><p>Fully Qualified Domain Name.</p>
+<dt id="term-FQDN">FQDN<a class="headerlink" href="#term-FQDN" title="Link to this term">¶</a></dt><dd><p>Fully Qualified Domain Name.
+A complete domain name that specifies a host’s exact location in the DNS hierarchy.</p>
 </dd>
-<dt id="term-MQTT">MQTT<a class="headerlink" href="#term-MQTT" title="Link to this term">¶</a></dt><dd><p>Message Queuing Telemetry Transport.</p>
+<dt id="term-MQTT">MQTT<a class="headerlink" href="#term-MQTT" title="Link to this term">¶</a></dt><dd><p>Message Queuing Telemetry Transport.
+A lightweight publish/subscribe messaging protocol designed for IoT devices and low‑bandwidth networks.</p>
 </dd>
-<dt id="term-PCR">PCR<a class="headerlink" href="#term-PCR" title="Link to this term">¶</a></dt><dd><p>Platform Configuration Register</p>
+<dt id="term-PCR">PCR<a class="headerlink" href="#term-PCR" title="Link to this term">¶</a></dt><dd><p>Platform Configuration Register
+A TPM register that stores cryptographic measurements of system state for attestation.</p>
 </dd>
-<dt id="term-SGX">SGX<a class="headerlink" href="#term-SGX" title="Link to this term">¶</a></dt><dd><p>(Intel) Software Guard Extensions.</p>
+<dt id="term-SGX">SGX<a class="headerlink" href="#term-SGX" title="Link to this term">¶</a></dt><dd><p>(Intel) Software Guard Extensions.
+Intel CPU extensions that allow applications to run code and store data inside secure hardware enclaves.</p>
 </dd>
-<dt id="term-IPC">IPC<a class="headerlink" href="#term-IPC" title="Link to this term">¶</a></dt><dd><p>Inter-Process Communication.</p>
+<dt id="term-IPC">IPC<a class="headerlink" href="#term-IPC" title="Link to this term">¶</a></dt><dd><p>Inter-Process Communication.
+Mechanisms that allow processes to exchange data or signals.</p>
+</dd>
+<dt id="term-IP">IP<a class="headerlink" href="#term-IP" title="Link to this term">¶</a></dt><dd><p>Internet Protocol</p>
+</dd>
+<dt id="term-SSH">SSH<a class="headerlink" href="#term-SSH" title="Link to this term">¶</a></dt><dd><p>Secure shell
+The Secure Shell Protocol is a cryptographic network protocol for operating network services securely over an unsecured network.</p>
 </dd>
 </dl>
 
@@ -301,7 +322,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

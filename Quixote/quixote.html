@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -269,13 +276,18 @@
 <h2>Quixote – the trust orchestrator<a class="headerlink" href="#quixote-the-trust-orchestrator" title="Link to this heading">¶</a></h2>
 <p><a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> Linux security module itself serves more as a “security module
 infrastructure” rather than a standalone <a class="reference internal" href="../glossary.html#term-LSM"><span class="xref std std-term">LSM</span></a>.</p>
-<p>For purposes of modeling <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> and <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> are needed.</p>
-<p><a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> and <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> work together such that <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> represents a
-modeling algorithm which <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> models in a independent security modeling
-namespace — <strong>internal</strong> or <strong>external</strong>. When modeling in <strong>internal</strong>
-namespace, the security events get processed inside the kernel, when modeling in
-<strong>external</strong> namespace, security events get sent to orchestrator in userspace.
-The namespace is determined by location of <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p>
+<p>For purposes of modeling and policy enforcement <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> and <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> are
+needed, respectively.</p>
+<p><a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> and <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> work together such that <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implements a
+modeling algorithm and policies. <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> — Quixote utilities — coordinate
+<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> with the kernel. <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> sets up a modeling namespace
+(<strong>internal</strong> or <strong>external</strong>), runs a workload, handles communication between
+<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> and userspace tool sending management commands (e.g. from
+<code class="docutils literal notranslate"><span class="pre">quixote-console</span></code>).</p>
+<p>When modeling in <strong>internal</strong> namespace, the security events get processed
+in the kernel spcae, when modeling in <strong>external</strong> namespace, security events
+get sent to the orchestrator in userspace (e.g. <code class="docutils literal notranslate"><span class="pre">quixote-us</span></code>). The namespace
+is determined by location of <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.</p>
 <p>As of writing of this document there are following <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> utilities –
 <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementations:</p>
 <div class="table-wrapper colwidths-given docutils container">
@@ -345,28 +357,28 @@ oriented around e.g. machine learning algorithms.</p>
 <h2>Process/Container<a class="headerlink" href="#process-container" title="Link to this heading">¶</a></h2>
 <section id="process">
 <h3>Process<a class="headerlink" href="#process" title="Link to this heading">¶</a></h3>
-<p>When run in process mode a new shell is spawned in child process. The process
-and all subordinate processes will be modeled by <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> and <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>.
-Which <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is used depends on which Quixote implementation
-(from table shown above) gets used.</p>
+<p>When run in process mode a new shell is spawned in a child process. The process
+and all subordinate processes will be modeled by a Quixote utility and an
+<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>. Which <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is used depends on which Quixote
+implementation (from table shown above) gets used.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Subordinate security namespaces (all namespaces except root) are
-non-hierarchical. Which means it isn’t possible to one run Quixote
+non-hierarchical. Which means it isn’t possible to one run Quixote utility
 implementation inside another.</p>
 </div>
 </section>
 <section id="container">
 <h3>Container<a class="headerlink" href="#container" title="Link to this heading">¶</a></h3>
-<p>When run in container mode the modeling is being done for <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> runc
-process – once again <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a>/<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> is used based on which quixote
-implementation is used for the modeling.</p>
-<p>The runc container(s) used with <em>quixote</em> are specified in
-<code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine</span></code> directory. Each folder in this directory
-represents a so called bundle that contains configuration files necessary for
-runc container start up.</p>
-<p><strong>rootfs</strong> – subdirectory which contains the whole file tree the container is
-based on</p>
+<p>When run in container mode, modeling is performed for the <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> <code class="docutils literal notranslate"><span class="pre">runc</span></code>
+process, using <a class="reference internal" href="../glossary.html#term-TO"><span class="xref std std-term">TO</span></a> and <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> which are determined by the <em>quixote</em>
+implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">runc</span></code> container(s) used with the Quixote utility are specified in
+<em>/var/lib/Quixote/Magazine</em> directory. Each folder in this directory represents
+a so called bundle that contains configuration files necessary for a <code class="docutils literal notranslate"><span class="pre">runc</span></code>
+container start up.</p>
+<p><strong>rootfs</strong> – subdirectory which contains the whole filesystem tree the
+container is based on</p>
 <p><strong>config.json</strong> – configuration file that specifies properties of the
 container such as capabilities (C-list capabilities), mountpoints, environment
 variables…</p>
@@ -374,11 +386,11 @@ variables…</p>
 </section>
 <section id="usage-principles">
 <h2>Usage principles<a class="headerlink" href="#usage-principles" title="Link to this heading">¶</a></h2>
-<p>As previously mentioned, there are several “quixotes” — quixote
+<p>As previously mentioned, there are several “quixotes” — Quixote utility
 implementations. However most of them follow these basic usage patterns.</p>
 <section id="creating-model-map">
 <h3>Creating model (map)<a class="headerlink" href="#creating-model-map" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">quixote</span></code> (| <code class="docutils literal notranslate"><span class="pre">us</span></code> | <code class="docutils literal notranslate"><span class="pre">xen</span></code>| <code class="docutils literal notranslate"><span class="pre">sgx</span></code>| <code class="docutils literal notranslate"><span class="pre">mcu</span></code>) (<code class="docutils literal notranslate"><span class="pre">-P</span></code>|) <code class="docutils literal notranslate"><span class="pre">-w</span></code> {model_name} <code class="docutils literal notranslate"><span class="pre">-o</span></code> {model_file}</p>
+<p><code class="docutils literal notranslate"><span class="pre">quixote-</span></code> (| <code class="docutils literal notranslate"><span class="pre">us</span></code> | <code class="docutils literal notranslate"><span class="pre">xen</span></code>| <code class="docutils literal notranslate"><span class="pre">sgx</span></code>| <code class="docutils literal notranslate"><span class="pre">mcu</span></code>) (<code class="docutils literal notranslate"><span class="pre">-P</span></code>|) <code class="docutils literal notranslate"><span class="pre">-w</span></code> {model_name} <code class="docutils literal notranslate"><span class="pre">-o</span></code> {model_file}</p>
 <p><code class="docutils literal notranslate"><span class="pre">-P</span></code> indicates process mode — modeled namespace is created inside a child
 process <code class="docutils literal notranslate"><span class="pre">-w</span></code> sets the name of the workload, which is by default <code class="docutils literal notranslate"><span class="pre">runc</span></code>
 process, when used with <code class="docutils literal notranslate"><span class="pre">-P</span></code> the <code class="docutils literal notranslate"><span class="pre">-w</span></code> sets the name of the process namespace
@@ -386,7 +398,7 @@ process, when used with <code class="docutils literal notranslate"><span class="
 </section>
 <section id="executing-the-model">
 <h3>Executing the model<a class="headerlink" href="#executing-the-model" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">quixote</span></code> (| <code class="docutils literal notranslate"><span class="pre">us</span></code> | <code class="docutils literal notranslate"><span class="pre">xen</span></code> | <code class="docutils literal notranslate"><span class="pre">sgx</span></code> | <code class="docutils literal notranslate"><span class="pre">mcu</span></code>) (<code class="docutils literal notranslate"><span class="pre">-P</span></code>|) <code class="docutils literal notranslate"><span class="pre">-w</span></code> {model_name} <code class="docutils literal notranslate"><span class="pre">-m</span></code> {model_file} (<code class="docutils literal notranslate"><span class="pre">-e</span></code>|)</p>
+<p><code class="docutils literal notranslate"><span class="pre">quixote-</span></code> (| <code class="docutils literal notranslate"><span class="pre">us</span></code> | <code class="docutils literal notranslate"><span class="pre">xen</span></code> | <code class="docutils literal notranslate"><span class="pre">sgx</span></code> | <code class="docutils literal notranslate"><span class="pre">mcu</span></code>) (<code class="docutils literal notranslate"><span class="pre">-P</span></code>|) <code class="docutils literal notranslate"><span class="pre">-w</span></code> {model_name} <code class="docutils literal notranslate"><span class="pre">-m</span></code> {model_file} (<code class="docutils literal notranslate"><span class="pre">-e</span></code>|)</p>
 <p><code class="docutils literal notranslate"><span class="pre">-P</span></code> indicates process mode — modeled namespace is created inside a child
 process <code class="docutils literal notranslate"><span class="pre">-w</span></code> sets the name of the workload, which is by default <code class="docutils literal notranslate"><span class="pre">runc</span></code>
 process. When used with <code class="docutils literal notranslate"><span class="pre">-P</span></code> the <code class="docutils literal notranslate"><span class="pre">-w</span></code> sets the name of the process namespace
@@ -405,28 +417,24 @@ therefore <code class="docutils literal notranslate"><span class="pre">-e</span>
 </section>
 <section id="detailed-description">
 <h2>Detailed description<a class="headerlink" href="#detailed-description" title="Link to this heading">¶</a></h2>
-<p>There are more Quixote implementations, or perhaps more accurately said more
-<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> implementations, however Not all of them can be tested currently.
-Because of their, at the time of writing non-functional state. Basically the
-only ones that worked were the implementations that get compiled in the default
-<code class="docutils literal notranslate"><span class="pre">make</span></code> configuration. For demonstration purposes, it should not make much of a
-difference as they follow the same usage principles as the functioning ones and
-have the most potential for mass adoption (if such thing ends up happening).</p>
+<p>Six additional Quixote utilities exist, though not all are currently testable
+due to a non-functional state. At present, only implementations compiled using
+the default make configuration are functional. For demonstration purposes, these
+functional implementations adhere to the same usage principles as the others and
+offer the greatest potential for real use adoption, because of their suitability
+for a wider range of computing environments.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The non-functional implementations were allegedly functional at some point
-with earlier <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> releases, but since the userspace utilities as well
-as <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> are under constant development, these fell behind the new
-functionalities in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> and Quixote codebase which made them error
-out during compilation the time of writing.</p>
+<p>These non-functional implementations were allegedly previously compatible with
+earlier <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> releases. However, ongoing development of userspace
+utilities and <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> itself has resulted in these implementations falling
+behind, causing compilation errors.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Descriptions of the flags below describe their intended functionality,
-however not all of them really work in the desired fashion. As mentioned in
-note above, this is caused by the fact that the utilities are, at the time of
-writing under heavy development and some functionalities might get
-accidentally broken as new refactor/feature gets released.</p>
+<p>The flag descriptions outline intended functionality, however, due to ongoing
+development, actual behavior may deviate a bit. Features are subject to
+change or accidental breakage with new refactorings or features.</p>
 </div>
 <section id="id3">
 <h3>quixote<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
@@ -489,7 +497,7 @@ accidentally broken as new refactor/feature gets released.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             

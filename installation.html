@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Quixote/quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -265,10 +272,10 @@
 <h1>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h1>
 <section id="building-tsem-kernel">
 <span id="id1"></span><h2>Building TSEM kernel<a class="headerlink" href="#building-tsem-kernel" title="Link to this heading">¶</a></h2>
-<p>Installation of <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> infrastructure, like it or not, involves
-compilation of the Linux kernel. For this reference, I’m using Ubuntu 22.04 as
-it seems to be, what the developers do some of their testing on (as mentioned in
-parts of Quixote documentation <a class="reference external" href="https://github.com/Quixote-Project/Quixote">https://github.com/Quixote-Project/Quixote</a>).</p>
+<p>Installation of <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> infrastructure, involves compilation of the Linux
+kernel. For this reference, We are using Ubuntu 22.04 as it seems to be, what
+the developers do some of their testing on (as mentioned in parts of Quixote
+documentation <a class="reference external" href="https://github.com/rolandholik/Quixote">https://github.com/rolandholik/Quixote</a>).</p>
 <section id="getting-the-kernel-code">
 <h3>Getting the kernel code<a class="headerlink" href="#getting-the-kernel-code" title="Link to this heading">¶</a></h3>
 <p>Acquire the kernel source code with the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> patches. This can be done
@@ -278,15 +285,15 @@ in following ways:</p>
 <li><p>Download the source code from the official linux kernel git
 repository and apply the TSEM patches manually from linux kernel mailing
 list. (<a class="reference external" href="https://blog.reds.ch/?p=1814">https://blog.reds.ch/?p=1814</a> can serve as a good guide for that)</p></li>
-<li><p>Or more preferably clone the kernel provided by the Quixote
-project: <a class="reference external" href="https://github.com/Quixote-Project/TSEM">https://github.com/Quixote-Project/TSEM</a>
-Like so: <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">--depth</span> <span class="pre">1</span> <span class="pre">--all</span> <span class="pre">&lt;most</span> <span class="pre">recent</span> <span class="pre">kernel</span> <span class="pre">version&gt;</span> <span class="pre">https://github.com/Quixote-Project/TSEM</span></code></p></li>
+<li><p>Or more preferably, clone the kernel, originally provided by the Quixote
+project: <a class="reference external" href="https://github.com/rolandholik/TSEM">https://github.com/rolandholik/TSEM</a>
+Like so: <code class="code docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">--depth</span> <span class="pre">1</span> <span class="pre">--all</span> <span class="pre">&lt;most</span> <span class="pre">recent</span> <span class="pre">kernel</span> <span class="pre">version&gt;</span> <span class="pre">https://github.com/rolandholik/TSEM</span></code></p></li>
 </ul>
 </div></blockquote>
 <p>&lt;most recent kernel version&gt; being the most recent kernel version available
 in the <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> repos.
 For example at the time of writing it would be:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>--branch<span class="w"> </span>TSEM-6.12<span class="w"> </span>https://github.com/Quixote-Project/TSEM
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--depth<span class="w"> </span><span class="m">1</span><span class="w"> </span>--branch<span class="w"> </span>TSEM-6.12<span class="w"> </span>https://github.com/rolandholik/TSEM
 </pre></div>
 </div>
 <img alt="_images/TSEM-clone.png" class="align-center" src="_images/TSEM-clone.png" />
@@ -313,9 +320,9 @@ the compilation is to be done):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make<span class="w"> </span>localmodconf
 </pre></div>
 </div>
-<p>in kernel compilation directory. This is a suggested approach for most users as
-compiling kernel with all the drivers/modules built into the kernel can take a
-vary long time – depending on the computer’s processing power.</p>
+<p>in the kernel compilation directory. This is a suggested approach for most users
+as compiling kernel with all the drivers/modules built into the kernel can take
+a vary long time – depending on the computer’s processing power.</p>
 <p>Next enable <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> in the <em>.config</em>, there are many ways to do this.</p>
 <img alt="_images/menconf-1.png" class="align-center" src="_images/menconf-1.png" />
 <p>Use <strong>make menuconfig</strong> and select <strong>Trusted Security Event Modeling</strong> option
@@ -340,10 +347,8 @@ kernel is installed afterwards.</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<blockquote>
-<div><p>The “-j$(nproc)” part is optional however heavily recommended since it</p>
-</div></blockquote>
-<p>utilizes all CPU cores, not just one (default). Or it can be replaced with
+<p>The “-j$(nproc)” part is optional however heavily recommended since it
+utilizes all CPU cores, not just one (default). Or it can be replaced with
 any desired number of cores. If one does not know how many cores exactly they
 want to utilize (e.g. make -j2 for 2 cores). Blindly guessing by putting some
 ridiculously big number should work as well as it will use all cores
@@ -383,33 +388,33 @@ of writing — not recommended)</p></li>
 <section id="getting-the-source-code">
 <h3>Getting the source code<a class="headerlink" href="#getting-the-source-code" title="Link to this heading">¶</a></h3>
 <p>Downloading the Quixote sources can get a little tricky.</p>
-<p>Firstly clone the Quixote repository using:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/Quixote-Project/Quixote.git
+<p>First, clone the Quixote repository using:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>https://github.com/rolandholik/Quixote.git
 </pre></div>
 </div>
 <div class="admonition-possible-issue admonition">
 <p class="admonition-title">Possible Issue</p>
 <p>In case, you don’t have github setup with your RSA key — <em>ssh</em> method, the you
-will be asked to confirm fingerprint of github.com, the he will fail, since the
-sub-repository is referenced by ssh (git&#64;…). An effective but a little dirty
-workaround for that would be manually rewriting the <em>ssh</em> access method to web
-URL and retrying the pull:</p>
+will be asked to confirm fingerprint of github.com, the fetch will fail,
+since the sub-repository is referenced by ssh (git&#64;…). An effective but a
+little dirty workaround for that would be manually rewriting the <em>ssh</em>
+access method to web URL and retrying the pull:</p>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>Quixote
-<span class="gp">$ </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/url = git@github.com:Quixote-Project\/HurdLib.git/url = https:\/\/github.com\/Quixote-Project\/HurdLib.git/g&#39;</span><span class="w"> </span>.git/config
+<span class="gp">$ </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;s/url = git@github.com:Quixote-Project\/HurdLib.git/url = https:\/\/github.com\/rolandholik\/HurdLib.git/g&#39;</span><span class="w"> </span>.git/config
 <span class="gp">$ </span>git<span class="w"> </span>pull<span class="w"> </span>--recurse-submodules
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It is not recommended to interact with git configs manually, but so is
-interacting with github web URLs.</p>
+interacting with github web (https/https) URLs.</p>
 </div>
 </section>
 <section id="id2">
 <h3>Dependencies<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <p>For compilation of Quixote, at minimum these packages are needed:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>git<span class="w"> </span>gcc<span class="w"> </span>make<span class="w"> </span>flex<span class="w"> </span>libssl-dev<span class="w"> </span>libcap-dev<span class="w"> </span>libxen-dev<span class="w"> </span>pkg-config<span class="w"> </span>elfutils
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>apt-get<span class="w"> </span>git<span class="w"> </span>gcc<span class="w"> </span>make<span class="w"> </span>flex<span class="w"> </span>libssl-dev<span class="w"> </span>libcap-dev<span class="w"> </span>libxen-dev<span class="w"> </span>pkg-config<span class="w"> </span>elfutils<span class="w"> </span>libcurl4-openssl-dev
 </pre></div>
 </div>
 <p>One should already heave some of them from <a class="reference internal" href="glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> kernel compilation.
@@ -451,14 +456,48 @@ installation paths into the <em>PATH</em> variable for ease of use.</p>
 </div>
 </section>
 </section>
+<section id="loadable-modules">
+<h2>Loadable modules<a class="headerlink" href="#loadable-modules" title="Link to this heading">¶</a></h2>
+<p>At the time of writing there is only one loadable kernel module available in the
+Quixote utilities source tree — <code class="docutils literal notranslate"><span class="pre">tsem-intergrity.c</span></code>. The module is located
+in Quixote source tree (<em>TSEM/tsem-intergrity.c). To enable the module
+compilation, configure the *BUILD_KERNEL_SOURCE</em> in <em>Config.mk</em> in root of
+Quixote source tree.</p>
+<p>And run <code class="docutils literal notranslate"><span class="pre">make</span></code>.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>make
+</pre></div>
+</div>
+<p>Among other files, this should produce <em>tsem-intergrity.ko</em>. To load the module
+(until system reboot) run following in the <em>TSEM/</em> directory in Quixote source
+tree:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>insmod<span class="w"> </span>tsem-intergrity.ko
+</pre></div>
+</div>
+<p>Or</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>sudo<span class="w"> </span>cp<span class="w"> </span>tsem-intergrity.ko<span class="w"> </span>/lib/modules/<span class="k">$(</span>uname<span class="w"> </span>-r<span class="k">)</span>/extra/
+<span class="gp">$ </span>sudo<span class="w"> </span>depmod<span class="w"> </span>-a
+<span class="gp">$ </span>sudo<span class="w"> </span>modprobe<span class="w"> </span>tsem_intergrity
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Notice the change from <code class="docutils literal notranslate"><span class="pre">-</span></code> to <code class="docutils literal notranslate"><span class="pre">_</span></code> it’s not a typo!</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To install the loadable module, one must have the exact kernel tree that was
+used to build the kernel for the monitored system, otherwise, the compiled
+module (the <em>ko</em> file) will be rejected during loading.</p>
+</div>
+</section>
 <section id="vagrant">
 <h2>Vagrant<a class="headerlink" href="#vagrant" title="Link to this heading">¶</a></h2>
 <p>Alternative way to set the above up is using the Vagrantfile at:
 <a class="reference external" href="https://github.com/rolandholik/TSEM-vagrant">https://github.com/rolandholik/TSEM-vagrant</a>.</p>
 <p>Regarding setting up Vagrant itself, the official documentation should get the
 reader onboard: <a class="reference external" href="https://developer.hashicorp.com/vagrant/docs/installation">https://developer.hashicorp.com/vagrant/docs/installation</a>.</p>
-<p>At the time of writing, there is issue with Virtualbox 7.1 — Vagrant treats it
-as unsupported. Following guide should help fixing it:
+<p>At the time of writing, there is an issue with VirtualBox 7.2 — Vagrant treats
+it as unsupported. The following guide should help resolve it:
 <a class="reference external" href="https://github.com/hashicorp/vagrant/issues/13501#issuecomment-2346267062">https://github.com/hashicorp/vagrant/issues/13501#issuecomment-2346267062</a>.</p>
 </section>
 </section>
@@ -492,7 +531,7 @@ as unsupported. Following guide should help fixing it:
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -533,6 +572,7 @@ as unsupported. Following guide should help fixing it:
 <li><a class="reference internal" href="#path">PATH</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#loadable-modules">Loadable modules</a></li>
 <li><a class="reference internal" href="#vagrant">Vagrant</a></li>
 </ul>
 </li>

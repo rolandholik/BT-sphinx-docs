@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -263,12 +270,12 @@
         <article role="main" id="furo-main-content">
           <section id="quixote">
 <h1>quixote<a class="headerlink" href="#quixote" title="Link to this heading">¶</a></h1>
-<p id="quixote-ker">This implementation handles the modeling of events with <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> inside
-kernel. This approach brings least overhead to the modeling process as there is
-no need to continually export events for evaluation into the user space. On the
-other hand it requires the model (<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>) to be implemented inside kernel
-or using loadable kernel module. Therefore it can a bit more complicated to
-introduce new model.</p>
+<p id="quixote-ker">This implementation handles the modeling of events with <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> inside the
+kernel. This approach brings the least overhead to the modeling process as there
+is no need to continually export events for evaluation into the user space. On
+the other hand it requires new models (<a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>) to be implemented inside
+kernel or using loadable kernel module. Therefore it can be a bit more
+complicated to introduce a new model.</p>
 <p>Current default — and the only model available at the time of writing —
 is implemented in the root directory of <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> in the kernel.</p>
 <section id="command-line-flags">
@@ -294,8 +301,8 @@ process.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-S</span></code></p></td>
 <td><p>Show mode</p></td>
-<td><p>Shows contents of Magazine directory, so it basically shows available
-runc bundles.</p></td>
+<td><p>Shows the contents of the Magazine directory, listing the available
+<code class="docutils literal notranslate"><span class="pre">runc</span></code> bundles.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-e</span></code></p></td>
 <td><p>Enforce</p></td>
@@ -304,33 +311,33 @@ runc bundles.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-t</span></code></p></td>
 <td><p>Trajectory</p></td>
-<td><p>Outputs events as <em>JSON</em> formatted lines in stead of security state
+<td><p>Outputs events as <em>JSON</em>-formatted lines instead of security state
 coefficients (must be used with <code class="docutils literal notranslate"><span class="pre">-o</span></code>).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-u</span></code></p></td>
 <td><p>Current namespace</p></td>
 <td><p>Specifies if the modeling security namespace used should be based on
-current user namespace, where the process is running in stead of the
+the current user namespace, where the process is running, in stead of the
 initial user namespace.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-X</span></code></p></td>
 <td><p>Execute mode</p></td>
-<td><p>In execute mode there isn’t namespace setup in container or process
+<td><p>In execute mode, there isn’t namespace setup in container or process
 (running bash), but only one program with its arguments gets run in the
 created security namespace. The name of the program with its arguments
-are specified as the very last argument to the quixote utility as
+are specified as the very last argument to the <code class="docutils literal notranslate"><span class="pre">quixote</span></code> utility as
 follows: <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">{name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">program}</span> <span class="pre">{its</span> <span class="pre">arguments}</span></code>.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-M</span></code></p></td>
 <td><p>Model (alternative)</p></td>
-<td><p>Allows usage of alternative model for event modeling. At the time of
-writing there is only one model implemented, therefore this argument
-doesn’t have its purpose fulfilled for now.</p></td>
+<td><p>Allows usage of an alternative model for event modeling. At the time of
+writing there is only one such model implemented available in the source
+tree of Quixote utilities.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-d</span></code></p></td>
 <td><p>Debug</p></td>
 <td><p>There are debug statements in the Quixote codebase. These get printed
-into a file if this flag is set with pathname of the file as argument.</p></td>
+into a file if this flag is set with pathname of the file as an argument.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-h</span></code></p></td>
 <td><p>Hash digest</p></td>
@@ -362,41 +369,41 @@ be saved. Takes string argument with pathname to the desired file.</p></td>
 </table>
 </div>
 </section>
-<section id="more-visual-usage-examples">
-<h2>More visual usage examples<a class="headerlink" href="#more-visual-usage-examples" title="Link to this heading">¶</a></h2>
+<section id="concrete-usage-examples">
+<h2>Concrete usage examples<a class="headerlink" href="#concrete-usage-examples" title="Link to this heading">¶</a></h2>
 <section id="example-0-show-runc-bundles">
 <h3>Example 0: Show runc bundles<a class="headerlink" href="#example-0-show-runc-bundles" title="Link to this heading">¶</a></h3>
 <p>As mentioned in the above table, when used with <code class="docutils literal notranslate"><span class="pre">-S</span></code>, <code class="docutils literal notranslate"><span class="pre">quixote</span></code> lists
-available runc bundle directories that hold all the necessary stuff for
-launching a runc container.</p>
+available <code class="docutils literal notranslate"><span class="pre">runc</span></code> bundle directories that hold all the necessary stuff for
+launching a <code class="docutils literal notranslate"><span class="pre">runc</span></code> container.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-S
 </pre></div>
 </div>
 <p>If the output of this command does not show any bundle directories, you might
-want to create some. Otherwise you will only be able to use the Process/Execute
-mode.</p>
+want to create some <a class="reference internal" href="../Setup/runc_setup.html#id1"><span class="std std-ref">runc setup</span></a>. Otherwise you will only
+be able to use the Process/Execute mode.</p>
 </section>
 <section id="example-1-container-workload">
 <h3>Example 1: Container workload<a class="headerlink" href="#example-1-container-workload" title="Link to this heading">¶</a></h3>
 <p>The following is the “most basic way” to create a workload. It creates a
 workload in free modeling mode. Which means it does not get evaluated against
-any predefined model (set of security state coefficients). This Model can be
-inspected using quixote-console (described in section below).</p>
-<p>When <code class="docutils literal notranslate"><span class="pre">-P</span></code> isn’t specified, <code class="docutils literal notranslate"><span class="pre">quixote</span></code> defaults to container mode, which means the
-process is executed inside <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> runc container. This requires runc bundle
-directory with name corresponding to the workload name to be placed inside
-<code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine/</span></code> directory.</p>
+any predefined model (set of security state coefficients). This model can be
+inspected using <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> (described in section below).</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">-P</span></code> isn’t specified, <code class="docutils literal notranslate"><span class="pre">quixote</span></code> defaults to the container mode,
+which means the process is executed inside an <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> <code class="docutils literal notranslate"><span class="pre">runc</span></code> container.
+This requires <code class="docutils literal notranslate"><span class="pre">runc</span></code> bundle directory with name corresponding to the workload
+name to be placed inside <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload
 </pre></div>
 </div>
-<p>When <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag gets used, the security modeling states get output to file
+<p>When the <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag gets used, the security modeling states get output to file
 specified as argument to the flag.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-o<span class="w"> </span>test.model
 </pre></div>
 </div>
-<p>These coefficients can than be used as model for the workload. This way any
-violations of the model get captured and can be viewed using the
-quixote-console.</p>
+<p>These coefficients can then be used as model for the workload. This way any
+violations of the model are captured and can be viewed using the
+<code class="docutils literal notranslate"><span class="pre">quixote-console</span></code>.</p>
 <div class="highlight-console notranslate" id="ref-seal-cont-mod"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-m<span class="w"> </span>test.model
 </pre></div>
 </div>
@@ -407,7 +414,7 @@ to the process being evaluated as untrusted and its execution will get denied.</
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>In case of running multiple workloads at once, each has to have unique name
+<p>In case of running multiple workloads at once, each has to have a unique name
 as the name also serves as a identification for management sockets created at
 <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/mgmt/</span></code> in the linux host file system.</p>
 </div>
@@ -419,14 +426,14 @@ launches workload in a subordinate <code class="docutils literal notranslate"><s
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span>test_container_workload
 </pre></div>
 </div>
-<p>When <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag gets used, the security modeling states get output to file
+<p>When the <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag gets used, the security modeling states get output to file
 specified as argument to the flag.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-o<span class="w"> </span>test.model
 </pre></div>
 </div>
-<p>These coefficients can than be used as model for the workload. This way any
+<p>These coefficients can then be used as model for the workload. That way any
 violations of the model get captured and can be viewed using the
-quixote-console.</p>
+<code class="docutils literal notranslate"><span class="pre">quixote-console</span></code>.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-P<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-m<span class="w"> </span>test.model
 </pre></div>
 </div>
@@ -438,30 +445,30 @@ to the process being evaluated as untrusted and its execution will get denied.</
 </section>
 <section id="example-3-execute-workload">
 <h3>Example 3: Execute workload<a class="headerlink" href="#example-3-execute-workload" title="Link to this heading">¶</a></h3>
-<p>One can execute specific program in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security namespace using <code class="docutils literal notranslate"><span class="pre">-X</span></code>
-flag in following way.</p>
-<p>This runs <code class="docutils literal notranslate"><span class="pre">ls</span></code> command itself in a security namespace. It does not have much
-use except analysis though.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-X<span class="w"> </span>test_container_workload<span class="w"> </span>--<span class="w"> </span>ls
+<p>One can execute a specific program in <a class="reference internal" href="../glossary.html#term-TSEM"><span class="xref std std-term">TSEM</span></a> security namespace using
+the <code class="docutils literal notranslate"><span class="pre">-X</span></code> flag as follows.</p>
+<p>This runs <code class="docutils literal notranslate"><span class="pre">ls</span></code> command itself in a security namespace.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-X<span class="w"> </span>test_container<span class="w"> </span>--<span class="w"> </span>ls
 </pre></div>
 </div>
-<p>Its power can be seen a little bit better when a model definition is created.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-X<span class="w"> </span>test_container_workload<span class="w"> </span>-o<span class="w"> </span>test_model<span class="w"> </span>--<span class="w"> </span>ls
+<p>Its usefulness can be seen a little bit better when a model definition is
+created.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-X<span class="w"> </span>test_container<span class="w"> </span>-o<span class="w"> </span>test_model<span class="w"> </span>--<span class="w"> </span>ls
 </pre></div>
 </div>
 <p>Now when trying to list contents of <code class="docutils literal notranslate"><span class="pre">/</span></code> directory, we get “Permission denied”.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-X<span class="w"> </span>test_container_workload<span class="w"> </span>-m<span class="w"> </span>test_model<span class="w"> </span>-e<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-X<span class="w"> </span>test_container<span class="w"> </span>-m<span class="w"> </span>test_model<span class="w"> </span>-e<span class="w"> </span>--<span class="w"> </span>ls<span class="w"> </span>/
 </pre></div>
 </div>
-<p>However running listing of current directory works just fine.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-X<span class="w"> </span>test_container_workload<span class="w"> </span>-m<span class="w"> </span>test_model<span class="w"> </span>-e<span class="w"> </span>--<span class="w"> </span>ls
+<p>However, running listing of current directory works just fine.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-X<span class="w"> </span>test_container<span class="w"> </span>-m<span class="w"> </span>test_model<span class="w"> </span>-e<span class="w"> </span>--<span class="w"> </span>ls
 </pre></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>In case of running multiple workloads at once, each has to have unique name
-as the name also serves as a identification for management sockets created at
-<code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/mgmt/</span></code> in the linux host file system.</p>
+<p>In case of running multiple workloads at once, each has to have a unique name
+as the name also serves as an identification for management sockets created
+at <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/mgmt/</span></code> in the Linux host file system.</p>
 </div>
 </section>
 </section>
@@ -496,7 +503,7 @@ as the name also serves as a identification for management sockets created at
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -524,7 +531,7 @@ as the name also serves as a identification for management sockets created at
             <ul>
 <li><a class="reference internal" href="#">quixote</a><ul>
 <li><a class="reference internal" href="#command-line-flags">Command line flags</a></li>
-<li><a class="reference internal" href="#more-visual-usage-examples">More visual usage examples</a><ul>
+<li><a class="reference internal" href="#concrete-usage-examples">Concrete usage examples</a><ul>
 <li><a class="reference internal" href="#example-0-show-runc-bundles">Example 0: Show runc bundles</a></li>
 <li><a class="reference internal" href="#example-1-container-workload">Example 1: Container workload</a></li>
 <li><a class="reference internal" href="#example-2-process-workload">Example 2: Process workload</a></li>

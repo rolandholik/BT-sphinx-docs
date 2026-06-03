@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">quixote-export</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_console.html">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -263,12 +270,12 @@
         <article role="main" id="furo-main-content">
           <section id="quixote-export">
 <h1>quixote-export<a class="headerlink" href="#quixote-export" title="Link to this heading">¶</a></h1>
-<p id="id1">This implementation doesn’t do modeling — has no associated <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>. It is
-used only for exporting of security events. The events can be exported to
-specified file or sent to a MQTT server for broadcasting. The MQTT option is
-meant to be used for system monitoring purposes (such as <a class="reference internal" href="../glossary.html#term-HIDS"><span class="xref std std-term">HIDS</span></a>) or
-collection of data for for development of machine learning based security
-models.</p>
+<p id="id1">This implementation doesn’t do modeling — has no associated <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>. It’s
+used only for exporting security events. The events can be exported to a
+specified file or sent to an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> server for broadcasting. The
+<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> option is meant to be used for the system monitoring purposes (such
+as <a class="reference internal" href="../glossary.html#term-HIDS"><span class="xref std std-term">HIDS</span></a>) or collection of data for the development of machine learning
+based security models.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>As of right now there is no such utility that would implement machine
@@ -302,80 +309,92 @@ process.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-S</span></code></p></td>
 <td><p>Show mode</p></td>
-<td><p>Shows contents of Magazine directory, so it basically shows available
-runc bundles.</p></td>
+<td><p>Shows the contents of the Magazine directory, listing the available
+<code class="docutils literal notranslate"><span class="pre">runc</span></code> bundles.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-X</span></code></p></td>
 <td><p>Execute mode</p></td>
-<td><p>In execute mode there isn’t namespace setup in container or process
+<td><p>In execute mode, there isn’t namespace setup in container or process
 (running bash), but only one program with its arguments gets run in the
 created security namespace. The name of the program with its arguments
-are specified as the very last argument to the quixote utility as
+are specified as the very last argument to the <code class="docutils literal notranslate"><span class="pre">quixote</span></code> utility as
 follows: <code class="docutils literal notranslate"><span class="pre">--</span> <span class="pre">{name</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">program}</span> <span class="pre">{its</span> <span class="pre">arguments}</span></code>.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-f</span></code></p></td>
-<td><p>Follow</p></td>
-<td><p>By default exporting from root modeling namespace exports only events
-that occured up untill the point of calling the export from the point of
-last export. Using this follow option drops into a bash shell after
-exporting the accumulated events and continues modeling in the shell.</p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-a</span></code></p></td>
+<td><p>Timestamp</p></td>
+<td><p>Adds timestamp to the exported event description.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-u</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-f</span></code></p></td>
+<td><p>Follow</p></td>
+<td><p>By default exporting from the root modeling namespace exports only events
+that occurred up until the point of calling the export from the point of
+last export. With this command, it continues streaming new events after
+the accumulated queue is flushed.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-u</span></code></p></td>
 <td><p>Current namespace</p></td>
 <td><p>Specifies if the modeling security namespace used should be based on
-current user namespace, where the process is running in stead of the
+the current user namespace, where the process is running, in stead of the
 initial user namespace.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-M</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-M</span></code></p></td>
 <td><p>Model (alternative)</p></td>
-<td><p>Allows usage of alternative model for event modeling. At the time of
-writing there is only one model implemented, therefore this argument
-doesn’t have its purpose fulfilled for now.</p></td>
+<td><p>Allows usage of an alternative model for event modeling. At the time of
+writing there is only one such model implemented available in the source
+tree of Quixote utilities.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-b</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-b</span></code></p></td>
 <td><p>Broker</p></td>
-<td><p>In case <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> is used with MQTT client, this sets the
-<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker IP address. It can be IP address directly or
-<a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a> or hostname.</p></td>
+<td><p>In case <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> is used with <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> client, this sets
+the <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker <a class="reference internal" href="../glossary.html#term-IP"><span class="xref std std-term">IP</span></a> address. It may be <a class="reference internal" href="../glossary.html#term-IP"><span class="xref std std-term">IP</span></a> address
+directly or <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a> or hostname.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-d</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-d</span></code></p></td>
 <td><p>Debug</p></td>
 <td><p>There are debug statements in the Quixote codebase. These get printed
-into a file if this flag is set with pathname of the file as argument.</p></td>
+into a file if this flag is set with pathname of the file as an argument.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-e</span></code></p></td>
+<td><p>Endpoint</p></td>
+<td><p>In case <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> is used with Elasticsearch this sets the
+<a class="reference internal" href="../glossary.html#term-IP"><span class="xref std std-term">IP</span></a> address of its endpoint. It may be <a class="reference internal" href="../glossary.html#term-IP"><span class="xref std std-term">IP</span></a> address directly
+or <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a> or hostname.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-h</span></code></p></td>
 <td><p>Hash digest</p></td>
-<td><p>Sets hash function to be used for generation of security state
-coefficients. Current default is sha256. Takes name of hash function
-(compiled into the kernel) as argument.</p></td>
+<td><p>Sets the hash function to be used for generation of security state
+coefficients. Current default is sha256. Takes the name of the hash
+function (compiled into the kernel) as an argument.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-n</span></code></p></td>
 <td><p>Cache size</p></td>
-<td><p>Specifies number of preallocated structures holding data for security
+<td><p>Specifies the number of preallocated structures holding data for security
 events happening in atomic context. One should not have to worry too much
 about this number, since the default (32 structures) should suffice for
 most use cases.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-o</span></code></p></td>
 <td><p>Output file</p></td>
-<td><p>Specifies that a output file, where the model of current workload is to
+<td><p>Specifies an output file, where the model of the current workload is to
 be saved. Takes string argument with pathname to the desired file.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-q</span></code></p></td>
 <td><p>Queue size</p></td>
-<td><p>Specifies queue size (numbers of events) <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> uses for root
-security namespace exporting.</p></td>
+<td><p>Specifies the queue size (numbers of events) <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> uses for
+root security namespace exporting.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-p</span></code></p></td>
 <td><p>Port</p></td>
-<td><p>Specifies the <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> port, in case the output is routed to the
-<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a>. Default is set to 1883 (so this flag does not have to be
-used necessarily).</p></td>
+<td><p>Specifies the <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> or Elasticsearch endpoint port, in case the
+output is routed to the <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> or Elasticsearch endpoint. The
+default is set to 1883 for <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> and 9200 for Elasticsearch (so
+this flag does not have to be used).</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-t</span></code></p></td>
 <td><p>Topic</p></td>
-<td><p>When used with <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> this flag’s argument specifies the topic to
-which the events will be sent.</p></td>
+<td><p>When used with <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> or Elasticsearch endpoint, this flag’s
+argument specifies the topic or Elasticsearch index to which the events
+will be sent.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-w</span></code></p></td>
 <td><p>Workload name</p></td>
@@ -385,73 +404,95 @@ which the events will be sent.</p></td>
 </table>
 </div>
 </section>
-<section id="more-visual-usage-examples">
-<h2>More visual usage examples<a class="headerlink" href="#more-visual-usage-examples" title="Link to this heading">¶</a></h2>
-<p>With <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> the basic notion for usage remains similar. However
-there are things that change, since it’s used for exporting of events, not
-modeling.</p>
-<p>The usage is pretty much identical to <code class="docutils literal notranslate"><span class="pre">quixote</span></code> except the different
-executable name.</p>
+<section id="concrete-usage-examples">
+<h2>Concrete usage examples<a class="headerlink" href="#concrete-usage-examples" title="Link to this heading">¶</a></h2>
+<p>With <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> the basic notion for usage remains similar. However,
+there are some differences, since it’s used to export events rather than to
+perform modeling</p>
 <section id="example-0-show-runc-bundles">
 <h3>Example 0: Show runc bundles<a class="headerlink" href="#example-0-show-runc-bundles" title="Link to this heading">¶</a></h3>
-<p>As mentioned in the above table, when used with <code class="docutils literal notranslate"><span class="pre">-S</span></code>, <code class="docutils literal notranslate"><span class="pre">quixote</span></code> lists
-available runc bundle directories that hold all the necessary stuff for
+<p>As mentioned in the above table, when used with <code class="docutils literal notranslate"><span class="pre">-S</span></code>, <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> lists
+available <code class="docutils literal notranslate"><span class="pre">runc</span></code> bundle directories that hold all the necessary resources for
 launching a <code class="docutils literal notranslate"><span class="pre">runc</span></code> container.</p>
-<p>It’s likely unintended “feature”, but <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> in comparison to
-previous Quixote implementations requires specification of output file or
-<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker. The file doesn’t need to exist, nor will it be created…</p>
+<p>It’s likely an unintended “feature”, but <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> in comparison to
+previous Quixote implementations requires specification of an output file or
+an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker. The file doesn’t need to exist, nor will it be
+created…</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-S<span class="w"> </span>-o<span class="w"> </span>test.exp
 </pre></div>
 </div>
 <p>If the output of this command does not show any bundle directories, you might
-want to create some. Otherwise you will only be able to use the Process/Execute
-mode.</p>
+want to create some <a class="reference internal" href="../Setup/runc_setup.html#id1"><span class="std std-ref">runc setup</span></a>. Otherwise you will only
+be able to use the Process/Execute mode.</p>
 </section>
 <section id="example-1-exporting-to-a-file">
 <h3>Example 1: Exporting to a file<a class="headerlink" href="#example-1-exporting-to-a-file" title="Link to this heading">¶</a></h3>
 <p>The following is the “most basic way” to create export of a workload. It creates a
 workload and outputs all of its events to the file specified by the <code class="docutils literal notranslate"><span class="pre">-o</span></code> flag.</p>
-<p>When <code class="docutils literal notranslate"><span class="pre">-P</span></code> isn’t specified, <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> defaults to container mode,
-which means the process is executed inside <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> runc container. This
-requires runc bundle directory with name corresponding to the workload name.</p>
+<p>When the <code class="docutils literal notranslate"><span class="pre">-P</span></code> isn’t specified, <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> defaults to the container mode,
+which means the process is executed inside an <a class="reference internal" href="../glossary.html#term-OCI"><span class="xref std std-term">OCI</span></a> <code class="docutils literal notranslate"><span class="pre">runc</span></code> container.
+This requires <code class="docutils literal notranslate"><span class="pre">runc</span></code> bundle directory with name corresponding to the workload
+name to be placed inside <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine/</span></code> directory.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-o<span class="w"> </span>test.exp
 </pre></div>
 </div>
 </section>
-<section id="example-2-exporting-to-a-mqtt-broker">
-<h3>Example 2: Exporting to a MQTT broker<a class="headerlink" href="#example-2-exporting-to-a-mqtt-broker" title="Link to this heading">¶</a></h3>
+<section id="example-2-exporting-to-an-mqtt-broker">
+<h3>Example 2: Exporting to an MQTT broker<a class="headerlink" href="#example-2-exporting-to-an-mqtt-broker" title="Link to this heading">¶</a></h3>
 <p>Exporting to a file isn’t the most impressive thing <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> can do
-— <code class="docutils literal notranslate"><span class="pre">quixote</span></code> can do the same. Exporting to a <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker is what
+— <code class="docutils literal notranslate"><span class="pre">quixote</span></code> can do the same. Exporting to an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker is what
 makes <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code> interesting.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-b<span class="w"> </span>broker.dm<span class="w"> </span>-t<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-p<span class="w"> </span><span class="m">10902</span>
 </pre></div>
 </div>
-<p>Here we are exporting security events from our container workload to
-<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker with topic <code class="docutils literal notranslate"><span class="pre">test</span></code> on port 10902. One can use any
-<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> client e.g. <code class="docutils literal notranslate"><span class="pre">mosquito</span></code> to connect to the broker and listen on the
-topic.</p>
+<p>In this example, we are exporting security events from our container workload to
+an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker with topic <em>test</em> on port 10902. One can use any
+<a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> client e.g. <code class="docutils literal notranslate"><span class="pre">mosquitto</span></code> to connect to the broker and listen on
+the topic.</p>
+</section>
+<section id="example-3-exporting-to-an-elasticsearch-endpoint">
+<h3>Example 3: Exporting to an Elasticsearch endpoint<a class="headerlink" href="#example-3-exporting-to-an-elasticsearch-endpoint" title="Link to this heading">¶</a></h3>
+<p>Besides exporting to an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker, exporting to an Elasticsearch
+endpoint is also possible. Before this tool was available, exporting to
+Elasticsearch was possible, indirectly, by exporting to an <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker
+and redirecting the export to an Elasticsearch endpoint (<a class="reference internal" href="../Setup/elastic_setup.html#id1"><span class="std std-ref">ELK setup</span></a>).</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Password for the Elasticsearch endpoint has to be set using <em>TSEM_ES_PWD</em>
+environment variable. The default (hardcoded user used by <code class="docutils literal notranslate"><span class="pre">quixote-export</span></code>
+is “<em>tsem</em>”.)</p>
+</div>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-w<span class="w"> </span>test_container_workload<span class="w"> </span>-e<span class="w"> </span>elastic.dm<span class="w"> </span>-t<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-p<span class="w"> </span><span class="m">443</span>
+</pre></div>
+</div>
+<p>In this example, we are exporting security events from our container workload to
+an Elasticsearch endpoint to an index <em>test</em> on port — 443 (we are running
+Elasticsearch behind a <a class="reference external" href="https://www.digitalocean.com/community/tutorials/how-to-configure-nginx-as-a-reverse-proxy-on-ubuntu-22-04">reverse proxy</a>).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code class="docutils literal notranslate"><span class="pre">broker.dm</span></code> is <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a> for <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker. IP can be used
-directly, if the broker does not have a <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a>.</p>
+<p><em>broker.dm</em> and <em>elastic.dm</em> are the <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a>s for <a class="reference internal" href="../glossary.html#term-MQTT"><span class="xref std std-term">MQTT</span></a> broker
+and Elasticsearch, respectively. An <a class="reference internal" href="../glossary.html#term-IP"><span class="xref std std-term">IP</span></a> address can be used directly
+if the broker/endpoint doesn’t have an <a class="reference internal" href="../glossary.html#term-FQDN"><span class="xref std std-term">FQDN</span></a>.</p>
 </div>
 </section>
-<section id="example-3-exporting-from-a-root-modeling-namespace">
-<h3>Example 3: Exporting from a root modeling namespace<a class="headerlink" href="#example-3-exporting-from-a-root-modeling-namespace" title="Link to this heading">¶</a></h3>
+<section id="example-4-exporting-from-a-root-modeling-namespace">
+<h3>Example 4: Exporting from a root modeling namespace<a class="headerlink" href="#example-4-exporting-from-a-root-modeling-namespace" title="Link to this heading">¶</a></h3>
 <p>In the above example we were exporting from a subordinate security modeling
 namespace.</p>
-<p>Here we demonstrate how to use export events from root modeling namespace.</p>
+<p>In this example, we demonstrate how to export events from the root modeling
+namespace.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-R<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-b<span class="w"> </span>broker.dm<span class="w"> </span>-t<span class="w"> </span><span class="nb">test</span>
 </pre></div>
 </div>
-<p>We are again exporting to the broker <code class="docutils literal notranslate"><span class="pre">broker.dm</span></code> to <code class="docutils literal notranslate"><span class="pre">test</span></code> topic. We have
-not defined port this time — we are exporting on the default port (1883). This
-outputs only the events generated from system start or last event export.</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-R<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-b<span class="w"> </span>broker.dm<span class="w"> </span>-t<span class="w"> </span><span class="nb">test</span>
+<p>We are again exporting to the broker <code class="docutils literal notranslate"><span class="pre">broker.dm</span></code> on the <code class="docutils literal notranslate"><span class="pre">test</span></code> topic. We
+have not defined a port this time — we are exporting on the default port
+(1883). This outputs only the events generated since system start or since the
+last event export.</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-export<span class="w"> </span>-R<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-b<span class="w"> </span>broker.dm<span class="w"> </span>-t<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-f
 </pre></div>
 </div>
-<p>Following will output will generate all events from system start or last event
-export and drop a bash shell where the modeling continues.</p>
+<p>The above command will output all events from the system start or the last event
+export ass well as all subsequent events.</p>
 </section>
 </section>
 </section>
@@ -485,7 +526,7 @@ export and drop a bash shell where the modeling continues.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -513,11 +554,12 @@ export and drop a bash shell where the modeling continues.</p>
             <ul>
 <li><a class="reference internal" href="#">quixote-export</a><ul>
 <li><a class="reference internal" href="#command-line-flags">Command line flags</a></li>
-<li><a class="reference internal" href="#more-visual-usage-examples">More visual usage examples</a><ul>
+<li><a class="reference internal" href="#concrete-usage-examples">Concrete usage examples</a><ul>
 <li><a class="reference internal" href="#example-0-show-runc-bundles">Example 0: Show runc bundles</a></li>
 <li><a class="reference internal" href="#example-1-exporting-to-a-file">Example 1: Exporting to a file</a></li>
-<li><a class="reference internal" href="#example-2-exporting-to-a-mqtt-broker">Example 2: Exporting to a MQTT broker</a></li>
-<li><a class="reference internal" href="#example-3-exporting-from-a-root-modeling-namespace">Example 3: Exporting from a root modeling namespace</a></li>
+<li><a class="reference internal" href="#example-2-exporting-to-an-mqtt-broker">Example 2: Exporting to an MQTT broker</a></li>
+<li><a class="reference internal" href="#example-3-exporting-to-an-elasticsearch-endpoint">Example 3: Exporting to an Elasticsearch endpoint</a></li>
+<li><a class="reference internal" href="#example-4-exporting-from-a-root-modeling-namespace">Example 4: Exporting from a root modeling namespace</a></li>
 </ul>
 </li>
 </ul>

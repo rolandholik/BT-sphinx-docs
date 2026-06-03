@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Quixote experiments" href="../QuixoteExperiments/overview.html" /><link rel="prev" title="quixote-export" href="quixote_export.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="quixote-inject" href="quixote_inject.html" /><link rel="prev" title="quixote-export" href="quixote_export.html" />
 
     <!-- Generated with Sphinx 8.2.3 and Furo 2024.08.06 -->
         <title>quixote-console - TSEM guide 0.1 documentation</title>
@@ -212,13 +212,20 @@
 <li class="toctree-l2"><a class="reference internal" href="quixote_us.html">quixote-us</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quixote_export.html">quixote-export</a></li>
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">quixote-console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quixote_inject.html">quixote-inject</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../QuixoteExperiments/overview.html">Quixote experiments</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of Quixote experiments</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/process_mode.html">Process mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_mode.html">Container mode</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/execute_mode.html">Execute mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_debian.html">Container mode - Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/container_httpd.html">Container mode - HTTPD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../QuixoteExperiments/export_mode.html">Export mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Setup/overview.html">Complementary tools</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Complementary tools</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/elastic_setup.html">Elastic setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/mqtt_setup.html">MQTT setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Setup/runc_setup.html">Runc setup</a></li>
 </ul>
 </li>
 </ul>
@@ -267,8 +274,8 @@
 <span id="id2"></span><h2>quixote-console<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <p>This implementation doesn’t do modeling — has no associated <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>. It
 is used for interrogation of <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>s. It has to be run on the same system
-as the interrogated <em>quixote</em> because it communicates with the <em>quixote</em> using
-management sockets located in <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/mgmt</span></code>.</p>
+as the interrogated <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a> because it communicates with the <a class="reference internal" href="../glossary.html#term-TMA"><span class="xref std std-term">TMA</span></a>
+using management sockets located in <code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/mgmt</span></code>.</p>
 <section id="command-line-flags">
 <h3>Command line flags<a class="headerlink" href="#command-line-flags" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper colwidths-given docutils container">
@@ -287,14 +294,14 @@ management sockets located in <code class="docutils literal notranslate"><span c
 <tbody>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">NONE</span></code></p></td>
 <td><p>No flag</p></td>
-<td><p>When called with no flag, <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> prints list of running
-workloads which can be interrogated <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></td>
+<td><p>When called with no flags, <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> prints a list of running
+workloads, that can be interrogated <a class="footnote-reference brackets" href="#id4" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-E</span></code></p></td>
 <td><p>Output events</p></td>
-<td><p>Outputs log of events divergent from predefined sealed map — only
-system call name and name of process which called the system call in
-<em>JSON</em> format.</p></td>
+<td><p>Outputs a log of events divergent from the predefined sealed map — only
+system call name and the name of the process which called the system call
+in <em>JSON</em> format.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-F</span></code></p></td>
 <td><p>Output forensics</p></td>
@@ -303,37 +310,38 @@ predefined and sealed map for the interrogated workload.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-M</span></code></p></td>
 <td><p>Output model</p></td>
-<td><p>Outputs model (security state coefficients). In case a predefined map of
-security state coefficients is defined and is in sealed mode, it only
+<td><p>Outputs the model (security state coefficients). In case a predefined map
+of security state coefficients is defined and is in sealed mode, it only
 outputs the predefined map.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-S</span></code></p></td>
 <td><p>Output state</p></td>
-<td><p>Prints security state coefficient the interrogated workload is currently
-in.</p></td>
+<td><p>Prints the security state coefficient the interrogated workload is
+currently in.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-T</span></code></p></td>
 <td><p>Output trajectory</p></td>
-<td><p>If run without predefined map — outputs full model (all its events).</p>
-<p>If run with predefined <strong>non-sealed</strong> map — outputs events divergent
+<td><p>If run without a predefined map — outputs the full model (all its
+events).</p>
+<p>If run with a predefined <strong>non-sealed</strong> map — outputs events divergent
 from the predefined model.</p>
-<p>If run with predefined <strong>sealed</strong> map — outputs empty model.</p>
+<p>If run with predefined <strong>sealed</strong> map — outputs an empty model.</p>
 </td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-c</span></code></p></td>
 <td><p>Count output</p></td>
-<td><p>If used with <code class="docutils literal notranslate"><span class="pre">-T</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code> count of each event in the gets output in
-stead of the list of events. The order of the events is preserved —
-this can be used for analysis purposes.</p></td>
+<td><p>If used with <code class="docutils literal notranslate"><span class="pre">-T</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code>, the count of each event is output instead
+of the list of events. The order of the events is preserved — this can be
+used for analysis purposes.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-p</span></code></p></td>
 <td><p>Prefix</p></td>
-<td><p>When used in combination with <code class="docutils literal notranslate"><span class="pre">-T</span></code> <code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code> <code class="docutils literal notranslate"><span class="pre">-s</span></code> it outputs
+<td><p>When used in combination with <code class="docutils literal notranslate"><span class="pre">-T</span></code> <code class="docutils literal notranslate"><span class="pre">-s</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code> <code class="docutils literal notranslate"><span class="pre">-s</span></code>, it outputs
 states with prepended “state” keyword.</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-s</span></code></p></td>
 <td><p>Coefficient output</p></td>
-<td><p>If used with <code class="docutils literal notranslate"><span class="pre">-T</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code> coefficients get output in stead of
+<td><p>If used with <code class="docutils literal notranslate"><span class="pre">-T</span></code> or <code class="docutils literal notranslate"><span class="pre">-F</span></code>, coefficients are output instead of the
 security events.</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">-u</span></code></p></td>
@@ -345,8 +353,8 @@ map of the interrogated workload. <strong>Has to be used with</strong> <code cla
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">-w</span></code></p></td>
 <td><p>Workload name</p></td>
-<td><p>Specifies name of the workload that is to be interrogated. This flag takes
-string argument with the name.</p></td>
+<td><p>Specifies the name of the workload that is to be interrogated. This flag
+takes string argument with the name.</p></td>
 </tr>
 </tbody>
 </table>
@@ -354,22 +362,22 @@ string argument with the name.</p></td>
 <aside class="footnote-list brackets">
 <aside class="footnote brackets" id="id4" role="doc-footnote">
 <span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">1</a><span class="fn-bracket">]</span></span>
-<p>It is mentioned in official documentation that it should drop a “Quixote
-Shell” which would accept interrogation commands, but at the time of writing
-this feature is “dead code” — it is implemented, but can’t be reached in
-the workflow of the code.</p>
+<p>It is mentioned in the official documentation that it should drop the
+“Quixote Shell” which would accept interrogation commands, but at the time of
+writing this feature is “dead code” — it’s implemented, but can’t be
+reached in the workflow of the code.</p>
 </aside>
 </aside>
 </section>
-<section id="more-visual-usage-examples">
-<h3>More visual usage examples<a class="headerlink" href="#more-visual-usage-examples" title="Link to this heading">¶</a></h3>
-<p>With <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> has a bit simpler usage, since it’s used for workload
+<section id="concrete-usage-examples">
+<h3>Concrete usage examples<a class="headerlink" href="#concrete-usage-examples" title="Link to this heading">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> has a bit simpler usage, since it’s used for workload
 interrogation.</p>
 <section id="example-0-show-runc-bundles-and-process-sockets">
 <h4>Example 0: Show runc bundles and process sockets<a class="headerlink" href="#example-0-show-runc-bundles-and-process-sockets" title="Link to this heading">¶</a></h4>
 <p>Launching just <code class="docutils literal notranslate"><span class="pre">quixote-console</span></code> itself will list bundle directories in
-<code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine</span></code> (or even other than bundle, but those are supposed
-to be there) and sockets for Process/Execute workloads.</p>
+<code class="docutils literal notranslate"><span class="pre">/var/lib/Quixote/Magazine</span></code> (or even other than bundle directories, but only
+those are supposed to be there) and the sockets for Process/Execute workloads.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console
 </pre></div>
 </div>
@@ -380,20 +388,20 @@ to be there) and sockets for Process/Execute workloads.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-S
 </pre></div>
 </div>
-<p>This outputs just the state value for current workload state. The <code class="docutils literal notranslate"><span class="pre">state</span></code> is
-not prepended even if <code class="docutils literal notranslate"><span class="pre">-p</span></code> is used.</p>
+<p>This outputs just the state value for current workload . The <code class="docutils literal notranslate"><span class="pre">state</span></code> is not
+prepended even if <code class="docutils literal notranslate"><span class="pre">-p</span></code> is used.</p>
 </section>
 <section id="example-2-output-current-model">
 <h4>Example 2: Output current model<a class="headerlink" href="#example-2-output-current-model" title="Link to this heading">¶</a></h4>
-<p>Following outputs current model definition with all states that happened during
-the workload execution. If a sealed model was previously loaded (e.g.
-<a class="reference internal" href="quixote_ker.html#ref-seal-cont-mod"><span class="std std-ref">quixote</span></a>) only the loaded model gets output.</p>
+<p>Following command outputs the current model definition with all states that
+happened during the workload execution. If a sealed model was previously loaded
+(e.g. <a class="reference internal" href="quixote_ker.html#ref-seal-cont-mod"><span class="std std-ref">quixote</span></a>) only the loaded model gets output.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M
 </pre></div>
 </div>
-<p>In case a model with all events is desired to be output in <strong>sealed</strong> mode e.g.
-for back “propagation” — relaunching the workload with the updated model, so
-that previous model violations are included — do the following.</p>
+<p>In case a model with all events is desired to be output in the <strong>sealed</strong> mode
+e.g. for back “propagation” — relaunching the workload with the updated model,
+so that the previous model violations are included — run following command.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-M<span class="w"> </span>-u
 </pre></div>
 </div>
@@ -410,14 +418,14 @@ that previous model violations are included — do the following.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>If run in <strong>free modeling</strong> with <strong>predefined</strong> security event map:</dt><dd><ul>
+<dt>If run in <strong>free modeling</strong> with a <strong>predefined</strong> security event map:</dt><dd><ul>
 <li><p>The full model — outputs events divergent from the predefined model.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>If run in <strong>sealed</strong> mode with <strong>predefined</strong> security event map:</dt><dd><ul>
+<dt>If run in <strong>sealed</strong> mode with a <strong>predefined</strong> security event map:</dt><dd><ul>
 <li><p>Empty output</p></li>
 </ul>
 </dd>
@@ -429,13 +437,14 @@ that previous model violations are included — do the following.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-T
 </pre></div>
 </div>
-<p>If states are desired in stead of <em>JSON</em> event descriptions, run following.</p>
+<p>If states are desired in stead of the <em>JSON</em> event descriptions, run the
+following command.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-T<span class="w"> </span>-s
 </pre></div>
 </div>
 <p>If the output states are intended to be used for e.g. model enforcement in the
-future, following outputs the stated with <code class="docutils literal notranslate"><span class="pre">state</span></code> prepended to each state
-coefficient.</p>
+future, the following command outputs the states with <code class="docutils literal notranslate"><span class="pre">state</span></code> prepended to
+each state coefficient.</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>quixote-console<span class="w"> </span>-w<span class="w"> </span><span class="nb">test</span><span class="w"> </span>-T<span class="w"> </span>-s<span class="w"> </span>-p
 </pre></div>
 </div>
@@ -449,12 +458,12 @@ coefficient.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../QuixoteExperiments/overview.html">
+          <a class="next-page" href="quixote_inject.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Quixote experiments</div>
+                <div class="title">quixote-inject</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -473,7 +482,7 @@ coefficient.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; 2025, Roland Holik
+                Copyright &#169; 2026, Roland Holik
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -502,7 +511,7 @@ coefficient.</p>
 <li><a class="reference internal" href="#">quixote-console</a><ul>
 <li><a class="reference internal" href="#id1">quixote-console</a><ul>
 <li><a class="reference internal" href="#command-line-flags">Command line flags</a></li>
-<li><a class="reference internal" href="#more-visual-usage-examples">More visual usage examples</a><ul>
+<li><a class="reference internal" href="#concrete-usage-examples">Concrete usage examples</a><ul>
 <li><a class="reference internal" href="#example-0-show-runc-bundles-and-process-sockets">Example 0: Show runc bundles and process sockets</a></li>
 <li><a class="reference internal" href="#example-1-output-current-workload-state">Example 1: Output current workload state</a></li>
 <li><a class="reference internal" href="#example-2-output-current-model">Example 2: Output current model</a></li>
